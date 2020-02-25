@@ -21,6 +21,14 @@ class Instruction (private val type: InstructionType, private val data1: Any?, p
     }
 }
 
+class Chunk(val bytes: List<UByte>, val constants: List<Any>, val names: List<String>) {
+    override fun toString(): String {
+        val string = ""
+
+        return string
+    }
+}
+
 enum class InstructionType(val byte: UByte) {
     GET_TRUE(0u),
     GET_FALSE(1u),
