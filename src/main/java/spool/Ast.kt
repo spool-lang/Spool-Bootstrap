@@ -1,17 +1,25 @@
 package spool
 
-interface AstVisitor {
-    fun visitFile(file: AstNode.FileNode)
+interface AstVisitor<T> {
+    fun visitFile(file: AstNode.FileNode): T
 
-    fun visitClass(clazz: AstNode.TypeNode)
+    fun visitClass(clazz: AstNode.TypeNode): T
 
-    fun visitVariable(variable: AstNode.VariableNode)
+    fun visitVariable(variable: AstNode.VariableNode): T
 
-    fun visitFunction(function: AstNode.FunctionNode)
+    fun visitFunction(function: AstNode.FunctionNode): T
 
-    fun visitBlock(block: AstNode.BlockNode)
+    fun visitBlock(block: AstNode.BlockNode): T
 
-    fun visitConstructorCallNode(constructorCall: AstNode.ConstructorCallNode)
+    fun visitConstructorCall(constructorCall: AstNode.ConstructorCallNode): T
+
+    fun visitFunctionCall(functionCall: AstNode.FunctionCallNode): T
+
+    fun visitID(id: AstNode.IdNode): T
+
+    fun visitGet(get: AstNode.GetNode): T
+
+    fun visitLiteral(literal: AstNode.LiteralNode): T
 }
 
 data class Type(val canonicalName: String, var node: AstNode.TypeNode? = null) {
@@ -23,41 +31,65 @@ data class Type(val canonicalName: String, var node: AstNode.TypeNode? = null) {
 
 sealed class AstNode {
 
-    abstract fun visit(visitor: AstVisitor)
+    abstract fun <T> visit(visitor: AstVisitor<T>): T
 
     class FileNode(val statements: Map<String, AstNode>, val namespace: String, val imports: Map<String, String>): AstNode() {
-        override fun visit(visitor: AstVisitor) {
-            visitor.visitFile(this)
+        override fun <T> visit(visitor: AstVisitor<T>): T {
+            return visitor.visitFile(this)
         }
     }
 
     class TypeNode(val name: String, val superType: Type): AstNode() {
-        override fun visit(visitor: AstVisitor) {
-            visitor.visitClass(this)
+        override fun <T> visit(visitor: AstVisitor<T>): T {
+            return visitor.visitClass(this)
         }
     }
 
-    class VariableNode(val name: String, val type: Type, val const: Boolean): AstNode() {
-        override fun visit(visitor: AstVisitor) {
-            visitor.visitVariable(this)
+    class VariableNode(val name: String, val type: Type, val const: Boolean, val initializer: AstNode?): AstNode() {
+        override fun <T> visit(visitor: AstVisitor<T>): T {
+            return visitor.visitVariable(this)
         }
     }
 
-    class FunctionNode(val name: String?, val block: BlockNode, val params: List<Pair<String, Type>>): AstNode() {
-        override fun visit(visitor: AstVisitor) {
-            visitor.visitFunction(this)
+    class FunctionNode(val name: String, val body: List<AstNode>, val params: List<Pair<String, Type>>): AstNode() {
+        override fun <T> visit(visitor: AstVisitor<T>): T {
+            return visitor.visitFunction(this)
         }
     }
 
     class BlockNode(val statements: List<AstNode>): AstNode() {
-        override fun visit(visitor: AstVisitor) {
-            visitor.visitBlock(this)
+        override fun <T> visit(visitor: AstVisitor<T>): T {
+            return visitor.visitBlock(this)
         }
     }
 
-    class ConstructorCallNode(val name: String, val arguments: List<AstNode>): AstNode() {
-        override fun visit(visitor: AstVisitor) {
-            visitor.visitConstructorCallNode(this)
+    class ConstructorCallNode(val typeName: String, val arguments: List<AstNode>): AstNode() {
+        override fun <T> visit(visitor: AstVisitor<T>): T {
+            return visitor.visitConstructorCall(this)
+        }
+    }
+
+    class FunctionCallNode(val source: AstNode, val arguments: List<AstNode>): AstNode() {
+        override fun <T> visit(visitor: AstVisitor<T>): T {
+            return visitor.visitFunctionCall(this)
+        }
+    }
+
+    class IdNode(val name: String): AstNode() {
+        override fun <T> visit(visitor: AstVisitor<T>): T {
+            return visitor.visitID(this)
+        }
+    }
+
+    class GetNode(val name: String, val source: AstNode): AstNode() {
+        override fun <T> visit(visitor: AstVisitor<T>): T {
+            return visitor.visitGet(this)
+        }
+    }
+
+    class LiteralNode(val literal: Any): AstNode() {
+        override fun <T> visit(visitor: AstVisitor<T>): T {
+            return visitor.visitLiteral(this)
         }
     }
 }

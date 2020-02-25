@@ -29,11 +29,17 @@ fun main(args: Array<String>) {
     tokens.forEach { println(it) }
 
     val parser = Parser(tokens)
+    val fileDB: FileDB
 
     try {
-        parser.parse()
+        fileDB = parser.parse()
     } catch (e: Exception) {
         e.printStackTrace()
         exitProcess(-2)
+    }
+
+    fileDB.map["main"]?.let {
+        val json = AstPrinter().printAst(it)
+        File("ast.json").writeText(json)
     }
 }

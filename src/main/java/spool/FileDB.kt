@@ -1,7 +1,7 @@
 package spool
 
 class FileDB {
-    private val map: MutableMap<String, AstNode> = mutableMapOf()
+    val map: MutableMap<String, AstNode> = mutableMapOf()
 
     operator fun set(canonicalName: String, node: AstNode) {
         when (node) {

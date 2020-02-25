@@ -18,9 +18,7 @@ class Parser(private val tokens: List<Token>) {
                     is AstNode.VariableNode -> fileDB[node.name] = node
                     is AstNode.FunctionNode -> {
                         val name = node.name
-                        if (name != null) {
-                            fileDB[name] = node
-                        }
+                        fileDB[name] = node
                     }
                 }
             }
@@ -39,14 +37,12 @@ class Parser(private val tokens: List<Token>) {
                 else break
             }
         }
-        else {
-            throw Exception()
-        }
     }
 
     private fun topLevelDeclaration(): AstNode? {
         try {
-            if (match(TokenType.CLASS));
+            if (match(TokenType.MAIN)) return mainFunction()
+            // if (match(TokenType.CLASS));
             // if (match(TokenType.VAR));
             // if (match(TokenType.CONST));
             // if (match(TokenType.FUNC));
@@ -54,6 +50,117 @@ class Parser(private val tokens: List<Token>) {
             e.printStackTrace()
         }
         return null
+    }
+
+    private fun declaration(): AstNode? {
+        try {
+            if (match(TokenType.VAR)) return variable(false);
+            if (match(TokenType.CONST)) return variable(true);
+
+            return expression()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return null
+    }
+
+    private fun mainFunction(): AstNode.FunctionNode {
+        consume(TokenType.BRACE_LEFT, "Expected '{' before main body.")
+        val body = body()
+        return AstNode.FunctionNode("main", body, listOf())
+    }
+
+    private fun function() {
+
+    }
+
+    private fun variable(constant: Boolean): AstNode {
+        val name = consume(TokenType.ID, "Expected variable internalName.").lexeme!!
+
+        consume(TokenType.COLIN, "Expected colin after variable name")
+        val typeName = typeName()
+
+        val initializer = if (match(TokenType.ASSIGN)) { expression() } else { null }
+
+        return AstNode.VariableNode(name, Type(typeName, null), constant, initializer)
+    }
+
+    private fun body(): List<AstNode> {
+        val nodes = mutableListOf<AstNode>()
+
+        while (!check(TokenType.BRACE_RIGHT) && !isAtEnd()) {
+            println(current)
+            declaration()?.let { nodes.add(it) }
+        }
+
+        consume(TokenType.BRACE_RIGHT, "Expected '}' after block.")
+        return nodes
+    }
+
+    private fun expression(): AstNode {
+        if(match(TokenType.NEW)) return new()
+        return call()
+    }
+
+    private fun new(): AstNode {
+        val typeName = typeName()
+        consume(TokenType.PAREN_LEFT, "Expected '('")
+        val arguments = getArguments()
+        consume(TokenType.PAREN_RIGHT, "Expected ')'")
+        return AstNode.ConstructorCallNode(typeName, arguments)
+    }
+
+    private fun call(): AstNode {
+        var node = primary()
+
+        while (true) {
+            if (match(TokenType.PAREN_LEFT)) {
+                val arguments = getArguments()
+                consume(TokenType.PAREN_RIGHT, "Expected ')'")
+                node = AstNode.FunctionCallNode(node, arguments)
+            }
+            else if (match(TokenType.DOT)) {
+                val name = consume(TokenType.ID, "Expected property id.")
+                node = AstNode.GetNode(name.lexeme!!, node)
+            }
+            else {
+                break
+            }
+        }
+
+        return node
+    }
+
+    private fun primary(): AstNode {
+        if (match(TokenType.STRING)) return AstNode.LiteralNode(previous().literal!!)
+
+        if (peek().type == TokenType.ID) return AstNode.IdNode(advance().lexeme!!)
+
+        throw Exception("Expected expression.")
+    }
+
+    private fun getArguments(): List<AstNode> {
+        val args = mutableListOf<AstNode>()
+
+        if (!check(TokenType.PAREN_RIGHT)) {
+            do {
+                if (args.size >= 32) {
+                    throw Exception("Cannot have more than 32 arguments")
+                }
+                args.add(expression())
+            } while (match(TokenType.COMMA))
+        }
+
+        return args
+    }
+
+    private fun typeName(): String {
+        var typeName = consume(TokenType.ID, "Expected variable type").lexeme!!
+        while (peek().type == TokenType.DOT) {
+            advance()
+            typeName = "${typeName}.${consume(TokenType.ID, "Expected variable type").lexeme!!}"
+        }
+        return typeName
     }
 
     private fun match(vararg types: TokenType): Boolean {
@@ -71,6 +178,12 @@ class Parser(private val tokens: List<Token>) {
     private fun advance(): Token {
         if (!isAtEnd()) current += 1
         return previous()
+    }
+
+    private fun consume(type: TokenType, message: String): Token {
+        if (check(type)) return advance()
+
+        throw Exception(message)
     }
 
     private fun isAtEnd() = peek().type == TokenType.EOF

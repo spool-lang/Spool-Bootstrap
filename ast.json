@@ -1,0 +1,37 @@
+{ 
+	"node": "function",
+	"name": "main",
+	"params": [ 
+		],
+	"body": [ 
+		{ 
+			"node": "variable",
+			"name": "console",
+			"const": true,
+			"type": "spool.core.Console",
+			"initializer": { 
+				"node": "constructor call",
+				"type": "spool.core.Console",
+				"args": [ 
+					]
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "literal",
+					"literal": "\"Hello, world!\""
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		}
+	]
+}

@@ -1,4 +1,4 @@
 main {
-    const console = new silicon.core.Console();
-    console.println("Hello, world!");
+    const console: spool.core.Console = new spool.core.Console()
+    console.println("Hello, world!")
 }
