@@ -41,5 +41,7 @@ fun main(args: Array<String>) {
     fileDB.map["main"]?.let {
         val json = AstPrinter().printAst(it)
         File("ast.json").writeText(json)
+        val chunk = BytecodeGenerator().run(it)
+        chunk.print()
     }
 }

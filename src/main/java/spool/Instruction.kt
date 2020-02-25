@@ -1,13 +1,13 @@
 package spool
 
-class Instruction (private val type: InstructionType, private val data1: Any?, private val data2: Any?) {
+data class Instruction (private val type: InstructionType, private val data1: Any? = null, private val data2: Any? = null) {
     fun toBytes(byteList: MutableList<UByte>) {
         byteList.add(type.byte)
         encodeData(data1, byteList)
         encodeData(data2, byteList)
     }
 
-    fun encodeData(data: Any?, byteList: MutableList<UByte>) {
+    private fun encodeData(data: Any?, byteList: MutableList<UByte>) {
         if (data is Boolean) {
             if (data == true) byteList.add(1u)
             else byteList.add(0u)
@@ -21,11 +21,20 @@ class Instruction (private val type: InstructionType, private val data1: Any?, p
     }
 }
 
-class Chunk(val bytes: List<UByte>, val constants: List<Any>, val names: List<String>) {
-    override fun toString(): String {
-        val string = ""
+class Chunk() {
+    var name = ""
+    val names = mutableListOf<String>()
+    val constants = mutableListOf<Any>()
+    val instructions = mutableListOf<Instruction>()
 
-        return string
+    fun print() {
+        println("name: $name")
+        println("constants:")
+        constants.forEach { println(it) }
+        println("names:")
+        names.forEach { println(it) }
+        println("instructions:")
+        instructions.forEach { println(it) }
     }
 }
 
@@ -34,5 +43,8 @@ enum class InstructionType(val byte: UByte) {
     GET_FALSE(1u),
     GET(2u),
     SET(3u),
-    DECLARE(4u)
+    DECLARE(4u),
+    NEW(5u),
+    CALL_INSTANCE(28u),
+    GET_TYPE(30u)
 }
