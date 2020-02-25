@@ -23,11 +23,17 @@ class BytecodeGenerator: AstVisitor<Unit> {
     override fun visitVariable(variable: AstNode.VariableNode) {
         // TODO: Account for nullability
         variable.initializer!!.visit(this)
-        currentChunk.instructions.add(Instruction(InstructionType.DECLARE, variable.const))
+        currentChunk.instructions.add(Instruction(InstructionType.DECLARE, !variable.const))
+        currentChunk.variableNames.add(variable.name)
     }
 
     override fun visitFunction(function: AstNode.FunctionNode) {
         currentChunk.name = function.name
+
+        for (param in function.params) {
+            currentChunk.variableNames.add(param.first)
+            currentChunk.params.add(param.second.canonicalName)
+        }
 
         for (node in function.body) {
             node.visit(this)
@@ -55,8 +61,9 @@ class BytecodeGenerator: AstVisitor<Unit> {
     }
 
     override fun visitID(id: AstNode.IdNode) {
-        currentChunk.instructions.add(Instruction(InstructionType.GET, currentChunk.names.size.toUShort(), false))
-        currentChunk.names.add(id.name)
+        val index = currentChunk.variableNames.indexOf(id.name)
+
+        if (currentChunk.variableNames[index] == id.name) currentChunk.instructions.add(Instruction(InstructionType.GET, index.toUShort(), false))
     }
 
     override fun visitGet(get: AstNode.GetNode) {
@@ -64,7 +71,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
     }
 
     override fun visitLiteral(literal: AstNode.LiteralNode) {
-        currentChunk.instructions.add(Instruction(InstructionType.GET, currentChunk.names.size.toUShort(), true))
+        currentChunk.instructions.add(Instruction(InstructionType.GET, currentChunk.constants.size.toUShort(), true))
         currentChunk.constants.add(literal.literal)
     }
 

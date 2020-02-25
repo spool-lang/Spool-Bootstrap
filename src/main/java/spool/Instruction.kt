@@ -23,12 +23,15 @@ data class Instruction (private val type: InstructionType, private val data1: An
 
 class Chunk() {
     var name = ""
+    val params = mutableListOf<String>()
+    val variableNames = mutableListOf<String>()
     val names = mutableListOf<String>()
     val constants = mutableListOf<Any>()
     val instructions = mutableListOf<Instruction>()
 
     fun print() {
         println("name: $name")
+        println("params: $params")
         println("constants:")
         constants.forEach { println(it) }
         println("names:")
