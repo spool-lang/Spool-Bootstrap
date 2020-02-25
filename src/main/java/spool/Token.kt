@@ -1,4 +1,4 @@
-package silicon
+package spool
 
 data class Token(val type: TokenType, val line: Long, val column: Long, val lexeme: String?, val literal: Any?)
 

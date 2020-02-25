@@ -1,4 +1,4 @@
-package silicon
+package spool
 
 interface AstVisitor {
     fun visitFile(file: AstNode.FileNode)
