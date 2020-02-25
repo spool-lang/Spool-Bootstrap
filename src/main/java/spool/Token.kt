@@ -45,11 +45,13 @@ enum class TokenType {
     //Keywords
     FUNC,
     CLASS,
+    NEW,
     VAR,
     CONST,
     NAMESPACE,
     USE,
     NATIVE,
+    MAIN,
     IF,
     ELSE,
     RETURN,

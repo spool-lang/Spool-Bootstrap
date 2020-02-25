@@ -1,12 +1,10 @@
 package spool
 
+import java.io.File
 import kotlin.Exception
 import kotlin.system.exitProcess
 
-val test = """
-    namespace silicon.bootstrap
-"""
-
+val test = ""
 
 fun main(args: Array<String>) {
 
@@ -14,6 +12,9 @@ fun main(args: Array<String>) {
         println("Please specify the project file.")
         exitProcess(-1)
     }
+
+    val test = File(args[0]).readText()
+    println(test)
 
     val lexer = Lexer(test)
     val tokens: List<Token>

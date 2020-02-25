@@ -10,6 +10,8 @@ interface AstVisitor {
     fun visitFunction(function: AstNode.FunctionNode)
 
     fun visitBlock(block: AstNode.BlockNode)
+
+    fun visitConstructorCallNode(constructorCall: AstNode.ConstructorCallNode)
 }
 
 data class Type(val canonicalName: String, var node: AstNode.TypeNode? = null) {
@@ -50,6 +52,12 @@ sealed class AstNode {
     class BlockNode(val statements: List<AstNode>): AstNode() {
         override fun visit(visitor: AstVisitor) {
             visitor.visitBlock(this)
+        }
+    }
+
+    class ConstructorCallNode(val name: String, val arguments: List<AstNode>): AstNode() {
+        override fun visit(visitor: AstVisitor) {
+            visitor.visitConstructorCallNode(this)
         }
     }
 }

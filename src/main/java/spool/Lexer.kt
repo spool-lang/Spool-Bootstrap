@@ -7,7 +7,7 @@ class Lexer(private val source: String) {
     private var index: Int = 0
     private var row: Long = 0
     private var column: Long = 0
-    private val kewords: MutableMap<String, TokenType> = mutableMapOf()
+    private val keywords: MutableMap<String, TokenType> = mutableMapOf()
 
     @Throws(Exception::class)
     fun lex(): List<Token> {
@@ -97,7 +97,7 @@ class Lexer(private val source: String) {
 
         while (peek(0).isLetter()) word = "$word${next()}"
 
-        var type = kewords[word]
+        var type = keywords[word]
         if (type == null) type = TokenType.ID
         tokens.add(Token(type, row, column, word, null))
     }
@@ -123,15 +123,17 @@ class Lexer(private val source: String) {
     private fun peek(count: Int): Char = if (index + count < source.length) { source[index + count] } else { '\u0000' }
 
     init {
-        kewords["func"] = TokenType.FUNC
-        kewords["class"] = TokenType.CLASS
-        kewords["var"] = TokenType.VAR
-        kewords["const"] = TokenType.CONST
-        kewords["namespace"] = TokenType.NAMESPACE
-        kewords["use"] = TokenType.USE
-        kewords["native"] = TokenType.NATIVE
-        kewords["if"] = TokenType.IF
-        kewords["else"] = TokenType.ELSE
-        kewords["return"] = TokenType.RETURN
+        keywords["func"] = TokenType.FUNC
+        keywords["class"] = TokenType.CLASS
+        keywords["new"] = TokenType.NEW
+        keywords["var"] = TokenType.VAR
+        keywords["const"] = TokenType.CONST
+        keywords["namespace"] = TokenType.NAMESPACE
+        keywords["use"] = TokenType.USE
+        keywords["native"] = TokenType.NATIVE
+        keywords["if"] = TokenType.IF
+        keywords["else"] = TokenType.ELSE
+        keywords["return"] = TokenType.RETURN
+        keywords["main"] = TokenType.MAIN
     }
 }
