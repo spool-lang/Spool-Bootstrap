@@ -1,0 +1,4 @@
+main {
+    const console = new silicon.core.Console();
+    console.println("Hello, world!");
+}
