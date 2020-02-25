@@ -39,6 +39,34 @@ class Chunk() {
         println("instructions:")
         instructions.forEach { println(it) }
     }
+
+    fun toBytes(): List<UByte> {
+        var string = if (name == "main") {"#main("} else {"#func($name;"}
+        var started = false
+        for (param in params) {
+            string = if (!started) {"$string$param"} else {"$string,$param"}
+            started = true
+        }
+        started = false
+        if (name != "main") string = "$string;"
+        for (name in names) {
+            string = if (!started) {"$string$name"} else {"$string,$name"}
+            started = true
+        }
+        started = false
+        string = "$string;"
+        for (constant in constants) {
+            string = if (!started) {"$string$constant"} else {"$string,$constant"}
+            started = true
+        }
+        var instructionBytes = mutableListOf<UByte>()
+        instructions.forEach { it.toBytes(instructionBytes) }
+
+        string = "$string;${instructionBytes.size})"
+        var bytes = string.toByteArray().toUByteArray().toMutableList()
+        bytes.addAll(instructionBytes)
+        return bytes
+    }
 }
 
 enum class InstructionType(val byte: UByte) {

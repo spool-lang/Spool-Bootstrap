@@ -43,5 +43,8 @@ fun main(args: Array<String>) {
         File("ast.json").writeText(json)
         val chunk = BytecodeGenerator().run(it)
         chunk.print()
+        val bytes = chunk.toBytes()
+
+        File("test.sbc").writeBytes(bytes.toTypedArray().toUByteArray().toByteArray())
     }
 }
