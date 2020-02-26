@@ -72,9 +72,9 @@ class Chunk() {
 enum class InstructionType(val byte: UByte) {
     GET_TRUE(0u),
     GET_FALSE(1u),
-    GET(2u),
+    DECLARE(2u),
     SET(3u),
-    DECLARE(4u),
+    GET(4u),
     NEW(5u),
     CALL_INSTANCE(28u),
     GET_TYPE(30u)
