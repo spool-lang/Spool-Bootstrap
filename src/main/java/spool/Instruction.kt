@@ -29,6 +29,10 @@ class Chunk() {
     val constants = mutableListOf<Any>()
     val instructions = mutableListOf<Instruction>()
 
+    fun addInstruction(instruction: Instruction) {
+        instructions.add(instruction)
+    }
+
     fun print() {
         println("name: $name")
         println("params: $params")
@@ -75,6 +79,10 @@ enum class InstructionType(val byte: UByte) {
     DECLARE(2u),
     SET(3u),
     GET(4u),
+    ADD(11u),
+    SUBTRACT(12u),
+    MULTIPLY(13u),
+    DIVIDE(14u),
     NEW(5u),
     CALL_INSTANCE(28u),
     GET_TYPE(30u)

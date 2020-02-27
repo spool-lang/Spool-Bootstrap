@@ -98,6 +98,27 @@ class AstPrinter: AstVisitor<JsonElement> {
         return json
     }
 
+    override fun visitAssignment(assignment: AstNode.AssignmentNode): JsonElement {
+        val json = JsonObject()
+
+        json["node"] = JsonPrimitive("assignment")
+        json["target"] = JsonPrimitive(assignment.name)
+        json["source"] = assignment.source.visit(this)
+
+        return json
+    }
+
+    override fun visitBinary(binary: AstNode.BinaryNode): JsonElement {
+        val json = JsonObject()
+
+        json["node"] = JsonPrimitive("binary")
+        json["operator"] = JsonPrimitive(binary.operator.lexeme!!)
+        json["left"] = binary.left.visit(this)
+        json["right"] = binary.right.visit(this)
+
+        return json
+    }
+
     override fun visitLiteral(literal: AstNode.LiteralNode): JsonElement {
         val json = JsonObject()
 
@@ -106,5 +127,4 @@ class AstPrinter: AstVisitor<JsonElement> {
 
         return json
     }
-
 }

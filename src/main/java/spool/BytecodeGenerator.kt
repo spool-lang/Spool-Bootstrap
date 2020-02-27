@@ -1,7 +1,5 @@
 package spool
 
-import java.lang.Exception
-
 class BytecodeGenerator: AstVisitor<Unit> {
     private var currentChunk = Chunk()
 
@@ -24,14 +22,14 @@ class BytecodeGenerator: AstVisitor<Unit> {
         // TODO: Account for nullability
         variable.initializer!!.visit(this)
         currentChunk.instructions.add(Instruction(InstructionType.DECLARE, !variable.const))
-        currentChunk.variableNames.add(variable.name)
+        if (!currentChunk.variableNames.contains(variable.name)) currentChunk.variableNames.add(variable.name)
     }
 
     override fun visitFunction(function: AstNode.FunctionNode) {
         currentChunk.name = function.name
 
         for (param in function.params) {
-            currentChunk.variableNames.add(param.first)
+            if (!currentChunk.variableNames.contains(param.first)) currentChunk.variableNames.add(param.first)
             currentChunk.params.add(param.second.canonicalName)
         }
 
@@ -54,8 +52,15 @@ class BytecodeGenerator: AstVisitor<Unit> {
         if (functionCall.source is AstNode.GetNode) {
             functionCall.arguments.forEach { it.visit(this) }
             functionCall.source.source.visit(this)
-            currentChunk.instructions.add(Instruction(InstructionType.CALL_INSTANCE, currentChunk.names.size.toUShort()))
-            currentChunk.names.add(functionCall.source.name)
+
+            val index = currentChunk.names.indexOf(functionCall.source.name)
+            if (index == -1) {
+                currentChunk.instructions.add(Instruction(InstructionType.CALL_INSTANCE, currentChunk.names.size.toUShort()))
+                currentChunk.names.add(functionCall.source.name)
+            }
+            else {
+                currentChunk.instructions.add(Instruction(InstructionType.CALL_INSTANCE, index.toUShort()))
+            }
         }
         else TODO()
     }
@@ -66,13 +71,42 @@ class BytecodeGenerator: AstVisitor<Unit> {
         if (currentChunk.variableNames[index] == id.name) currentChunk.instructions.add(Instruction(InstructionType.GET, index.toUShort(), false))
     }
 
+    override fun visitAssignment(assignment: AstNode.AssignmentNode) {
+        assignment.source.visit(this)
+        val index = currentChunk.variableNames.indexOf(assignment.name)
+
+        if (currentChunk.variableNames[index] == assignment.name) currentChunk.instructions.add(Instruction(InstructionType.SET, index.toUShort()))
+    }
+
     override fun visitGet(get: AstNode.GetNode) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun visitBinary(binary: AstNode.BinaryNode) {
+        binary.right.visit(this)
+        binary.left.visit(this)
+
+        val op = when (binary.operator.type) {
+            TokenType.PLUS -> InstructionType.ADD
+            TokenType.MINUS -> InstructionType.SUBTRACT
+            TokenType.MULTIPLY -> InstructionType.MULTIPLY
+            TokenType.DIVIDE -> InstructionType.DIVIDE
+            TokenType.POW -> TODO()
+            TokenType.R_ARROW -> TODO()
+            TokenType.LESS -> TODO()
+            TokenType.GREATER -> TODO()
+            TokenType.LESS_EQUAL -> TODO()
+            TokenType.GREATER_EQUAL -> TODO()
+            TokenType.NOT_EQUAL -> TODO()
+            TokenType.EQUAL -> TODO()
+            else -> throw Exception()
+        }
+
+        currentChunk.addInstruction(Instruction(op))
     }
 
     override fun visitLiteral(literal: AstNode.LiteralNode) {
         currentChunk.instructions.add(Instruction(InstructionType.GET, currentChunk.constants.size.toUShort(), true))
         currentChunk.constants.add(literal.literal)
     }
-
 }

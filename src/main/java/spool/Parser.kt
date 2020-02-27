@@ -89,7 +89,6 @@ class Parser(private val tokens: List<Token>) {
         val nodes = mutableListOf<AstNode>()
 
         while (!check(TokenType.BRACE_RIGHT) && !isAtEnd()) {
-            println(current)
             declaration()?.let { nodes.add(it) }
         }
 
@@ -99,7 +98,7 @@ class Parser(private val tokens: List<Token>) {
 
     private fun expression(): AstNode {
         if(match(TokenType.NEW)) return new()
-        return call()
+        return assignment()
     }
 
     private fun new(): AstNode {
@@ -108,6 +107,48 @@ class Parser(private val tokens: List<Token>) {
         val arguments = getArguments()
         consume(TokenType.PAREN_RIGHT, "Expected ')'")
         return AstNode.ConstructorCallNode(typeName, arguments)
+    }
+
+    private fun assignment(): AstNode {
+        val node = addition()
+
+        if (match(TokenType.ASSIGN)) {
+            val equals = previous();
+            val source = assignment();
+
+            if (node is AstNode.IdNode) {
+                val name = node.name
+                return AstNode.AssignmentNode(name, source)
+            }
+
+            throw Exception("Invalid assignment target. [${equals.column}, ${equals.line}.")
+        }
+
+        return node
+    }
+
+    private fun addition(): AstNode {
+        var node = multiplication()
+
+        while (match(TokenType.PLUS, TokenType.MINUS)) {
+            val operator = previous()
+            val right = call()
+            node = AstNode.BinaryNode(node, operator, right)
+        }
+
+        return node
+    }
+
+    private fun multiplication(): AstNode {
+        var node = call()
+
+        while (match(TokenType.DIVIDE, TokenType.MULTIPLY)) {
+            val operator = previous()
+            val right = call()
+            node = AstNode.BinaryNode(node, operator, right)
+        }
+
+        return node
     }
 
     private fun call(): AstNode {
@@ -132,7 +173,7 @@ class Parser(private val tokens: List<Token>) {
     }
 
     private fun primary(): AstNode {
-        if (match(TokenType.STRING)) return AstNode.LiteralNode(previous().literal!!)
+        if (match(TokenType.STRING, TokenType.NUMBER)) return AstNode.LiteralNode(previous().literal!!)
 
         if (peek().type == TokenType.ID) return AstNode.IdNode(advance().lexeme!!)
 

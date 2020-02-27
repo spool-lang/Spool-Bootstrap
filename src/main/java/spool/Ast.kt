@@ -17,7 +17,11 @@ interface AstVisitor<T> {
 
     fun visitID(id: AstNode.IdNode): T
 
+    fun visitAssignment(assignment: AstNode.AssignmentNode): T
+
     fun visitGet(get: AstNode.GetNode): T
+
+    fun visitBinary(binary: AstNode.BinaryNode): T
 
     fun visitLiteral(literal: AstNode.LiteralNode): T
 }
@@ -84,6 +88,18 @@ sealed class AstNode {
     class GetNode(val name: String, val source: AstNode): AstNode() {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitGet(this)
+        }
+    }
+
+    class AssignmentNode(val name: String, val source: AstNode): AstNode() {
+        override fun <T> visit(visitor: AstVisitor<T>): T {
+            return visitor.visitAssignment(this)
+        }
+    }
+
+    class BinaryNode(val left: AstNode, val operator: Token, val right: AstNode): AstNode() {
+        override fun <T> visit(visitor: AstVisitor<T>): T {
+            return visitor.visitBinary(this)
         }
     }
 

@@ -1,4 +1,29 @@
 main {
     const console: spool.core.Console = new spool.core.Console()
     console.println("Hello, world!")
+
+    var number: spool.core.Int16 = 0
+    number = 1
+    console.print("number = ")
+    console.println(number)
+
+    console.println("Testing addition.")
+    number = number + 3
+    console.print("number = ")
+    console.println(number)
+
+    console.println("Testing subtraction.")
+    number = number - 2
+    console.print("number = ")
+    console.println(number)
+
+    console.println("Testing multiplication.")
+    number = number * 3
+    console.print("number = ")
+    console.println(number)
+
+    console.println("Testing division.")
+    number = number/2
+    console.print("number = ")
+    console.println(number)
 }

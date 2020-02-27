@@ -95,7 +95,7 @@ class Lexer(private val source: String) {
     private fun identifier(first: Char) {
         var word = "$first"
 
-        while (peek(0).isLetter()) word = "$word${next()}"
+        while (peek(0).isLetter() || peek(0).isDigit()) word = "$word${next()}"
 
         var type = keywords[word]
         if (type == null) type = TokenType.ID

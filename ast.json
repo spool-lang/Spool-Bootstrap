@@ -32,6 +32,326 @@
 					"id": "console"
 				}
 			}
+		},
+		{ 
+			"node": "variable",
+			"name": "number",
+			"const": false,
+			"type": "spool.core.Int16",
+			"initializer": { 
+				"node": "literal",
+				"literal": 0
+			}
+		},
+		{ 
+			"node": "assignment",
+			"target": "number",
+			"source": { 
+				"node": "literal",
+				"literal": 1
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "literal",
+					"literal": "\"number = \""
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "print",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "id",
+					"id": "number"
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "literal",
+					"literal": "\"Testing addition.\""
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "assignment",
+			"target": "number",
+			"source": { 
+				"node": "binary",
+				"operator": "+",
+				"left": { 
+					"node": "id",
+					"id": "number"
+				},
+				"right": { 
+					"node": "literal",
+					"literal": 3
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "literal",
+					"literal": "\"number = \""
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "print",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "id",
+					"id": "number"
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "literal",
+					"literal": "\"Testing subtraction.\""
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "assignment",
+			"target": "number",
+			"source": { 
+				"node": "binary",
+				"operator": "-",
+				"left": { 
+					"node": "id",
+					"id": "number"
+				},
+				"right": { 
+					"node": "literal",
+					"literal": 2
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "literal",
+					"literal": "\"number = \""
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "print",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "id",
+					"id": "number"
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "literal",
+					"literal": "\"Testing multiplication.\""
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "assignment",
+			"target": "number",
+			"source": { 
+				"node": "binary",
+				"operator": "*",
+				"left": { 
+					"node": "id",
+					"id": "number"
+				},
+				"right": { 
+					"node": "literal",
+					"literal": 3
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "literal",
+					"literal": "\"number = \""
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "print",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "id",
+					"id": "number"
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "literal",
+					"literal": "\"Testing division.\""
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "assignment",
+			"target": "number",
+			"source": { 
+				"node": "binary",
+				"operator": "/",
+				"left": { 
+					"node": "id",
+					"id": "number"
+				},
+				"right": { 
+					"node": "literal",
+					"literal": 2
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "literal",
+					"literal": "\"number = \""
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "print",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "id",
+					"id": "number"
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
 		}
 	]
 }
