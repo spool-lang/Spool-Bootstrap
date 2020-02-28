@@ -23,6 +23,8 @@ interface AstVisitor<T> {
 
     fun visitBinary(binary: AstNode.BinaryNode): T
 
+    fun visitUnary(unary: AstNode.UnaryNode): T
+
     fun visitLiteral(literal: AstNode.LiteralNode): T
 }
 
@@ -100,6 +102,12 @@ sealed class AstNode {
     class BinaryNode(val left: AstNode, val operator: Token, val right: AstNode): AstNode() {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitBinary(this)
+        }
+    }
+
+    class UnaryNode(val source: AstNode, val operator: Token): AstNode() {
+        override fun <T> visit(visitor: AstVisitor<T>): T {
+            return visitor.visitUnary(this)
         }
     }
 

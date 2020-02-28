@@ -119,6 +119,16 @@ class AstPrinter: AstVisitor<JsonElement> {
         return json
     }
 
+    override fun visitUnary(unary: AstNode.UnaryNode): JsonElement {
+        val json = JsonObject()
+
+        json["node"] = JsonPrimitive("unary")
+        json["operator"] = JsonPrimitive(unary.operator.lexeme!!)
+        json["source"] = unary.source.visit(this)
+
+        return json
+    }
+
     override fun visitLiteral(literal: AstNode.LiteralNode): JsonElement {
         val json = JsonObject()
 

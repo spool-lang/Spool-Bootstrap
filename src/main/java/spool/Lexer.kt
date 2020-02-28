@@ -135,5 +135,7 @@ class Lexer(private val source: String) {
         keywords["else"] = TokenType.ELSE
         keywords["return"] = TokenType.RETURN
         keywords["main"] = TokenType.MAIN
+        keywords["and"] = TokenType.AND
+        keywords["or"] = TokenType.OR
     }
 }

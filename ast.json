@@ -21,7 +21,339 @@
 			"args": [ 
 				{ 
 					"node": "literal",
-					"literal": "\"Hello, world!\""
+					"literal": "\"Testing pow\""
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "binary",
+					"operator": "^",
+					"left": { 
+						"node": "literal",
+						"literal": 2
+					},
+					"right": { 
+						"node": "literal",
+						"literal": 3
+					}
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "literal",
+					"literal": "\"Testing negation.\""
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "unary",
+					"operator": "-",
+					"source": { 
+						"node": "literal",
+						"literal": 2
+					}
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "literal",
+					"literal": "\"Testing less than.\""
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "binary",
+					"operator": "<",
+					"left": { 
+						"node": "literal",
+						"literal": 1
+					},
+					"right": { 
+						"node": "literal",
+						"literal": 2
+					}
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "literal",
+					"literal": "\"Testing greater than.\""
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "binary",
+					"operator": ">",
+					"left": { 
+						"node": "literal",
+						"literal": 1
+					},
+					"right": { 
+						"node": "literal",
+						"literal": 2
+					}
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "literal",
+					"literal": "\"Testing equals\""
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "binary",
+					"operator": "==",
+					"left": { 
+						"node": "literal",
+						"literal": 1
+					},
+					"right": { 
+						"node": "literal",
+						"literal": 1
+					}
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "literal",
+					"literal": "\"Testing less than equals\""
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "binary",
+					"operator": "<=",
+					"left": { 
+						"node": "literal",
+						"literal": 1
+					},
+					"right": { 
+						"node": "literal",
+						"literal": 2
+					}
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "literal",
+					"literal": "\"Testing greater than equals\""
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "binary",
+					"operator": ">=",
+					"left": { 
+						"node": "literal",
+						"literal": 1
+					},
+					"right": { 
+						"node": "literal",
+						"literal": 2
+					}
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "literal",
+					"literal": "\"Testing not equal\""
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "binary",
+					"operator": "!=",
+					"left": { 
+						"node": "literal",
+						"literal": 1
+					},
+					"right": { 
+						"node": "literal",
+						"literal": 2
+					}
+				}
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
+		},
+		{ 
+			"node": "function call",
+			"args": [ 
+				{ 
+					"node": "literal",
+					"literal": "\"Testing logic negation\""
 				}
 			],
 			"source": { 
@@ -35,86 +367,19 @@
 		},
 		{ 
 			"node": "variable",
-			"name": "number",
-			"const": false,
-			"type": "spool.core.Int16",
+			"name": "value",
+			"const": true,
+			"type": "spool.core.Boolean",
 			"initializer": { 
-				"node": "literal",
-				"literal": 0
-			}
-		},
-		{ 
-			"node": "assignment",
-			"target": "number",
-			"source": { 
-				"node": "literal",
-				"literal": 1
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "literal",
-					"literal": "\"number = \""
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "print",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "id",
-					"id": "number"
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "literal",
-					"literal": "\"Testing addition.\""
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "assignment",
-			"target": "number",
-			"source": { 
 				"node": "binary",
-				"operator": "+",
+				"operator": "==",
 				"left": { 
-					"node": "id",
-					"id": "number"
+					"node": "literal",
+					"literal": 1
 				},
 				"right": { 
 					"node": "literal",
-					"literal": 3
+					"literal": 1
 				}
 			}
 		},
@@ -122,25 +387,12 @@
 			"node": "function call",
 			"args": [ 
 				{ 
-					"node": "literal",
-					"literal": "\"number = \""
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "print",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "id",
-					"id": "number"
+					"node": "unary",
+					"operator": "!",
+					"source": { 
+						"node": "id",
+						"id": "value"
+					}
 				}
 			],
 			"source": { 
@@ -157,7 +409,7 @@
 			"args": [ 
 				{ 
 					"node": "literal",
-					"literal": "\"Testing subtraction.\""
+					"literal": "\"Testing and\""
 				}
 			],
 			"source": { 
@@ -170,44 +422,35 @@
 			}
 		},
 		{ 
-			"node": "assignment",
-			"target": "number",
-			"source": { 
-				"node": "binary",
-				"operator": "-",
-				"left": { 
-					"node": "id",
-					"id": "number"
-				},
-				"right": { 
-					"node": "literal",
-					"literal": 2
-				}
-			}
-		},
-		{ 
 			"node": "function call",
 			"args": [ 
 				{ 
-					"node": "literal",
-					"literal": "\"number = \""
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "print",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "id",
-					"id": "number"
+					"node": "binary",
+					"operator": "and",
+					"left": { 
+						"node": "binary",
+						"operator": "==",
+						"left": { 
+							"node": "literal",
+							"literal": 1
+						},
+						"right": { 
+							"node": "literal",
+							"literal": 1
+						}
+					},
+					"right": { 
+						"node": "binary",
+						"operator": "==",
+						"left": { 
+							"node": "literal",
+							"literal": 1
+						},
+						"right": { 
+							"node": "literal",
+							"literal": 2
+						}
+					}
 				}
 			],
 			"source": { 
@@ -224,57 +467,7 @@
 			"args": [ 
 				{ 
 					"node": "literal",
-					"literal": "\"Testing multiplication.\""
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "assignment",
-			"target": "number",
-			"source": { 
-				"node": "binary",
-				"operator": "*",
-				"left": { 
-					"node": "id",
-					"id": "number"
-				},
-				"right": { 
-					"node": "literal",
-					"literal": 3
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "literal",
-					"literal": "\"number = \""
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "print",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "id",
-					"id": "number"
+					"literal": "\"Testing or\""
 				}
 			],
 			"source": { 
@@ -290,58 +483,32 @@
 			"node": "function call",
 			"args": [ 
 				{ 
-					"node": "literal",
-					"literal": "\"Testing division.\""
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "assignment",
-			"target": "number",
-			"source": { 
-				"node": "binary",
-				"operator": "/",
-				"left": { 
-					"node": "id",
-					"id": "number"
-				},
-				"right": { 
-					"node": "literal",
-					"literal": 2
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "literal",
-					"literal": "\"number = \""
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "print",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "id",
-					"id": "number"
+					"node": "binary",
+					"operator": "or",
+					"left": { 
+						"node": "binary",
+						"operator": "==",
+						"left": { 
+							"node": "literal",
+							"literal": 1
+						},
+						"right": { 
+							"node": "literal",
+							"literal": 1
+						}
+					},
+					"right": { 
+						"node": "binary",
+						"operator": "==",
+						"left": { 
+							"node": "literal",
+							"literal": 1
+						},
+						"right": { 
+							"node": "literal",
+							"literal": 2
+						}
+					}
 				}
 			],
 			"source": { 

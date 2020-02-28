@@ -83,7 +83,18 @@ enum class InstructionType(val byte: UByte) {
     SUBTRACT(12u),
     MULTIPLY(13u),
     DIVIDE(14u),
+    POWER(15u),
+    NUM_NEGATE(16u),
+    LESS(17u),
+    GREATER(18u),
+    EQ(19u),
+    LESS_EQ(20u),
+    GREATER_EQ(21u),
+    NOT_EQ(22u),
+    AND(23u),
+    OR(24u),
+    LOGIC_NEGATE(26u),
     NEW(5u),
-    CALL_INSTANCE(28u),
-    GET_TYPE(30u)
+    CALL_INSTANCE(30u),
+    GET_TYPE(32u)
 }

@@ -91,14 +91,27 @@ class BytecodeGenerator: AstVisitor<Unit> {
             TokenType.MINUS -> InstructionType.SUBTRACT
             TokenType.MULTIPLY -> InstructionType.MULTIPLY
             TokenType.DIVIDE -> InstructionType.DIVIDE
-            TokenType.POW -> TODO()
-            TokenType.R_ARROW -> TODO()
-            TokenType.LESS -> TODO()
-            TokenType.GREATER -> TODO()
-            TokenType.LESS_EQUAL -> TODO()
-            TokenType.GREATER_EQUAL -> TODO()
-            TokenType.NOT_EQUAL -> TODO()
-            TokenType.EQUAL -> TODO()
+            TokenType.POW -> InstructionType.POWER
+            TokenType.LESS -> InstructionType.LESS
+            TokenType.GREATER -> InstructionType.GREATER
+            TokenType.LESS_EQUAL -> InstructionType.LESS_EQ
+            TokenType.GREATER_EQUAL -> InstructionType.GREATER_EQ
+            TokenType.NOT_EQUAL -> InstructionType.NOT_EQ
+            TokenType.EQUAL -> InstructionType.EQ
+            TokenType.AND -> InstructionType.AND
+            TokenType.OR -> InstructionType.OR
+            else -> throw Exception()
+        }
+
+        currentChunk.addInstruction(Instruction(op))
+    }
+
+    override fun visitUnary(unary: AstNode.UnaryNode) {
+        unary.source.visit(this)
+
+        val op = when (unary.operator.type) {
+            TokenType.MINUS -> InstructionType.NUM_NEGATE
+            TokenType.NOT -> InstructionType.LOGIC_NEGATE
             else -> throw Exception()
         }
 

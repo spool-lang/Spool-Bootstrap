@@ -17,11 +17,13 @@ enum class TokenType {
     // Logic Operators
     LESS,
     GREATER,
+    EQUAL,
     LESS_EQUAL,
     GREATER_EQUAL,
-    NOT,
     NOT_EQUAL,
-    EQUAL,
+    AND,
+    OR,
+    NOT,
     //Assignment
     ASSIGN,
     PLUS_ASSIGN,

@@ -110,7 +110,7 @@ class Parser(private val tokens: List<Token>) {
     }
 
     private fun assignment(): AstNode {
-        val node = addition()
+        val node = or()
 
         if (match(TokenType.ASSIGN)) {
             val equals = previous();
@@ -127,12 +127,60 @@ class Parser(private val tokens: List<Token>) {
         return node
     }
 
+    private fun or(): AstNode {
+        var node = and()
+
+        while (match(TokenType.OR)) {
+            val operator = previous()
+            val right = and()
+            node = AstNode.BinaryNode(node, operator, right)
+        }
+
+        return node
+    }
+
+    private fun and(): AstNode {
+        var node = equality()
+
+        while (match(TokenType.AND)) {
+            val operator = previous()
+            val right = equality()
+            node = AstNode.BinaryNode(node, operator, right)
+        }
+
+        return node
+    }
+
+    private fun equality(): AstNode {
+        var node = comparison()
+
+        while (match(TokenType.EQUAL, TokenType.NOT_EQUAL)) {
+            val operator = previous()
+            val right = comparison()
+            node = AstNode.BinaryNode(node, operator, right)
+        }
+
+        return node
+    }
+
+    private fun comparison(): AstNode {
+        var node = addition()
+
+        while (match(TokenType.GREATER, TokenType.LESS, TokenType.GREATER_EQUAL, TokenType.LESS_EQUAL)) {
+            val operator = previous()
+            val right = addition()
+            node = AstNode.BinaryNode(node, operator, right)
+        }
+
+        return node
+    }
+
     private fun addition(): AstNode {
         var node = multiplication()
 
         while (match(TokenType.PLUS, TokenType.MINUS)) {
             val operator = previous()
-            val right = call()
+            val right = multiplication()
             node = AstNode.BinaryNode(node, operator, right)
         }
 
@@ -140,9 +188,31 @@ class Parser(private val tokens: List<Token>) {
     }
 
     private fun multiplication(): AstNode {
-        var node = call()
+        var node = unary()
 
         while (match(TokenType.DIVIDE, TokenType.MULTIPLY)) {
+            val operator = previous()
+            val right = unary()
+            node = AstNode.BinaryNode(node, operator, right)
+        }
+
+        return node
+    }
+
+    private fun unary(): AstNode {
+        if (match(TokenType.NOT, TokenType.MINUS)) {
+            val operator = previous()
+            val right = unary()
+            return AstNode.UnaryNode(right, operator)
+        }
+
+        return pow()
+    }
+
+    private fun pow(): AstNode {
+        var node = call()
+
+        while (match(TokenType.POW)) {
             val operator = previous()
             val right = call()
             node = AstNode.BinaryNode(node, operator, right)
