@@ -46,7 +46,14 @@ class BytecodeGenerator: AstVisitor<Unit> {
     }
 
     override fun visitBlock(block: AstNode.BlockNode) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val newScope = Scope(currentScope)
+        scopeStack.push(currentScope)
+        currentScope = newScope
+
+        block.statements.forEach { it.visit(this) }
+
+        currentChunk.addInstruction(Instruction(InstructionType.EXIT_BLOCK, currentScope.size().toUShort()))
+        currentScope = scopeStack.pop()
     }
 
     override fun visitConstructorCall(constructorCall: AstNode.ConstructorCallNode) {
@@ -73,12 +80,12 @@ class BytecodeGenerator: AstVisitor<Unit> {
     }
 
     override fun visitID(id: AstNode.IdNode) {
-        if (currentScope.isDeclared(id.name)) currentChunk.instructions.add(Instruction(InstructionType.GET, currentScope.indexOf(id.name), false))
+        if (currentScope.isDeclared(id.name)) currentChunk.instructions.add(Instruction(InstructionType.GET, currentScope.indexOf(id.name).toUShort(), false))
     }
 
     override fun visitAssignment(assignment: AstNode.AssignmentNode) {
         assignment.source.visit(this)
-        if (currentScope.isDeclared(assignment.name)) currentChunk.instructions.add(Instruction(InstructionType.SET, currentScope.indexOf(assignment.name)))
+        if (currentScope.isDeclared(assignment.name)) currentChunk.instructions.add(Instruction(InstructionType.SET, currentScope.indexOf(assignment.name).toUShort()))
     }
 
     override fun visitGet(get: AstNode.GetNode) {

@@ -98,6 +98,7 @@ enum class InstructionType(val byte: UByte) {
     AND(23u),
     OR(24u),
     LOGIC_NEGATE(26u),
+    EXIT_BLOCK(28u),
     CALL_INSTANCE(30u),
     GET_TYPE(32u)
 }

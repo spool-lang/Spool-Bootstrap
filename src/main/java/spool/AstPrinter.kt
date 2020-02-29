@@ -48,7 +48,14 @@ class AstPrinter: AstVisitor<JsonElement> {
     }
 
     override fun visitBlock(block: AstNode.BlockNode): JsonElement {
-        TODO("Not implemented!")
+        val json = JsonObject()
+
+        json["node"] = JsonPrimitive("block")
+        val statements = JsonArray()
+        block.statements.forEach {statements.add(it.visit(this))}
+        json["statements"] = statements
+
+        return json
     }
 
     override fun visitConstructorCall(constructorCall: AstNode.ConstructorCallNode): JsonElement {

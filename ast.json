@@ -17,508 +17,95 @@
 			}
 		},
 		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "literal",
-					"literal": "\"Testing pow\""
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "binary",
-					"operator": "^",
-					"left": { 
-						"node": "literal",
-						"literal": 2
-					},
-					"right": { 
-						"node": "literal",
-						"literal": 3
-					}
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "literal",
-					"literal": "\"Testing negation.\""
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "unary",
-					"operator": "-",
-					"source": { 
-						"node": "literal",
-						"literal": 2
-					}
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "literal",
-					"literal": "\"Testing less than.\""
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "binary",
-					"operator": "<",
-					"left": { 
-						"node": "literal",
-						"literal": 1
-					},
-					"right": { 
-						"node": "literal",
-						"literal": 2
-					}
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "literal",
-					"literal": "\"Testing greater than.\""
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "binary",
-					"operator": ">",
-					"left": { 
-						"node": "literal",
-						"literal": 1
-					},
-					"right": { 
-						"node": "literal",
-						"literal": 2
-					}
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "literal",
-					"literal": "\"Testing equals\""
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "binary",
-					"operator": "==",
-					"left": { 
-						"node": "literal",
-						"literal": 1
-					},
-					"right": { 
-						"node": "literal",
-						"literal": 1
-					}
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "literal",
-					"literal": "\"Testing less than equals\""
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "binary",
-					"operator": "<=",
-					"left": { 
-						"node": "literal",
-						"literal": 1
-					},
-					"right": { 
-						"node": "literal",
-						"literal": 2
-					}
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "literal",
-					"literal": "\"Testing greater than equals\""
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "binary",
-					"operator": ">=",
-					"left": { 
-						"node": "literal",
-						"literal": 1
-					},
-					"right": { 
-						"node": "literal",
-						"literal": 2
-					}
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "literal",
-					"literal": "\"Testing not equal\""
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "binary",
-					"operator": "!=",
-					"left": { 
-						"node": "literal",
-						"literal": 1
-					},
-					"right": { 
-						"node": "literal",
-						"literal": 2
-					}
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "literal",
-					"literal": "\"Testing logic negation\""
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
 			"node": "variable",
-			"name": "value",
+			"name": "hello",
 			"const": true,
-			"type": "spool.core.Boolean",
+			"type": "spool.core.String",
 			"initializer": { 
-				"node": "binary",
-				"operator": "==",
-				"left": { 
-					"node": "literal",
-					"literal": 1
+				"node": "literal",
+				"literal": "\"Hello,\""
+			}
+		},
+		{ 
+			"node": "block",
+			"statements": [ 
+				{ 
+					"node": "variable",
+					"name": "world",
+					"const": true,
+					"type": "spool.core.String",
+					"initializer": { 
+						"node": "literal",
+						"literal": "\"World!\""
+					}
 				},
-				"right": { 
-					"node": "literal",
-					"literal": 1
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
 				{ 
-					"node": "unary",
-					"operator": "!",
+					"node": "function call",
+					"args": [ 
+						{ 
+							"node": "id",
+							"id": "hello"
+						}
+					],
 					"source": { 
-						"node": "id",
-						"id": "value"
-					}
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "literal",
-					"literal": "\"Testing and\""
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "binary",
-					"operator": "and",
-					"left": { 
-						"node": "binary",
-						"operator": "==",
-						"left": { 
-							"node": "literal",
-							"literal": 1
-						},
-						"right": { 
-							"node": "literal",
-							"literal": 1
-						}
-					},
-					"right": { 
-						"node": "binary",
-						"operator": "==",
-						"left": { 
-							"node": "literal",
-							"literal": 1
-						},
-						"right": { 
-							"node": "literal",
-							"literal": 2
+						"node": "get",
+						"name": "println",
+						"source": { 
+							"node": "id",
+							"id": "console"
 						}
 					}
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
+				},
 				{ 
-					"node": "literal",
-					"literal": "\"Testing or\""
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
-		},
-		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "binary",
-					"operator": "or",
-					"left": { 
-						"node": "binary",
-						"operator": "==",
-						"left": { 
-							"node": "literal",
-							"literal": 1
-						},
-						"right": { 
-							"node": "literal",
-							"literal": 1
+					"node": "function call",
+					"args": [ 
+						{ 
+							"node": "id",
+							"id": "world"
 						}
-					},
-					"right": { 
-						"node": "binary",
-						"operator": "==",
-						"left": { 
-							"node": "literal",
-							"literal": 1
-						},
-						"right": { 
-							"node": "literal",
-							"literal": 2
+					],
+					"source": { 
+						"node": "get",
+						"name": "println",
+						"source": { 
+							"node": "id",
+							"id": "console"
 						}
 					}
+				},
+				{ 
+					"node": "block",
+					"statements": [ 
+						{ 
+							"node": "variable",
+							"name": "hey",
+							"const": true,
+							"type": "spool.core.String",
+							"initializer": { 
+								"node": "literal",
+								"literal": "\"HEY!!!\""
+							}
+						},
+						{ 
+							"node": "function call",
+							"args": [ 
+								{ 
+									"node": "id",
+									"id": "hey"
+								}
+							],
+							"source": { 
+								"node": "get",
+								"name": "println",
+								"source": { 
+									"node": "id",
+									"id": "console"
+								}
+							}
+						}
+					]
 				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
+			]
 		}
 	]
 }

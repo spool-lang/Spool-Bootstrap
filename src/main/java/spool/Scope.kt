@@ -14,7 +14,19 @@ class Scope(private val parent: Scope? = null) {
         return false
     }
 
-    fun indexOf(name: String): UShort {
-        return internal.indexOf(name).toUShort()
+    fun indexOf(name: String): Int {
+        var index = internal.indexOf(name)
+        var foo = true
+        if (index == -1 && parent != null) {
+            index = parent.indexOf(name)
+            foo = false
+        }
+        if (index == -1) throw Exception()
+        if (foo && parent != null) index += parent.size()
+        return index
+    }
+
+    fun size(): Int {
+        return internal.size
     }
 }

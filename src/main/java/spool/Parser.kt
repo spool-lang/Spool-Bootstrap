@@ -97,7 +97,8 @@ class Parser(private val tokens: List<Token>) {
     }
 
     private fun expression(): AstNode {
-        if(match(TokenType.NEW)) return new()
+        if (match(TokenType.BRACE_LEFT)) return AstNode.BlockNode(body())
+        if (match(TokenType.NEW)) return new()
         return assignment()
     }
 
