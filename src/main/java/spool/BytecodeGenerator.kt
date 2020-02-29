@@ -1,7 +1,11 @@
 package spool
 
+import java.util.*
+
 class BytecodeGenerator: AstVisitor<Unit> {
     private var currentChunk = Chunk()
+    private val scopeStack = Stack<Scope>()
+    private var currentScope = Scope()
 
     fun run(node: AstNode): Chunk {
         node.visit(this)
