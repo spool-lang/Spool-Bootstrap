@@ -33,6 +33,10 @@ class Chunk() {
         instructions.add(instruction)
     }
 
+    fun addConstant(any: Any) {
+        if (!constants.contains(any)) constants.add(any)
+    }
+
     fun print() {
         println("name: $name")
         println("params: $params")

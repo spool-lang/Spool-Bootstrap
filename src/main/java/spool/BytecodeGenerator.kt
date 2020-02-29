@@ -124,6 +124,6 @@ class BytecodeGenerator: AstVisitor<Unit> {
 
     override fun visitLiteral(literal: AstNode.LiteralNode) {
         currentChunk.instructions.add(Instruction(InstructionType.GET, currentChunk.constants.size.toUShort(), true))
-        currentChunk.constants.add(literal.literal)
+        currentChunk.addConstant(literal.literal)
     }
 }
