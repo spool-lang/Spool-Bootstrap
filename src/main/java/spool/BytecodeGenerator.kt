@@ -25,15 +25,18 @@ class BytecodeGenerator: AstVisitor<Unit> {
     override fun visitVariable(variable: AstNode.VariableNode) {
         // TODO: Account for nullability
         variable.initializer!!.visit(this)
+
+        if (currentScope.isDeclared(variable.name)) throw Exception()
+
         currentChunk.instructions.add(Instruction(InstructionType.DECLARE, !variable.const))
-        if (!currentChunk.variableNames.contains(variable.name)) currentChunk.variableNames.add(variable.name)
+        currentScope.declare(variable.name)
     }
 
     override fun visitFunction(function: AstNode.FunctionNode) {
         currentChunk.name = function.name
 
         for (param in function.params) {
-            if (!currentChunk.variableNames.contains(param.first)) currentChunk.variableNames.add(param.first)
+            currentScope.declare(param.first)
             currentChunk.params.add(param.second.canonicalName)
         }
 
@@ -70,16 +73,12 @@ class BytecodeGenerator: AstVisitor<Unit> {
     }
 
     override fun visitID(id: AstNode.IdNode) {
-        val index = currentChunk.variableNames.indexOf(id.name)
-
-        if (currentChunk.variableNames[index] == id.name) currentChunk.instructions.add(Instruction(InstructionType.GET, index.toUShort(), false))
+        if (currentScope.isDeclared(id.name)) currentChunk.instructions.add(Instruction(InstructionType.GET, currentScope.indexOf(id.name), false))
     }
 
     override fun visitAssignment(assignment: AstNode.AssignmentNode) {
         assignment.source.visit(this)
-        val index = currentChunk.variableNames.indexOf(assignment.name)
-
-        if (currentChunk.variableNames[index] == assignment.name) currentChunk.instructions.add(Instruction(InstructionType.SET, index.toUShort()))
+        if (currentScope.isDeclared(assignment.name)) currentChunk.instructions.add(Instruction(InstructionType.SET, currentScope.indexOf(assignment.name)))
     }
 
     override fun visitGet(get: AstNode.GetNode) {
@@ -123,7 +122,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
     }
 
     override fun visitLiteral(literal: AstNode.LiteralNode) {
-        currentChunk.instructions.add(Instruction(InstructionType.GET, currentChunk.constants.size.toUShort(), true))
         currentChunk.addConstant(literal.literal)
+        currentChunk.instructions.add(Instruction(InstructionType.GET, currentChunk.constants.indexOf(literal.literal).toUShort(), true))
     }
 }

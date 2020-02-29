@@ -13,4 +13,8 @@ class Scope(private val parent: Scope? = null) {
         else if (parent != null) return parent.isDeclared(name)
         return false
     }
+
+    fun indexOf(name: String): UShort {
+        return internal.indexOf(name).toUShort()
+    }
 }

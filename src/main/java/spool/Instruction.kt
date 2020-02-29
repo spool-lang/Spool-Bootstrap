@@ -1,6 +1,6 @@
 package spool
 
-data class Instruction (private val type: InstructionType, private val data1: Any? = null, private val data2: Any? = null) {
+data class Instruction(private val type: InstructionType, private val data1: Any? = null, private val data2: Any? = null) {
     fun toBytes(byteList: MutableList<UByte>) {
         byteList.add(type.byte)
         encodeData(data1, byteList)
@@ -14,7 +14,7 @@ data class Instruction (private val type: InstructionType, private val data1: An
         }
         else if (data is UShort) {
             val first = data.toUByte()
-            val second = (data.toShort().toInt() shl 8).toShort().toUByte()
+            val second = (data.toShort().toInt() shr 8).toShort().toUByte()
             byteList.add(first)
             byteList.add(second)
         }
@@ -24,7 +24,6 @@ data class Instruction (private val type: InstructionType, private val data1: An
 class Chunk() {
     var name = ""
     val params = mutableListOf<String>()
-    val variableNames = mutableListOf<String>()
     val names = mutableListOf<String>()
     val constants = mutableListOf<Any>()
     val instructions = mutableListOf<Instruction>()
@@ -83,6 +82,7 @@ enum class InstructionType(val byte: UByte) {
     DECLARE(2u),
     SET(3u),
     GET(4u),
+    NEW(5u),
     ADD(11u),
     SUBTRACT(12u),
     MULTIPLY(13u),
@@ -98,7 +98,6 @@ enum class InstructionType(val byte: UByte) {
     AND(23u),
     OR(24u),
     LOGIC_NEGATE(26u),
-    NEW(5u),
     CALL_INSTANCE(30u),
     GET_TYPE(32u)
 }
