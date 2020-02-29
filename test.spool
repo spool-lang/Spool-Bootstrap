@@ -1,13 +1,6 @@
 main {
+    const rand: spool.core.Random = new spool.core.Random()
     const console: spool.core.Console = new spool.core.Console()
-    const hello: spool.core.String = "Hello,"
-    {
-        const world: spool.core.String = "World!"
-        console.println(hello)
-        console.println(world)
-        {
-            const hey: spool.core.String = "HEY!!!"
-            console.println(hey)
-        }
-    }
+    const num: spool.core.Int16 = rand.nextInt16(0, 9)
+    console.println(num)
 }

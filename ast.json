@@ -6,6 +6,18 @@
 	"body": [ 
 		{ 
 			"node": "variable",
+			"name": "rand",
+			"const": true,
+			"type": "spool.core.Random",
+			"initializer": { 
+				"node": "constructor call",
+				"type": "spool.core.Random",
+				"args": [ 
+					]
+			}
+		},
+		{ 
+			"node": "variable",
 			"name": "console",
 			"const": true,
 			"type": "spool.core.Console",
@@ -18,94 +30,47 @@
 		},
 		{ 
 			"node": "variable",
-			"name": "hello",
+			"name": "num",
 			"const": true,
-			"type": "spool.core.String",
+			"type": "spool.core.Int16",
 			"initializer": { 
-				"node": "literal",
-				"literal": "\"Hello,\""
+				"node": "function call",
+				"args": [ 
+					{ 
+						"node": "literal",
+						"literal": 0
+					},
+					{ 
+						"node": "literal",
+						"literal": 9
+					}
+				],
+				"source": { 
+					"node": "get",
+					"name": "nextInt16",
+					"source": { 
+						"node": "id",
+						"id": "rand"
+					}
+				}
 			}
 		},
 		{ 
-			"node": "block",
-			"statements": [ 
+			"node": "function call",
+			"args": [ 
 				{ 
-					"node": "variable",
-					"name": "world",
-					"const": true,
-					"type": "spool.core.String",
-					"initializer": { 
-						"node": "literal",
-						"literal": "\"World!\""
-					}
-				},
-				{ 
-					"node": "function call",
-					"args": [ 
-						{ 
-							"node": "id",
-							"id": "hello"
-						}
-					],
-					"source": { 
-						"node": "get",
-						"name": "println",
-						"source": { 
-							"node": "id",
-							"id": "console"
-						}
-					}
-				},
-				{ 
-					"node": "function call",
-					"args": [ 
-						{ 
-							"node": "id",
-							"id": "world"
-						}
-					],
-					"source": { 
-						"node": "get",
-						"name": "println",
-						"source": { 
-							"node": "id",
-							"id": "console"
-						}
-					}
-				},
-				{ 
-					"node": "block",
-					"statements": [ 
-						{ 
-							"node": "variable",
-							"name": "hey",
-							"const": true,
-							"type": "spool.core.String",
-							"initializer": { 
-								"node": "literal",
-								"literal": "\"HEY!!!\""
-							}
-						},
-						{ 
-							"node": "function call",
-							"args": [ 
-								{ 
-									"node": "id",
-									"id": "hey"
-								}
-							],
-							"source": { 
-								"node": "get",
-								"name": "println",
-								"source": { 
-									"node": "id",
-									"id": "console"
-								}
-							}
-						}
-					]
+					"node": "id",
+					"id": "num"
 				}
-			]
+			],
+			"source": { 
+				"node": "get",
+				"name": "println",
+				"source": { 
+					"node": "id",
+					"id": "console"
+				}
+			}
 		}
 	]
 }
