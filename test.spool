@@ -4,3 +4,7 @@ main {
     const num: spool.core.Int16 = rand.nextInt16(0, 9)
     console.println(num)
 }
+
+class Foo {
+
+}

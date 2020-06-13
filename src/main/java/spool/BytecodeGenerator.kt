@@ -7,7 +7,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
     private val scopeStack = Stack<Scope>()
     private var currentScope = Scope()
 
-    fun run(node: AstNode): Chunk {
+    fun run(node: AstNode): Bytecode {
         node.visit(this)
         val result = currentChunk
         currentChunk = Chunk()

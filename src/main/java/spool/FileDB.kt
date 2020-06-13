@@ -1,5 +1,6 @@
 package spool
 
+
 class FileDB {
     val map: MutableMap<String, AstNode> = mutableMapOf()
 
@@ -14,4 +15,8 @@ class FileDB {
         if (node is AstNode.TypeNode) return node
         throw Exception()
     }
+
+    fun allFunctions(): List<AstNode.FunctionNode> = map.values.filterIsInstance<AstNode.FunctionNode>()
+
+    fun allClasses(): List<AstNode.TypeNode> = map.values.filterIsInstance<AstNode.TypeNode>()
 }

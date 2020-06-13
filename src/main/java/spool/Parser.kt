@@ -5,26 +5,31 @@ class Parser(private val tokens: List<Token>) {
     private var current: Int = 0
     private var namespace: String? = null
 
-    fun parse(): FileDB {
-        val fileDB = FileDB()
-
+    fun parse(fileDB: FileDB): AstNode.FileNode {
         resolveNamespaceImports()
+        val statements: MutableMap<String, AstNode> = mutableMapOf()
 
         while (!isAtEnd()) {
             val node = topLevelDeclaration()
             if (node != null) {
                 when (node) {
-                    is AstNode.TypeNode -> fileDB[node.name] = node
-                    is AstNode.VariableNode -> fileDB[node.name] = node
+                    is AstNode.TypeNode -> {
+                        fileDB[node.name] = node
+                        statements[node.name] = node
+                    }
+                    is AstNode.VariableNode -> {
+                        fileDB[node.name] = node
+                        statements[node.name] = node
+                    }
                     is AstNode.FunctionNode -> {
-                        val name = node.name
-                        fileDB[name] = node
+                        fileDB[node.name] = node
+                        statements[node.name] = node
                     }
                 }
             }
         }
 
-        return fileDB
+        return AstNode.FileNode(statements, "", mapOf())
     }
 
     private fun resolveNamespaceImports() {
@@ -42,7 +47,7 @@ class Parser(private val tokens: List<Token>) {
     private fun topLevelDeclaration(): AstNode? {
         try {
             if (match(TokenType.MAIN)) return mainFunction()
-            // if (match(TokenType.CLASS));
+            if (match(TokenType.CLASS)) return clazz()
             // if (match(TokenType.VAR));
             // if (match(TokenType.CONST));
             // if (match(TokenType.FUNC));
@@ -72,6 +77,15 @@ class Parser(private val tokens: List<Token>) {
 
     private fun function() {
 
+    }
+
+    private fun clazz(): AstNode.TypeNode? {
+        val name = consume(TokenType.ID, "Expected class name.")
+
+        consume(TokenType.BRACE_LEFT, "Expected class body.")
+        consume(TokenType.BRACE_RIGHT, "Expected end of class body.")
+
+        return AstNode.TypeNode(name.lexeme!!, Type("spool.core.Object"))
     }
 
     private fun variable(constant: Boolean): AstNode {

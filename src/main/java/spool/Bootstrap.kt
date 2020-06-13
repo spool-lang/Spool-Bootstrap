@@ -6,6 +6,7 @@ import kotlin.system.exitProcess
 
 val test = ""
 
+@ExperimentalUnsignedTypes
 fun main(args: Array<String>) {
 
     if (args.size != 1) {
@@ -29,10 +30,11 @@ fun main(args: Array<String>) {
     tokens.forEach { println(it) }
 
     val parser = Parser(tokens)
-    val fileDB: FileDB
+    val fileDB: FileDB = FileDB()
+    val file: AstNode.FileNode
 
     try {
-        fileDB = parser.parse()
+        file = parser.parse(fileDB)
     } catch (e: Exception) {
         e.printStackTrace()
         exitProcess(-2)
@@ -43,7 +45,8 @@ fun main(args: Array<String>) {
         File("ast.json").writeText(json)
         val chunk = BytecodeGenerator().run(it)
         chunk.print()
-        val bytes = chunk.toBytes()
+        val bytes = mutableListOf<UByte>()
+        chunk.addBytes(bytes)
 
         File("test.sbc").writeBytes(bytes.toTypedArray().toUByteArray().toByteArray())
     }

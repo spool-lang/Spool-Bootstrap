@@ -8,7 +8,12 @@ class AstPrinter: AstVisitor<JsonElement> {
     }
 
     override fun visitFile(file: AstNode.FileNode): JsonElement {
-        TODO("Not implemented!")
+        val json = JsonObject()
+
+        json["node"] = "file".json()
+        json["statements"] = file.statements.values.map { it.visit(this) }.json()
+
+        return json
     }
 
     override fun visitClass(clazz: AstNode.TypeNode): JsonElement {
@@ -18,9 +23,9 @@ class AstPrinter: AstVisitor<JsonElement> {
     override fun visitVariable(variable: AstNode.VariableNode): JsonElement {
         val json = JsonObject();
 
-        json["node"] = JsonPrimitive("variable")
-        json["name"] = JsonPrimitive(variable.name)
-        json["const"] = JsonPrimitive(variable.const)
+        json["node"] = "variable".json()
+        json["name"] = variable.name.json()
+        json["const"] = variable.const.json()
         json["type"] = JsonPrimitive(variable.type.canonicalName)
         variable.initializer?.let { json["initializer"] = it.visit(this) }
 
