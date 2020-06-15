@@ -1,7 +1,11 @@
 package spool
 
+@ExperimentalUnsignedTypes
 typealias Chunk = Bytecode.Chunk
+@ExperimentalUnsignedTypes
+typealias Clazz = Bytecode.Clazz
 
+@ExperimentalUnsignedTypes
 sealed class Bytecode {
     abstract fun addBytes(bytes: MutableList<UByte>)
     abstract fun print();
@@ -81,6 +85,7 @@ sealed class Bytecode {
     }
 }
 
+@ExperimentalUnsignedTypes
 data class Instruction(private val type: InstructionType, private val data1: Any? = null, private val data2: Any? = null) {
     fun toBytes(byteList: MutableList<UByte>) {
         byteList.add(type.byte)
@@ -102,6 +107,7 @@ data class Instruction(private val type: InstructionType, private val data1: Any
     }
 }
 
+@ExperimentalUnsignedTypes
 enum class InstructionType(val byte: UByte) {
     GET_TRUE(0u),
     GET_FALSE(1u),

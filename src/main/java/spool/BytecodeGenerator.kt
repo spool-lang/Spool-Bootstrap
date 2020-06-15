@@ -3,23 +3,26 @@ package spool
 import java.util.*
 
 class BytecodeGenerator: AstVisitor<Unit> {
-    private var currentChunk = Chunk()
+    private var currentChunk: Chunk = Chunk()
+    private var currentClazz: Clazz = Clazz("", "")
     private val scopeStack = Stack<Scope>()
     private var currentScope = Scope()
+    private var bytecodeList: MutableList<Bytecode> = mutableListOf()
 
-    fun run(node: AstNode): Bytecode {
+    fun run(node: AstNode): List<Bytecode> {
         node.visit(this)
-        val result = currentChunk
-        currentChunk = Chunk()
-        return result
+        return bytecodeList
     }
 
     override fun visitFile(file: AstNode.FileNode) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        for (statement in file.statements.values) {
+            statement.visit(this)
+        }
     }
 
     override fun visitClass(clazz: AstNode.TypeNode) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        currentClazz = Clazz(clazz.name, clazz.superType.canonicalName)
+        bytecodeList.add(currentClazz)
     }
 
     override fun visitVariable(variable: AstNode.VariableNode) {
@@ -33,6 +36,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
     }
 
     override fun visitFunction(function: AstNode.FunctionNode) {
+        currentChunk = Chunk()
         currentChunk.name = function.name
 
         for (param in function.params) {
@@ -43,6 +47,8 @@ class BytecodeGenerator: AstVisitor<Unit> {
         for (node in function.body) {
             node.visit(this)
         }
+
+        bytecodeList.add(currentChunk)
     }
 
     override fun visitBlock(block: AstNode.BlockNode) {

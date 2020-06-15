@@ -1,8 +1,6 @@
 main {
-    const rand: spool.core.Random = new spool.core.Random()
-    const console: spool.core.Console = new spool.core.Console()
-    const num: spool.core.Int16 = rand.nextInt16(0, 9)
-    console.println(num)
+    const foo: Foo = new Foo()
+    console.println(foo)
 }
 
 class Foo {

@@ -31,23 +31,34 @@ fun main(args: Array<String>) {
 
     val parser = Parser(tokens)
     val fileDB: FileDB = FileDB()
-    val file: AstNode.FileNode
+    val fileNode: AstNode.FileNode
 
     try {
-        file = parser.parse(fileDB)
+        fileNode = parser.parse(fileDB)
     } catch (e: Exception) {
         e.printStackTrace()
         exitProcess(-2)
     }
 
+    val json = AstPrinter().printAst(fileNode)
+    File("ast.json").writeText(json)
+    val bytecode = BytecodeGenerator().run(fileNode)
+    bytecode.forEach(Bytecode::print)
+    val bytes = mutableListOf<UByte>()
+    bytecode.forEach { it.addBytes(bytes) }
+    File("test.sbc").writeBytes(bytes.toTypedArray().toUByteArray().toByteArray())
+
+    /*
     fileDB.map["main"]?.let {
         val json = AstPrinter().printAst(it)
         File("ast.json").writeText(json)
         val chunk = BytecodeGenerator().run(it)
-        chunk.print()
+        chunk.forEach(Bytecode::print)
         val bytes = mutableListOf<UByte>()
-        chunk.addBytes(bytes)
+        chunk.forEach { it.addBytes(bytes) }
 
         File("test.sbc").writeBytes(bytes.toTypedArray().toUByteArray().toByteArray())
     }
+
+     */
 }

@@ -1,76 +1,47 @@
 { 
-	"node": "function",
-	"name": "main",
-	"params": [ 
-		],
-	"body": [ 
+	"node": "file",
+	"statements": [ 
 		{ 
-			"node": "variable",
-			"name": "rand",
-			"const": true,
-			"type": "spool.core.Random",
-			"initializer": { 
-				"node": "constructor call",
-				"type": "spool.core.Random",
-				"args": [ 
-					]
-			}
-		},
-		{ 
-			"node": "variable",
-			"name": "console",
-			"const": true,
-			"type": "spool.core.Console",
-			"initializer": { 
-				"node": "constructor call",
-				"type": "spool.core.Console",
-				"args": [ 
-					]
-			}
-		},
-		{ 
-			"node": "variable",
-			"name": "num",
-			"const": true,
-			"type": "spool.core.Int16",
-			"initializer": { 
-				"node": "function call",
-				"args": [ 
-					{ 
-						"node": "literal",
-						"literal": 0
-					},
-					{ 
-						"node": "literal",
-						"literal": 9
-					}
+			"node": "function",
+			"name": "main",
+			"params": [ 
 				],
-				"source": { 
-					"node": "get",
-					"name": "nextInt16",
+			"body": [ 
+				{ 
+					"node": "variable",
+					"name": "foo",
+					"const": true,
+					"type": "Foo",
+					"initializer": { 
+						"node": "constructor call",
+						"type": "Foo",
+						"args": [ 
+							]
+					}
+				},
+				{ 
+					"node": "function call",
+					"args": [ 
+						{ 
+							"node": "id",
+							"id": "foo"
+						}
+					],
 					"source": { 
-						"node": "id",
-						"id": "rand"
+						"node": "get",
+						"name": "println",
+						"source": { 
+							"node": "id",
+							"id": "console"
+						}
 					}
 				}
-			}
+			]
 		},
 		{ 
-			"node": "function call",
-			"args": [ 
-				{ 
-					"node": "id",
-					"id": "num"
-				}
-			],
-			"source": { 
-				"node": "get",
-				"name": "println",
-				"source": { 
-					"node": "id",
-					"id": "console"
-				}
-			}
+			"node": "class",
+			"name": "Foo",
+			"superclass": "spool.core.Object"
 		}
 	]
 }

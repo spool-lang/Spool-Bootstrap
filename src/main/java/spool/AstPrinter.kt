@@ -17,7 +17,13 @@ class AstPrinter: AstVisitor<JsonElement> {
     }
 
     override fun visitClass(clazz: AstNode.TypeNode): JsonElement {
-        TODO("Not implemented!")
+        val json = JsonObject()
+
+        json["node"] = "class".json()
+        json["name"] = clazz.name.json()
+        json["superclass"] = clazz.superType.canonicalName.json()
+
+        return json
     }
 
     override fun visitVariable(variable: AstNode.VariableNode): JsonElement {
