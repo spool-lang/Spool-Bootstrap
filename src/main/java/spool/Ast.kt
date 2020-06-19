@@ -45,7 +45,7 @@ sealed class AstNode {
         }
     }
 
-    class TypeNode(val name: String, val superType: Type): AstNode() {
+    class TypeNode(val name: String, val superType: Type, val fields: List<VariableNode>): AstNode() {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitClass(this)
         }

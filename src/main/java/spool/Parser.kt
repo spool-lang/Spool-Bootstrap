@@ -81,14 +81,20 @@ class Parser(private val tokens: List<Token>) {
 
     private fun clazz(): AstNode.TypeNode? {
         val name = consume(TokenType.ID, "Expected class name.")
-
+        val fields = mutableListOf<AstNode.VariableNode>()
         consume(TokenType.BRACE_LEFT, "Expected class body.")
+
+        while (peek().type != TokenType.BRACE_RIGHT) {
+            if (match(TokenType.VAR)) fields.add(variable(false))
+            else if (match(TokenType.CONST)) fields.add(variable(true))
+        }
+
         consume(TokenType.BRACE_RIGHT, "Expected end of class body.")
 
-        return AstNode.TypeNode(name.lexeme!!, Type("spool.core.Object"))
+        return AstNode.TypeNode(name.lexeme!!, Type("spool.core.Object"), fields)
     }
 
-    private fun variable(constant: Boolean): AstNode {
+    private fun variable(constant: Boolean): AstNode.VariableNode {
         val name = consume(TokenType.ID, "Expected variable internalName.").lexeme!!
 
         consume(TokenType.COLIN, "Expected colin after variable name")

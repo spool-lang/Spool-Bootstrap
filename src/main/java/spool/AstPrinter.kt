@@ -22,6 +22,7 @@ class AstPrinter: AstVisitor<JsonElement> {
         json["node"] = "class".json()
         json["name"] = clazz.name.json()
         json["superclass"] = clazz.superType.canonicalName.json()
+        json["fields"] = clazz.fields.map { it.visit(this) }.json()
 
         return json
     }

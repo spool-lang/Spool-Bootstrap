@@ -63,7 +63,19 @@
 		{ 
 			"node": "class",
 			"name": "Bar",
-			"superclass": "spool.core.Object"
+			"superclass": "spool.core.Object",
+			"fields": [ 
+				{ 
+					"node": "variable",
+					"name": "name",
+					"const": false,
+					"type": "spool.core.String",
+					"initializer": { 
+						"node": "literal",
+						"literal": "\"Bar-tholomew\""
+					}
+				}
+			]
 		}
 	]
 }
