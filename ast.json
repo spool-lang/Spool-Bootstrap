@@ -9,12 +9,34 @@
 			"body": [ 
 				{ 
 					"node": "variable",
+					"name": "hello",
+					"const": true,
+					"type": "spool.core.String",
+					"initializer": { 
+						"node": "literal",
+						"literal": "\"Hello!\""
+					}
+				},
+				{ 
+					"node": "variable",
 					"name": "foo",
 					"const": true,
-					"type": "Foo",
+					"type": "Bar",
 					"initializer": { 
 						"node": "constructor call",
-						"type": "Foo",
+						"type": "Bar",
+						"args": [ 
+							]
+					}
+				},
+				{ 
+					"node": "variable",
+					"name": "console",
+					"const": true,
+					"type": "spool.core.Console",
+					"initializer": { 
+						"node": "constructor call",
+						"type": "spool.core.Console",
 						"args": [ 
 							]
 					}
@@ -40,7 +62,7 @@
 		},
 		{ 
 			"node": "class",
-			"name": "Foo",
+			"name": "Bar",
 			"superclass": "spool.core.Object"
 		}
 	]

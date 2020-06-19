@@ -1,8 +1,10 @@
 main {
-    const foo: Foo = new Foo()
+    const hello: spool.core.String = "Hello!"
+    const foo: Bar = new Bar()
+    const console: spool.core.Console = new spool.core.Console();
     console.println(foo)
 }
 
-class Foo {
+class Bar {
 
 }
