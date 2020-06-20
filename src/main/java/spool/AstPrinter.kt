@@ -50,12 +50,7 @@ class AstPrinter: AstVisitor<JsonElement> {
             paramsArray.add(JsonPrimitive("${param.first}:${param.second.canonicalName}"))
         }
         json["params"] = paramsArray
-
-        val bodyArray = JsonArray()
-        for (node in function.body) {
-            bodyArray.add(node.visit(this))
-        }
-        json["body"] = bodyArray
+        json["body"] = function.body.visit(this)
 
         return json
     }

@@ -57,7 +57,7 @@ sealed class AstNode {
         }
     }
 
-    class FunctionNode(val name: String, val body: List<AstNode>, val params: List<Pair<String, Type>>): AstNode() {
+    class FunctionNode(val name: String, val body: BlockNode, val params: List<Pair<String, Type>>): AstNode() {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitFunction(this)
         }

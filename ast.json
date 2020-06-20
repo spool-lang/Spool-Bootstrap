@@ -6,59 +6,46 @@
 			"name": "main",
 			"params": [ 
 				],
-			"body": [ 
-				{ 
-					"node": "variable",
-					"name": "hello",
-					"const": true,
-					"type": "spool.core.String",
-					"initializer": { 
-						"node": "literal",
-						"literal": "\"Hello!\""
-					}
-				},
-				{ 
-					"node": "variable",
-					"name": "foo",
-					"const": true,
-					"type": "Bar",
-					"initializer": { 
-						"node": "constructor call",
+			"body": { 
+				"node": "block",
+				"statements": [ 
+					{ 
+						"node": "variable",
+						"name": "hello",
+						"const": true,
+						"type": "spool.core.String",
+						"initializer": { 
+							"node": "literal",
+							"literal": "\"Hello!\""
+						}
+					},
+					{ 
+						"node": "variable",
+						"name": "bar",
+						"const": true,
 						"type": "Bar",
-						"args": [ 
-							]
-					}
-				},
-				{ 
-					"node": "variable",
-					"name": "console",
-					"const": true,
-					"type": "spool.core.Console",
-					"initializer": { 
-						"node": "constructor call",
-						"type": "spool.core.Console",
-						"args": [ 
-							]
-					}
-				},
-				{ 
-					"node": "function call",
-					"args": [ 
-						{ 
-							"node": "id",
-							"id": "foo"
+						"initializer": { 
+							"node": "constructor call",
+							"type": "Bar",
+							"args": [ 
+								]
 						}
-					],
-					"source": { 
-						"node": "get",
-						"name": "println",
+					},
+					{ 
+						"node": "function call",
+						"args": [ 
+							],
 						"source": { 
-							"node": "id",
-							"id": "console"
+							"node": "get",
+							"name": "speak",
+							"source": { 
+								"node": "id",
+								"id": "bar"
+							}
 						}
 					}
-				}
-			]
+				]
+			}
 		},
 		{ 
 			"node": "class",
@@ -73,54 +60,57 @@
 					"params": [ 
 						"self:Bar"
 					],
-					"body": [ 
-						{ 
-							"node": "variable",
-							"name": "console",
-							"const": true,
-							"type": "spool.core.Console",
-							"initializer": { 
-								"node": "constructor call",
+					"body": { 
+						"node": "block",
+						"statements": [ 
+							{ 
+								"node": "variable",
+								"name": "console",
+								"const": true,
 								"type": "spool.core.Console",
+								"initializer": { 
+									"node": "constructor call",
+									"type": "spool.core.Console",
+									"args": [ 
+										]
+								}
+							},
+							{ 
+								"node": "function call",
 								"args": [ 
-									]
-							}
-						},
-						{ 
-							"node": "function call",
-							"args": [ 
-								{ 
-									"node": "literal",
-									"literal": "\"Hello! I'm a: \""
-								}
-							],
-							"source": { 
-								"node": "get",
-								"name": "print",
+									{ 
+										"node": "literal",
+										"literal": "\"Hello! I'm a: \""
+									}
+								],
 								"source": { 
-									"node": "id",
-									"id": "console"
+									"node": "get",
+									"name": "print",
+									"source": { 
+										"node": "id",
+										"id": "console"
+									}
 								}
-							}
-						},
-						{ 
-							"node": "function call",
-							"args": [ 
-								{ 
-									"node": "id",
-									"id": "self"
-								}
-							],
-							"source": { 
-								"node": "get",
-								"name": "println",
+							},
+							{ 
+								"node": "function call",
+								"args": [ 
+									{ 
+										"node": "id",
+										"id": "self"
+									}
+								],
 								"source": { 
-									"node": "id",
-									"id": "console"
+									"node": "get",
+									"name": "println",
+									"source": { 
+										"node": "id",
+										"id": "console"
+									}
 								}
 							}
-						}
-					]
+						]
+					}
 				}
 			]
 		}

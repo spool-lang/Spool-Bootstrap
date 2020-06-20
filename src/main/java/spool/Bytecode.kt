@@ -70,13 +70,17 @@ sealed class Bytecode {
             instructions.forEach { println(it) }
         }
     }
-    class Clazz(val name: String, val superClass: String, val fields: List<AstNode.VariableNode>): Bytecode() {
+    class Clazz(val name: String, val superClass: String, val fields: List<AstNode.VariableNode>, val functions: List<spool.Chunk>): Bytecode() {
         override fun addBytes(bytes: MutableList<UByte>) {
             val headerBytes = "#class($name;$superClass)".toByteArray().toUByteArray().toMutableList()
             bytes.addAll(headerBytes)
 
             for (field in fields) {
                 val fieldString = "#field(${field.const};${field.name};${field.type}"
+            }
+
+            for (function in functions) {
+                function.addBytes(bytes)
             }
 
             val endBytes = "#endclass".toByteArray().toUByteArray().toMutableList()

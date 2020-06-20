@@ -2,9 +2,11 @@ package spool
 
 import java.util.*
 
+@ExperimentalUnsignedTypes
 class BytecodeGenerator: AstVisitor<Unit> {
     private var currentChunk: Chunk = Chunk()
-    private var currentClazz: Clazz = Clazz("", "", listOf())
+    private var currentClazz: Clazz = Clazz("", "", listOf(), listOf())
+    private var inClazz: Boolean = false
     private val scopeStack = Stack<Scope>()
     private var currentScope = Scope()
     private var bytecodeList: MutableList<Bytecode> = mutableListOf()
@@ -21,15 +23,24 @@ class BytecodeGenerator: AstVisitor<Unit> {
     }
 
     override fun visitClass(clazz: AstNode.TypeNode) {
-        currentClazz = Clazz(clazz.name, clazz.superType.canonicalName, listOf())
+        inClazz = true
+        val chunks: MutableList<Chunk> = mutableListOf()
+
+        for (function in clazz.functions) {
+            function.visit(this)
+            chunks.add(currentChunk)
+        }
+
+        currentClazz = Clazz(clazz.name, clazz.superType.canonicalName, listOf(), chunks)
         bytecodeList.add(currentClazz)
+        inClazz = false
     }
 
     override fun visitVariable(variable: AstNode.VariableNode) {
         // TODO: Account for nullability
         variable.initializer!!.visit(this)
 
-        if (currentScope.isDeclared(variable.name)) throw Exception()
+        if (currentScope.isDeclared(variable.name)) throw Exception("Variable ${variable.name} is already declared!")
 
         currentChunk.instructions.add(Instruction(InstructionType.DECLARE, !variable.const))
         currentScope.declare(variable.name)
@@ -44,11 +55,8 @@ class BytecodeGenerator: AstVisitor<Unit> {
             currentChunk.params.add(param.second.canonicalName)
         }
 
-        for (node in function.body) {
-            node.visit(this)
-        }
-
-        bytecodeList.add(currentChunk)
+        function.body.visit(this)
+        if (!inClazz) bytecodeList.add(currentChunk)
     }
 
     override fun visitBlock(block: AstNode.BlockNode) {

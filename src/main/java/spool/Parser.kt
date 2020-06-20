@@ -72,7 +72,7 @@ class Parser(private val tokens: List<Token>) {
     private fun mainFunction(): AstNode.FunctionNode {
         consume(TokenType.BRACE_LEFT, "Expected '{' before main body.")
         val body = body()
-        return AstNode.FunctionNode("main", body, listOf())
+        return AstNode.FunctionNode("main", AstNode.BlockNode(body), listOf())
     }
 
     private fun function(instanceType: Type? = null): AstNode.FunctionNode {
@@ -97,7 +97,7 @@ class Parser(private val tokens: List<Token>) {
         consume(TokenType.PAREN_RIGHT, "Expected parens before and after function params.")
         consume(TokenType.BRACE_LEFT, "Expected braces before function body.")
         val body = body()
-        return AstNode.FunctionNode(name, body, params)
+        return AstNode.FunctionNode(name, AstNode.BlockNode(body), params)
     }
 
     private fun clazz(): AstNode.TypeNode? {
@@ -108,9 +108,11 @@ class Parser(private val tokens: List<Token>) {
         consume(TokenType.BRACE_LEFT, "Expected class body.")
 
         while (!check(TokenType.BRACE_RIGHT)) {
-            if (match(TokenType.VAR)) fields.add(variable(false))
-            else if (match(TokenType.CONST)) fields.add(variable(true))
-            else if (match(TokenType.FUNC)) functions.add(function(type))
+            when {
+                match(TokenType.VAR) -> fields.add(variable(false))
+                match(TokenType.CONST) -> fields.add(variable(true))
+                match(TokenType.FUNC) -> functions.add(function(type))
+            }
         }
 
         consume(TokenType.BRACE_RIGHT, "Expected end of class body.")
