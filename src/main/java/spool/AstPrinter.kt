@@ -111,12 +111,23 @@ class AstPrinter: AstVisitor<JsonElement> {
         return json
     }
 
+    override fun visitSet(set: AstNode.SetNode): JsonElement {
+        val json = JsonObject()
+
+        json["node"] = "set".json()
+        json["name"] = set.name.json()
+        json["source"] = set.source.visit(this)
+        json["value"] = set.value.visit(this)
+
+        return json
+    }
+
     override fun visitAssignment(assignment: AstNode.AssignmentNode): JsonElement {
         val json = JsonObject()
 
         json["node"] = JsonPrimitive("assignment")
-        json["target"] = JsonPrimitive(assignment.name)
-        json["source"] = assignment.source.visit(this)
+        json["variable"] = JsonPrimitive(assignment.variable)
+        json["value"] = assignment.value.visit(this)
 
         return json
     }

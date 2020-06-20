@@ -161,14 +161,18 @@ class Parser(private val tokens: List<Token>) {
 
         if (match(TokenType.ASSIGN)) {
             val equals = previous();
-            val source = assignment();
+            val value = assignment();
 
             if (node is AstNode.IdNode) {
                 val name = node.name
-                return AstNode.AssignmentNode(name, source)
+                return AstNode.AssignmentNode(name, value)
+            }
+            else if (node is AstNode.GetNode) {
+                val name = node.name
+                return AstNode.SetNode(name, node.source, value)
             }
 
-            throw Exception("Invalid assignment target. [${equals.column}, ${equals.line}.")
+            throw Exception("Invalid assignment target. [${equals.column}, ${equals.line}]")
         }
 
         return node
@@ -290,11 +294,14 @@ class Parser(private val tokens: List<Token>) {
     }
 
     private fun primary(): AstNode {
-        if (match(TokenType.STRING, TokenType.NUMBER)) return AstNode.LiteralNode(previous().literal!!)
+        return when {
+            match(TokenType.STRING, TokenType.NUMBER) -> AstNode.LiteralNode(previous().literal!!)
+            match(TokenType.TRUE) -> AstNode.LiteralNode(true)
+            match(TokenType.FALSE) -> AstNode.LiteralNode(false)
+            peek().type == TokenType.ID -> AstNode.IdNode(advance().lexeme!!)
+            else -> throw Exception("Expected expression.")
+        }
 
-        if (peek().type == TokenType.ID) return AstNode.IdNode(advance().lexeme!!)
-
-        throw Exception("Expected expression.")
     }
 
     private fun getArguments(): List<AstNode> {

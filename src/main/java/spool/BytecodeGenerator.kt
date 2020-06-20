@@ -104,12 +104,23 @@ class BytecodeGenerator: AstVisitor<Unit> {
     }
 
     override fun visitAssignment(assignment: AstNode.AssignmentNode) {
-        assignment.source.visit(this)
-        if (currentScope.isDeclared(assignment.name)) currentChunk.instructions.add(Instruction(InstructionType.SET, currentScope.indexOf(assignment.name).toUShort()))
+        assignment.value.visit(this)
+        if (currentScope.isDeclared(assignment.variable)) currentChunk.instructions.add(Instruction(InstructionType.SET, currentScope.indexOf(assignment.variable).toUShort()))
     }
 
     override fun visitGet(get: AstNode.GetNode) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        get.source.visit(this)
+        currentChunk.names.add(get.name)
+        val index = currentChunk.names.indexOf(get.name)
+        currentChunk.addInstruction(Instruction(InstructionType.INSTANCE_GET, index.toUShort()))
+    }
+
+    override fun visitSet(set: AstNode.SetNode) {
+        set.value.visit(this)
+        set.source.visit(this)
+        currentChunk.names.add(set.name)
+        val index = currentChunk.names.indexOf(set.name)
+        currentChunk.addInstruction(Instruction(InstructionType.INSTANCE_SET, index.toUShort()))
     }
 
     override fun visitBinary(binary: AstNode.BinaryNode) {

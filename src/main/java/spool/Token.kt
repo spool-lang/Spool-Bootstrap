@@ -44,6 +44,8 @@ enum class TokenType {
     ID,
     NUMBER,
     STRING,
+    TRUE,
+    FALSE,
     //Keywords
     FUNC,
     CLASS,

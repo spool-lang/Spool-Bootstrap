@@ -108,6 +108,39 @@
 										"id": "console"
 									}
 								}
+							},
+							{ 
+								"node": "set",
+								"name": "funny",
+								"source": { 
+									"node": "id",
+									"id": "self"
+								},
+								"value": { 
+									"node": "literal",
+									"literal": false
+								}
+							},
+							{ 
+								"node": "function call",
+								"args": [ 
+									{ 
+										"node": "get",
+										"name": "funny",
+										"source": { 
+											"node": "id",
+											"id": "self"
+										}
+									}
+								],
+								"source": { 
+									"node": "get",
+									"name": "println",
+									"source": { 
+										"node": "id",
+										"id": "console"
+									}
+								}
 							}
 						]
 					}

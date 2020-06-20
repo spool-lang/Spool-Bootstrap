@@ -90,6 +90,11 @@ sealed class Bytecode {
         override fun print() {
             println("class")
             println("name: $name")
+            println("Functions: ")
+            for (function in functions) {
+                function.print()
+                println()
+            }
         }
     }
 }
@@ -124,6 +129,8 @@ enum class InstructionType(val byte: UByte) {
     SET(3u),
     GET(4u),
     NEW(5u),
+    INSTANCE_GET(6u),
+    INSTANCE_SET(7u),
     ADD(11u),
     SUBTRACT(12u),
     MULTIPLY(13u),

@@ -9,5 +9,7 @@ class Bar {
         const console: spool.core.Console = new spool.core.Console();
         console.print("Hello! I'm a: ")
         console.println(self)
+        self.funny = false
+        console.println(self.funny)
     }
 }

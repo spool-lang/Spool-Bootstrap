@@ -31,10 +31,6 @@ class Lexer(private val source: String) {
                 ':' -> symbol(TokenType.COLIN, ':')
                 '"' -> string()
 
-                // Keywords
-                't' -> pattern(TokenType.TRUE, "true")
-                'f' -> pattern(TokenType.FALSE, "false")
-
                 // Logic Operators
                 '<' -> pattern(TokenType.LESS_EQUAL, "<=") || symbol(TokenType.LESS, '<')
                 '>' -> pattern(TokenType.GREATER_EQUAL, ">=") || symbol(TokenType.GREATER, ">")
@@ -103,7 +99,11 @@ class Lexer(private val source: String) {
 
         var type = keywords[word]
         if (type == null) type = TokenType.ID
-        tokens.add(Token(type, row, column, word, null))
+        when (type) {
+            TokenType.TRUE -> tokens.add(Token(type, row, column, null, true))
+            TokenType.FALSE -> tokens.add(Token(type, row, column, null, false))
+            else -> tokens.add(Token(type, row, column, word, null))
+        }
     }
 
     private fun number(first: Char) {
@@ -141,5 +141,7 @@ class Lexer(private val source: String) {
         keywords["main"] = TokenType.MAIN
         keywords["and"] = TokenType.AND
         keywords["or"] = TokenType.OR
+        keywords["true"] = TokenType.TRUE
+        keywords["false"] = TokenType.FALSE
     }
 }
