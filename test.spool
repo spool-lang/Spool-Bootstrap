@@ -6,5 +6,9 @@ main {
 }
 
 class Bar {
-    var name: spool.core.String = "Bar-tholomew"
+    func speak() {
+        const console: spool.core.Console = new spool.core.Console();
+        console.print("Hello! I'm a: ")
+        console.println(self)
+    }
 }

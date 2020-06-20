@@ -65,15 +65,62 @@
 			"name": "Bar",
 			"superclass": "spool.core.Object",
 			"fields": [ 
+				],
+			"functions": [ 
 				{ 
-					"node": "variable",
-					"name": "name",
-					"const": false,
-					"type": "spool.core.String",
-					"initializer": { 
-						"node": "literal",
-						"literal": "\"Bar-tholomew\""
-					}
+					"node": "function",
+					"name": "speak",
+					"params": [ 
+						"self:Bar"
+					],
+					"body": [ 
+						{ 
+							"node": "variable",
+							"name": "console",
+							"const": true,
+							"type": "spool.core.Console",
+							"initializer": { 
+								"node": "constructor call",
+								"type": "spool.core.Console",
+								"args": [ 
+									]
+							}
+						},
+						{ 
+							"node": "function call",
+							"args": [ 
+								{ 
+									"node": "literal",
+									"literal": "\"Hello! I'm a: \""
+								}
+							],
+							"source": { 
+								"node": "get",
+								"name": "print",
+								"source": { 
+									"node": "id",
+									"id": "console"
+								}
+							}
+						},
+						{ 
+							"node": "function call",
+							"args": [ 
+								{ 
+									"node": "id",
+									"id": "self"
+								}
+							],
+							"source": { 
+								"node": "get",
+								"name": "println",
+								"source": { 
+									"node": "id",
+									"id": "console"
+								}
+							}
+						}
+					]
 				}
 			]
 		}
