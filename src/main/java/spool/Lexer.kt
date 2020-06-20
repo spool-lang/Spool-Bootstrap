@@ -31,6 +31,10 @@ class Lexer(private val source: String) {
                 ':' -> symbol(TokenType.COLIN, ':')
                 '"' -> string()
 
+                // Keywords
+                't' -> pattern(TokenType.TRUE, "true")
+                'f' -> pattern(TokenType.FALSE, "false")
+
                 // Logic Operators
                 '<' -> pattern(TokenType.LESS_EQUAL, "<=") || symbol(TokenType.LESS, '<')
                 '>' -> pattern(TokenType.GREATER_EQUAL, ">=") || symbol(TokenType.GREATER, ">")
