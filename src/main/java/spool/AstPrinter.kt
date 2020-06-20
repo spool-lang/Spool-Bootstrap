@@ -64,9 +64,7 @@ class AstPrinter: AstVisitor<JsonElement> {
         val json = JsonObject()
 
         json["node"] = JsonPrimitive("block")
-        val statements = JsonArray()
-        block.statements.forEach { statements.add(it.visit(this)) }
-        json["statements"] = statements
+        json["statements"] = block.statements.map { it.visit(this) }.json()
 
         return json
     }
