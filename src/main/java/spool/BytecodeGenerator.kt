@@ -49,10 +49,16 @@ class BytecodeGenerator: AstVisitor<Unit> {
     override fun visitFunction(function: AstNode.FunctionNode) {
         currentChunk = Chunk()
         currentChunk.name = function.name
+        var skipFirstParam = !function.instance
 
         for (param in function.params) {
             currentScope.declare(param.first)
-            currentChunk.params.add(param.second.canonicalName)
+            if (skipFirstParam) {
+                currentChunk.params.add(param.second.canonicalName)
+            }
+            else {
+                skipFirstParam = true
+            }
         }
 
         function.body.visit(this)

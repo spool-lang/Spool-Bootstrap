@@ -97,7 +97,7 @@ class Parser(private val tokens: List<Token>) {
         consume(TokenType.PAREN_RIGHT, "Expected parens before and after function params.")
         consume(TokenType.BRACE_LEFT, "Expected braces before function body.")
         val body = body()
-        return AstNode.FunctionNode(name, AstNode.BlockNode(body), params)
+        return AstNode.FunctionNode(name, AstNode.BlockNode(body), params, instanceType != null)
     }
 
     private fun clazz(): AstNode.TypeNode? {
