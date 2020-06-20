@@ -21,7 +21,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
     }
 
     override fun visitClass(clazz: AstNode.TypeNode) {
-        currentClazz = Clazz(clazz.name, clazz.superType.canonicalName)
+        currentClazz = Clazz(clazz.name, clazz.superType.canonicalName, listOf())
         bytecodeList.add(currentClazz)
     }
 
