@@ -4,7 +4,7 @@ import java.util.*
 
 class BytecodeGenerator: AstVisitor<Unit> {
     private var currentChunk: Chunk = Chunk()
-    private var currentClazz: Clazz = Clazz("", "")
+    private var currentClazz: Clazz = Clazz("", "", listOf())
     private val scopeStack = Stack<Scope>()
     private var currentScope = Scope()
     private var bytecodeList: MutableList<Bytecode> = mutableListOf()
