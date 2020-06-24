@@ -149,6 +149,9 @@ enum class InstructionType(val byte: UByte) {
     NEW(5u),
     INSTANCE_GET(6u),
     INSTANCE_SET(7u),
+    INIT_ARRAY(8u),
+    INDEX_GET(9u),
+    INDEX_SET(9u),
     ADD(11u),
     SUBTRACT(12u),
     MULTIPLY(13u),
@@ -163,8 +166,12 @@ enum class InstructionType(val byte: UByte) {
     NOT_EQ(22u),
     AND(23u),
     OR(24u),
+    IS(25u),
     LOGIC_NEGATE(26u),
+    JUMP(27u),
     EXIT_BLOCK(28u),
+    CALL(29u),
     CALL_INSTANCE(30u),
+    RETURN(31u),
     GET_TYPE(32u)
 }
