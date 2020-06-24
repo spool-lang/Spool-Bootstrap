@@ -1,5 +1,9 @@
 main {
     const greeter: Greeter = new Greeter("Hello!")
+    const random: spool.core.Random = new spool.core.Random()
+    const number: spool.core.number.Int16 = random.nextInt16(0, 5)
+    const console: spool.core.Console = new spool.core.Console()
+    console.println(number)
     greeter.greet()
 }
 

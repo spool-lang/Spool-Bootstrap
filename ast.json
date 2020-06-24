@@ -26,6 +26,74 @@
 						}
 					},
 					{ 
+						"node": "variable",
+						"name": "random",
+						"const": true,
+						"type": "spool.core.Random",
+						"initializer": { 
+							"node": "constructor call",
+							"type": "spool.core.Random",
+							"args": [ 
+								]
+						}
+					},
+					{ 
+						"node": "variable",
+						"name": "number",
+						"const": true,
+						"type": "spool.core.number.Int16",
+						"initializer": { 
+							"node": "function call",
+							"args": [ 
+								{ 
+									"node": "literal",
+									"literal": 0
+								},
+								{ 
+									"node": "literal",
+									"literal": 5
+								}
+							],
+							"source": { 
+								"node": "get",
+								"name": "nextInt16",
+								"source": { 
+									"node": "id",
+									"id": "random"
+								}
+							}
+						}
+					},
+					{ 
+						"node": "variable",
+						"name": "console",
+						"const": true,
+						"type": "spool.core.Console",
+						"initializer": { 
+							"node": "constructor call",
+							"type": "spool.core.Console",
+							"args": [ 
+								]
+						}
+					},
+					{ 
+						"node": "function call",
+						"args": [ 
+							{ 
+								"node": "id",
+								"id": "number"
+							}
+						],
+						"source": { 
+							"node": "get",
+							"name": "println",
+							"source": { 
+								"node": "id",
+								"id": "console"
+							}
+						}
+					},
+					{ 
 						"node": "function call",
 						"args": [ 
 							],
