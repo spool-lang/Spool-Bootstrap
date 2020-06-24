@@ -7,7 +7,6 @@ class BytecodeGenerator: AstVisitor<Unit> {
     private var currentChunk: Chunk = Chunk()
     private var currentClazz: Clazz = Clazz("", "", listOf(), listOf(), listOf())
     private var inClazz: Boolean = false
-    private var inOuterFunctionScope = false;
     private val scopeStack = Stack<Scope>()
     private var currentScope = Scope()
     private var bytecodeList: MutableList<Bytecode> = mutableListOf()
@@ -58,7 +57,6 @@ class BytecodeGenerator: AstVisitor<Unit> {
         val newScope = Scope(currentScope)
         scopeStack.push(currentScope)
         currentScope = newScope
-        inOuterFunctionScope = true
         currentChunk = Chunk()
         currentChunk.name = function.name
         //TODO: Renamed  this to something indicative of it's actual purpose
@@ -74,7 +72,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
             }
         }
 
-        function.body.visit(this)
+        function.body.forEach { it.visit(this) }
         if (!inClazz) bytecodeList.add(currentChunk)
         currentScope = scopeStack.pop()
     }
@@ -92,23 +90,19 @@ class BytecodeGenerator: AstVisitor<Unit> {
             currentChunk.params.add(param.second.canonicalName)
         }
 
-        constructor.body.visit(this)
+        constructor.body.forEach { it.visit(this) }
         currentScope = scopeStack.pop()
     }
 
     override fun visitBlock(block: AstNode.BlockNode) {
-        val createNewScope = inOuterFunctionScope
-        if (createNewScope) {
-            val newScope = Scope(currentScope)
-            scopeStack.push(currentScope)
-            currentScope = newScope
-        }
+        val newScope = Scope(currentScope)
+        scopeStack.push(currentScope)
+        currentScope = newScope
 
-        inOuterFunctionScope = false
         block.statements.forEach { it.visit(this) }
 
         currentChunk.addInstruction(Instruction(InstructionType.EXIT_BLOCK, currentScope.size().toUShort()))
-        if (createNewScope) currentScope = scopeStack.pop()
+       currentScope = scopeStack.pop()
     }
 
     override fun visitConstructorCall(constructorCall: AstNode.ConstructorCallNode) {

@@ -61,13 +61,13 @@ sealed class AstNode {
         }
     }
 
-    class FunctionNode(val name: String, val body: BlockNode, val params: List<Pair<String, Type>>, val instance: Boolean = false): AstNode() {
+    class FunctionNode(val name: String, val body: List<AstNode>, val params: List<Pair<String, Type>>, val instance: Boolean = false): AstNode() {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitFunction(this)
         }
     }
 
-    class ConstructorNode(val body: BlockNode, val params: List<Pair<String, Type>>): AstNode() {
+    class ConstructorNode(val body: List<AstNode>, val params: List<Pair<String, Type>>): AstNode() {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitConstructor(this)
         }

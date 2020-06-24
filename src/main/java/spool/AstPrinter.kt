@@ -51,7 +51,7 @@ class AstPrinter: AstVisitor<JsonElement> {
             paramsArray.add(JsonPrimitive("${param.first}:${param.second.canonicalName}"))
         }
         json["params"] = paramsArray
-        json["body"] = function.body.visit(this)
+        json["body"] = function.body.map { it.visit(this) }.json()
 
         return json
     }
@@ -61,7 +61,7 @@ class AstPrinter: AstVisitor<JsonElement> {
 
         json["node"] = "constructor".json()
         json["parameters"] = constructor.params.map { "${it.first}:${it.second.canonicalName}".json() }.json()
-        json["body"] = constructor.body.visit(this)
+        json["body"] = constructor.body.map { it.visit(this) }.json()
 
         return json
     }

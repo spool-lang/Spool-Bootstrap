@@ -6,108 +6,105 @@
 			"name": "main",
 			"params": [ 
 				],
-			"body": { 
-				"node": "block",
-				"statements": [ 
-					{ 
-						"node": "variable",
-						"name": "greeter",
-						"const": true,
+			"body": [ 
+				{ 
+					"node": "variable",
+					"name": "greeter",
+					"const": true,
+					"type": "Greeter",
+					"initializer": { 
+						"node": "constructor call",
 						"type": "Greeter",
-						"initializer": { 
-							"node": "constructor call",
-							"type": "Greeter",
-							"args": [ 
-								{ 
-									"node": "literal",
-									"literal": "\"Hello!\""
-								}
-							]
-						}
-					},
-					{ 
-						"node": "variable",
-						"name": "random",
-						"const": true,
-						"type": "spool.core.Random",
-						"initializer": { 
-							"node": "constructor call",
-							"type": "spool.core.Random",
-							"args": [ 
-								]
-						}
-					},
-					{ 
-						"node": "variable",
-						"name": "number",
-						"const": true,
-						"type": "spool.core.number.Int16",
-						"initializer": { 
-							"node": "function call",
-							"args": [ 
-								{ 
-									"node": "literal",
-									"literal": 0
-								},
-								{ 
-									"node": "literal",
-									"literal": 5
-								}
-							],
-							"source": { 
-								"node": "get",
-								"name": "nextInt16",
-								"source": { 
-									"node": "id",
-									"id": "random"
-								}
+						"args": [ 
+							{ 
+								"node": "literal",
+								"literal": "\"Hello!\""
 							}
-						}
-					},
-					{ 
-						"node": "variable",
-						"name": "console",
-						"const": true,
-						"type": "spool.core.Console",
-						"initializer": { 
-							"node": "constructor call",
-							"type": "spool.core.Console",
-							"args": [ 
-								]
-						}
-					},
-					{ 
+						]
+					}
+				},
+				{ 
+					"node": "variable",
+					"name": "random",
+					"const": true,
+					"type": "spool.core.Random",
+					"initializer": { 
+						"node": "constructor call",
+						"type": "spool.core.Random",
+						"args": [ 
+							]
+					}
+				},
+				{ 
+					"node": "variable",
+					"name": "number",
+					"const": true,
+					"type": "spool.core.number.Int16",
+					"initializer": { 
 						"node": "function call",
 						"args": [ 
 							{ 
-								"node": "id",
-								"id": "number"
+								"node": "literal",
+								"literal": 0
+							},
+							{ 
+								"node": "literal",
+								"literal": 5
 							}
 						],
 						"source": { 
 							"node": "get",
-							"name": "println",
+							"name": "nextInt16",
 							"source": { 
 								"node": "id",
-								"id": "console"
-							}
-						}
-					},
-					{ 
-						"node": "function call",
-						"args": [ 
-							],
-						"source": { 
-							"node": "get",
-							"name": "greet",
-							"source": { 
-								"node": "id",
-								"id": "greeter"
+								"id": "random"
 							}
 						}
 					}
-				]
-			}
+				},
+				{ 
+					"node": "variable",
+					"name": "console",
+					"const": true,
+					"type": "spool.core.Console",
+					"initializer": { 
+						"node": "constructor call",
+						"type": "spool.core.Console",
+						"args": [ 
+							]
+					}
+				},
+				{ 
+					"node": "function call",
+					"args": [ 
+						{ 
+							"node": "id",
+							"id": "number"
+						}
+					],
+					"source": { 
+						"node": "get",
+						"name": "println",
+						"source": { 
+							"node": "id",
+							"id": "console"
+						}
+					}
+				},
+				{ 
+					"node": "function call",
+					"args": [ 
+						],
+					"source": { 
+						"node": "get",
+						"name": "greet",
+						"source": { 
+							"node": "id",
+							"id": "greeter"
+						}
+					}
+				}
+			]
 		},
 		{ 
 			"node": "class",
@@ -127,23 +124,20 @@
 					"parameters": [ 
 						"greeting:spool.core.String"
 					],
-					"body": { 
-						"node": "block",
-						"statements": [ 
-							{ 
-								"node": "set",
-								"name": "greeting",
-								"source": { 
-									"node": "id",
-									"id": "self"
-								},
-								"value": { 
-									"node": "id",
-									"id": "greeting"
-								}
+					"body": [ 
+						{ 
+							"node": "set",
+							"name": "greeting",
+							"source": { 
+								"node": "id",
+								"id": "self"
+							},
+							"value": { 
+								"node": "id",
+								"id": "greeting"
 							}
-						]
-					}
+						}
+					]
 				}
 			],
 			"functions": [ 
@@ -153,44 +147,41 @@
 					"params": [ 
 						"self:Greeter"
 					],
-					"body": { 
-						"node": "block",
-						"statements": [ 
-							{ 
-								"node": "variable",
-								"name": "console",
-								"const": true,
+					"body": [ 
+						{ 
+							"node": "variable",
+							"name": "console",
+							"const": true,
+							"type": "spool.core.Console",
+							"initializer": { 
+								"node": "constructor call",
 								"type": "spool.core.Console",
-								"initializer": { 
-									"node": "constructor call",
-									"type": "spool.core.Console",
-									"args": [ 
-										]
-								}
-							},
-							{ 
-								"node": "function call",
 								"args": [ 
-									{ 
-										"node": "get",
-										"name": "greeting",
-										"source": { 
-											"node": "id",
-											"id": "self"
-										}
-									}
-								],
-								"source": { 
+									]
+							}
+						},
+						{ 
+							"node": "function call",
+							"args": [ 
+								{ 
 									"node": "get",
-									"name": "println",
+									"name": "greeting",
 									"source": { 
 										"node": "id",
-										"id": "console"
+										"id": "self"
 									}
 								}
+							],
+							"source": { 
+								"node": "get",
+								"name": "println",
+								"source": { 
+									"node": "id",
+									"id": "console"
+								}
 							}
-						]
-					}
+						}
+					]
 				}
 			]
 		}
