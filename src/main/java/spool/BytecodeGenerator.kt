@@ -111,6 +111,8 @@ class BytecodeGenerator: AstVisitor<Unit> {
     }
 
     override fun visitConstructorCall(constructorCall: AstNode.ConstructorCallNode) {
+        constructorCall.arguments.forEach { it.visit(this) }
+
         currentChunk.instructions.add(Instruction(InstructionType.GET_TYPE, currentChunk.names.size.toUShort()))
         currentChunk.instructions.add(Instruction(InstructionType.NEW, 0.toUShort()))
         currentChunk.addName(constructorCall.typeName)

@@ -1,14 +1,14 @@
 main {
-    const bar: Bar = new Bar()
-    bar.speak()
+    const greeter: Greeter = new Greeter("Hello!")
+    greeter.greet()
 }
 
-class Bar {
-    constructor() {
-        self.greeting = "Hello, world!"
+class Greeter {
+    constructor(greeting: spool.core.String) {
+        self.greeting = greeting
     }
 
-    func speak() {
+    func greet() {
         const console: spool.core.Console = new spool.core.Console()
         console.println(self.greeting)
     }

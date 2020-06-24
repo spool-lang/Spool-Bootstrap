@@ -80,11 +80,7 @@ class AstPrinter: AstVisitor<JsonElement> {
 
         json["node"] = JsonPrimitive("constructor call")
         json["type"] = JsonPrimitive(constructorCall.typeName)
-        val args = JsonArray()
-        for (arg in constructorCall.arguments) {
-            args.add(arg.visit(this))
-        }
-        json["args"] = args
+        json["args"] = constructorCall.arguments.map { it.visit(this) }.json()
 
         return json
     }

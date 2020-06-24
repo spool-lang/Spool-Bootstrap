@@ -18,7 +18,11 @@
 							"node": "constructor call",
 							"type": "Greeter",
 							"args": [ 
-								]
+								{ 
+									"node": "literal",
+									"literal": "\"Hello!\""
+								}
+							]
 						}
 					},
 					{ 
