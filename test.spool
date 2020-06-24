@@ -1,21 +1,13 @@
 main {
-    const greeter: Greeter = new Greeter("Hello!")
     const random: spool.core.Random = new spool.core.Random()
-    const number: spool.core.number.Int16 = random.nextInt16(0, 5)
+    const number: spool.core.number.Int16 = random.nextInt16(0, 7)
     const console: spool.core.Console = new spool.core.Console()
-    console.println(number)
-    greeter.greet()
-}
 
-class Greeter {
-    const greeting: spool.core.String
-
-    constructor(greeting: spool.core.String) {
-        self.greeting = greeting
-    }
-
-    func greet() {
-        const console: spool.core.Console = new spool.core.Console()
-        console.println(self.greeting)
+    if (number < 3) {
+        console.println("Less than three!")
+    } else if (number > 3) {
+        console.println("Greater than three!")
+    } else {
+        console.println("Right on the three!")
     }
 }

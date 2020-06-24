@@ -75,6 +75,17 @@ class AstPrinter: AstVisitor<JsonElement> {
         return json
     }
 
+    override fun visitIfStatement(ifStatement: AstNode.IfNode): JsonElement {
+        val json = JsonObject()
+
+        json["node"] = "if".json()
+        json["condition"] = ifStatement.condition.visit(this)
+        json["body"] = ifStatement.statements.map { it.visit(this) }.json()
+        if (ifStatement.then != null) json["else"] = ifStatement.then.visit(this)
+
+        return json
+    }
+
     override fun visitConstructorCall(constructorCall: AstNode.ConstructorCallNode): JsonElement {
         val json = JsonObject()
 

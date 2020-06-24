@@ -166,8 +166,20 @@ class Parser(private val tokens: List<Token>) {
 
     private fun expression(): AstNode {
         if (match(TokenType.BRACE_LEFT)) return AstNode.BlockNode(body())
+        if (match(TokenType.IF)) return ifStatement()
         if (match(TokenType.NEW)) return new()
         return assignment()
+    }
+
+    private fun ifStatement(): AstNode {
+        consume(TokenType.PAREN_LEFT, "Expected '(' before if statement condition.")
+        val condition = assignment()
+        consume(TokenType.PAREN_RIGHT, "Expected '(' after if statement condition.")
+        consume(TokenType.BRACE_LEFT, "...")
+        val body = body()
+        val then = if (match(TokenType.ELSE)) { expression() } else { null }
+
+        return AstNode.IfNode(condition, body, then)
     }
 
     private fun new(): AstNode {

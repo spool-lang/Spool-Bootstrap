@@ -13,6 +13,8 @@ interface AstVisitor<T> {
 
     fun visitBlock(block: AstNode.BlockNode): T
 
+    fun visitIfStatement(ifStatement: AstNode.IfNode): T
+
     fun visitConstructorCall(constructorCall: AstNode.ConstructorCallNode): T
 
     fun visitFunctionCall(functionCall: AstNode.FunctionCallNode): T
@@ -77,6 +79,12 @@ sealed class AstNode {
     class BlockNode(val statements: List<AstNode>): AstNode() {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitBlock(this)
+        }
+    }
+
+    class IfNode(val condition: AstNode, val statements: List<AstNode>, val then: AstNode?): AstNode() {
+        override fun <T> visit(visitor: AstVisitor<T>): T {
+            return visitor.visitIfStatement(this)
         }
     }
 

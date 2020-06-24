@@ -9,22 +9,6 @@
 			"body": [ 
 				{ 
 					"node": "variable",
-					"name": "greeter",
-					"const": true,
-					"type": "Greeter",
-					"initializer": { 
-						"node": "constructor call",
-						"type": "Greeter",
-						"args": [ 
-							{ 
-								"node": "literal",
-								"literal": "\"Hello!\""
-							}
-						]
-					}
-				},
-				{ 
-					"node": "variable",
 					"name": "random",
 					"const": true,
 					"type": "spool.core.Random",
@@ -49,7 +33,7 @@
 							},
 							{ 
 								"node": "literal",
-								"literal": 5
+								"literal": 7
 							}
 						],
 						"source": { 
@@ -75,101 +59,26 @@
 					}
 				},
 				{ 
-					"node": "function call",
-					"args": [ 
-						{ 
+					"node": "if",
+					"condition": { 
+						"node": "binary",
+						"operator": "<",
+						"left": { 
 							"node": "id",
 							"id": "number"
-						}
-					],
-					"source": { 
-						"node": "get",
-						"name": "println",
-						"source": { 
-							"node": "id",
-							"id": "console"
-						}
-					}
-				},
-				{ 
-					"node": "function call",
-					"args": [ 
-						],
-					"source": { 
-						"node": "get",
-						"name": "greet",
-						"source": { 
-							"node": "id",
-							"id": "greeter"
-						}
-					}
-				}
-			]
-		},
-		{ 
-			"node": "class",
-			"name": "Greeter",
-			"superclass": "spool.core.Object",
-			"properties": [ 
-				{ 
-					"node": "variable",
-					"name": "greeting",
-					"const": true,
-					"type": "spool.core.String"
-				}
-			],
-			"constructors": [ 
-				{ 
-					"node": "constructor",
-					"parameters": [ 
-						"greeting:spool.core.String"
-					],
-					"body": [ 
-						{ 
-							"node": "set",
-							"name": "greeting",
-							"source": { 
-								"node": "id",
-								"id": "self"
-							},
-							"value": { 
-								"node": "id",
-								"id": "greeting"
-							}
-						}
-					]
-				}
-			],
-			"functions": [ 
-				{ 
-					"node": "function",
-					"name": "greet",
-					"params": [ 
-						"self:Greeter"
-					],
-					"body": [ 
-						{ 
-							"node": "variable",
-							"name": "console",
-							"const": true,
-							"type": "spool.core.Console",
-							"initializer": { 
-								"node": "constructor call",
-								"type": "spool.core.Console",
-								"args": [ 
-									]
-							}
 						},
+						"right": { 
+							"node": "literal",
+							"literal": 3
+						}
+					},
+					"body": [ 
 						{ 
 							"node": "function call",
 							"args": [ 
 								{ 
-									"node": "get",
-									"name": "greeting",
-									"source": { 
-										"node": "id",
-										"id": "self"
-									}
+									"node": "literal",
+									"literal": "\"Less than three!\""
 								}
 							],
 							"source": { 
@@ -181,7 +90,63 @@
 								}
 							}
 						}
-					]
+					],
+					"else": { 
+						"node": "if",
+						"condition": { 
+							"node": "binary",
+							"operator": ">",
+							"left": { 
+								"node": "id",
+								"id": "number"
+							},
+							"right": { 
+								"node": "literal",
+								"literal": 3
+							}
+						},
+						"body": [ 
+							{ 
+								"node": "function call",
+								"args": [ 
+									{ 
+										"node": "literal",
+										"literal": "\"Greater than three!\""
+									}
+								],
+								"source": { 
+									"node": "get",
+									"name": "println",
+									"source": { 
+										"node": "id",
+										"id": "console"
+									}
+								}
+							}
+						],
+						"else": { 
+							"node": "block",
+							"statements": [ 
+								{ 
+									"node": "function call",
+									"args": [ 
+										{ 
+											"node": "literal",
+											"literal": "\"Right on the three!\""
+										}
+									],
+									"source": { 
+										"node": "get",
+										"name": "println",
+										"source": { 
+											"node": "id",
+											"id": "console"
+										}
+									}
+								}
+							]
+						}
+					}
 				}
 			]
 		}

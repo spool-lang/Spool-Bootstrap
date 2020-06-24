@@ -105,6 +105,10 @@ class BytecodeGenerator: AstVisitor<Unit> {
        currentScope = scopeStack.pop()
     }
 
+    override fun visitIfStatement(ifStatement: AstNode.IfNode) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun visitConstructorCall(constructorCall: AstNode.ConstructorCallNode) {
         constructorCall.arguments.forEach { it.visit(this) }
 
