@@ -1,17 +1,14 @@
 main {
-    const boolean: spool.core.Boolean = false
     const bar: Bar = new Bar()
     bar.speak()
 }
 
 class Bar {
     constructor() {
-        const boolean: spool.core.Boolean = false
         self.greeting = "Hello, world!"
     }
 
     func speak() {
-        const boolean: spool.core.Boolean = false
         const console: spool.core.Console = new spool.core.Console()
         console.println(self.greeting)
     }

@@ -11,16 +11,6 @@
 				"statements": [ 
 					{ 
 						"node": "variable",
-						"name": "boolean",
-						"const": true,
-						"type": "spool.core.Boolean",
-						"initializer": { 
-							"node": "literal",
-							"literal": false
-						}
-					},
-					{ 
-						"node": "variable",
 						"name": "bar",
 						"const": true,
 						"type": "Bar",
@@ -62,16 +52,6 @@
 						"node": "block",
 						"statements": [ 
 							{ 
-								"node": "variable",
-								"name": "boolean",
-								"const": true,
-								"type": "spool.core.Boolean",
-								"initializer": { 
-									"node": "literal",
-									"literal": false
-								}
-							},
-							{ 
 								"node": "set",
 								"name": "greeting",
 								"source": { 
@@ -97,16 +77,6 @@
 					"body": { 
 						"node": "block",
 						"statements": [ 
-							{ 
-								"node": "variable",
-								"name": "boolean",
-								"const": true,
-								"type": "spool.core.Boolean",
-								"initializer": { 
-									"node": "literal",
-									"literal": false
-								}
-							},
 							{ 
 								"node": "variable",
 								"name": "console",
