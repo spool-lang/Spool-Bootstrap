@@ -103,6 +103,7 @@ class Parser(private val tokens: List<Token>) {
     private fun clazz(): AstNode.TypeNode? {
         val name = consume(TokenType.ID, "Expected class name.")
         val fields = mutableListOf<AstNode.VariableNode>()
+        val constructors = mutableListOf<AstNode.ConstructorNode>()
         val functions = mutableListOf<AstNode.FunctionNode>()
         val type = Type(name.lexeme!!)
         consume(TokenType.BRACE_LEFT, "Expected class body.")
@@ -111,13 +112,34 @@ class Parser(private val tokens: List<Token>) {
             when {
                 match(TokenType.VAR) -> fields.add(variable(false))
                 match(TokenType.CONST) -> fields.add(variable(true))
+                match(TokenType.CONSTRUCTOR) -> constructors.add(constructor())
                 match(TokenType.FUNC) -> functions.add(function(type))
             }
         }
 
         consume(TokenType.BRACE_RIGHT, "Expected end of class body.")
 
-        return AstNode.TypeNode(name.lexeme, Type("spool.core.Object"), fields, functions)
+        return AstNode.TypeNode(name.lexeme, Type("spool.core.Object"), fields, constructors, functions)
+    }
+
+    private fun constructor(): AstNode.ConstructorNode {
+        val params = mutableListOf<Pair<String, Type>>()
+
+        consume(TokenType.PAREN_LEFT, "Expected parens before and after function params.")
+
+        while (check(TokenType.ID)) {
+            val paramName = consume(TokenType.ID, "Expected parameter name.").lexeme!!
+
+            consume(TokenType.COLIN, "Expected colin after parameter name.")
+            val typeName = typeName()
+
+            params.add(Pair(paramName, Type(typeName, null)))
+        }
+
+        consume(TokenType.PAREN_RIGHT, "Expected parens before and after function params.")
+        consume(TokenType.BRACE_LEFT, "Expected braces before function body.")
+        val body = body()
+        return AstNode.ConstructorNode(AstNode.BlockNode(body), params)
     }
 
     private fun variable(constant: Boolean): AstNode.VariableNode {

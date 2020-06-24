@@ -21,7 +21,7 @@ class Scope(private val parent: Scope? = null) {
             index = parent.indexOf(name)
             foo = false
         }
-        if (index == -1) throw Exception()
+        if (index == -1) throw Exception("Variable $name is not in scope!")
         if (foo && parent != null) index += parent.size()
         return index
     }

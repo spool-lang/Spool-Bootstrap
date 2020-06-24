@@ -130,6 +130,7 @@ class Lexer(private val source: String) {
         keywords["func"] = TokenType.FUNC
         keywords["class"] = TokenType.CLASS
         keywords["new"] = TokenType.NEW
+        keywords["constructor"] = TokenType.CONSTRUCTOR
         keywords["var"] = TokenType.VAR
         keywords["const"] = TokenType.CONST
         keywords["namespace"] = TokenType.NAMESPACE

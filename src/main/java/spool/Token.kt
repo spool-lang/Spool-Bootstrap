@@ -50,6 +50,7 @@ enum class TokenType {
     FUNC,
     CLASS,
     NEW,
+    CONSTRUCTOR,
     VAR,
     CONST,
     NAMESPACE,

@@ -5,8 +5,9 @@ import java.util.*
 @ExperimentalUnsignedTypes
 class BytecodeGenerator: AstVisitor<Unit> {
     private var currentChunk: Chunk = Chunk()
-    private var currentClazz: Clazz = Clazz("", "", listOf(), listOf())
+    private var currentClazz: Clazz = Clazz("", "", listOf(), listOf(), listOf())
     private var inClazz: Boolean = false
+    private var inOuterFunctionScope = false;
     private val scopeStack = Stack<Scope>()
     private var currentScope = Scope()
     private var bytecodeList: MutableList<Bytecode> = mutableListOf()
@@ -24,14 +25,20 @@ class BytecodeGenerator: AstVisitor<Unit> {
 
     override fun visitClass(clazz: AstNode.TypeNode) {
         inClazz = true
-        val chunks: MutableList<Chunk> = mutableListOf()
+        val constructors: MutableList<Chunk> = mutableListOf()
+        val functions: MutableList<Chunk> = mutableListOf()
+
+        for (constructor in clazz.constructors) {
+            constructor.visit(this)
+            constructors.add(currentChunk)
+        }
 
         for (function in clazz.functions) {
             function.visit(this)
-            chunks.add(currentChunk)
+            functions.add(currentChunk)
         }
 
-        currentClazz = Clazz(clazz.name, clazz.superType.canonicalName, listOf(), chunks)
+        currentClazz = Clazz(clazz.name, clazz.superType.canonicalName, listOf(), constructors, functions)
         bytecodeList.add(currentClazz)
         inClazz = false
     }
@@ -47,8 +54,13 @@ class BytecodeGenerator: AstVisitor<Unit> {
     }
 
     override fun visitFunction(function: AstNode.FunctionNode) {
+        val newScope = Scope(currentScope)
+        scopeStack.push(currentScope)
+        currentScope = newScope
+        inOuterFunctionScope = true
         currentChunk = Chunk()
         currentChunk.name = function.name
+        //TODO: Renamed  this to something indicative of it's actual purpose
         var skipFirstParam = !function.instance
 
         for (param in function.params) {
@@ -63,17 +75,38 @@ class BytecodeGenerator: AstVisitor<Unit> {
 
         function.body.visit(this)
         if (!inClazz) bytecodeList.add(currentChunk)
+        currentScope = scopeStack.pop()
     }
 
-    override fun visitBlock(block: AstNode.BlockNode) {
+    override fun visitConstructor(constructor: AstNode.ConstructorNode) {
         val newScope = Scope(currentScope)
         scopeStack.push(currentScope)
         currentScope = newScope
+        currentChunk = Chunk()
+        currentChunk.name = "constructor"
 
+        currentScope.declare("self")
+        for (param in constructor.params) {
+            currentScope.declare(param.first)
+        }
+
+        constructor.body.visit(this)
+        currentScope = scopeStack.pop()
+    }
+
+    override fun visitBlock(block: AstNode.BlockNode) {
+        val createNewScope = inOuterFunctionScope
+        if (createNewScope) {
+            val newScope = Scope(currentScope)
+            scopeStack.push(currentScope)
+            currentScope = newScope
+        }
+
+        inOuterFunctionScope = false
         block.statements.forEach { it.visit(this) }
 
         currentChunk.addInstruction(Instruction(InstructionType.EXIT_BLOCK, currentScope.size().toUShort()))
-        currentScope = scopeStack.pop()
+        if (createNewScope) currentScope = scopeStack.pop()
     }
 
     override fun visitConstructorCall(constructorCall: AstNode.ConstructorCallNode) {
@@ -100,7 +133,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
     }
 
     override fun visitID(id: AstNode.IdNode) {
-        if (currentScope.isDeclared(id.name)) currentChunk.instructions.add(Instruction(InstructionType.GET, currentScope.indexOf(id.name).toUShort(), false))
+        currentChunk.instructions.add(Instruction(InstructionType.GET, currentScope.indexOf(id.name).toUShort(), false))
     }
 
     override fun visitAssignment(assignment: AstNode.AssignmentNode) {

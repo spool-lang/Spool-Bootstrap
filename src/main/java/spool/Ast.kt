@@ -9,6 +9,8 @@ interface AstVisitor<T> {
 
     fun visitFunction(function: AstNode.FunctionNode): T
 
+    fun visitConstructor(constructor: AstNode.ConstructorNode): T
+
     fun visitBlock(block: AstNode.BlockNode): T
 
     fun visitConstructorCall(constructorCall: AstNode.ConstructorCallNode): T
@@ -47,7 +49,7 @@ sealed class AstNode {
         }
     }
 
-    class TypeNode(val name: String, val superType: Type, val fields: List<VariableNode>, val functions: List<FunctionNode>): AstNode() {
+    class TypeNode(val name: String, val superType: Type, val fields: List<VariableNode>, val constructors: List<ConstructorNode>, val functions: List<FunctionNode>): AstNode() {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitClass(this)
         }
@@ -63,6 +65,13 @@ sealed class AstNode {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitFunction(this)
         }
+    }
+
+    class ConstructorNode(val body: BlockNode, val params: List<Pair<String, Type>>): AstNode() {
+        override fun <T> visit(visitor: AstVisitor<T>): T {
+            return visitor.visitConstructor(this)
+        }
+
     }
 
     class BlockNode(val statements: List<AstNode>): AstNode() {

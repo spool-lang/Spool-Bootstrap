@@ -26,7 +26,11 @@ sealed class Bytecode {
         }
 
         override fun addBytes(bytes: MutableList<UByte>) {
-            var string = if (name == "main") {"#main("} else {"#func($name;"}
+            var string = when (name) {
+                "main" -> { "#main(" }
+                "constructor" -> { "#ctor(" }
+                else -> {"#func($name;"}
+            }
             var started = false
 
             for (param in params) {
@@ -70,13 +74,17 @@ sealed class Bytecode {
             instructions.forEach { println(it) }
         }
     }
-    class Clazz(val name: String, val superClass: String, val fields: List<AstNode.VariableNode>, val functions: List<spool.Chunk>): Bytecode() {
+    class Clazz(val name: String, val superClass: String, val fields: List<AstNode.VariableNode>, val constructors: List<spool.Chunk>, val functions: List<spool.Chunk>): Bytecode() {
         override fun addBytes(bytes: MutableList<UByte>) {
             val headerBytes = "#class($name;$superClass)".toByteArray().toUByteArray().toMutableList()
             bytes.addAll(headerBytes)
 
             for (field in fields) {
                 val fieldString = "#field(${field.const};${field.name};${field.type}"
+            }
+
+            for (constructor in constructors) {
+                constructor.addBytes(bytes)
             }
 
             for (function in functions) {
@@ -90,6 +98,11 @@ sealed class Bytecode {
         override fun print() {
             println("class")
             println("name: $name")
+            println("Constructors:")
+            for (constructor in constructors) {
+                constructor.print()
+                println()
+            }
             println("Functions: ")
             for (function in functions) {
                 function.print()

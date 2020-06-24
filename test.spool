@@ -1,15 +1,18 @@
 main {
-    const hello: spool.core.String = "Hello!"
+    const boolean: spool.core.Boolean = false
     const bar: Bar = new Bar()
     bar.speak()
 }
 
 class Bar {
+    constructor() {
+        const boolean: spool.core.Boolean = false
+        self.greeting = "Hello, world!"
+    }
+
     func speak() {
-        const console: spool.core.Console = new spool.core.Console();
-        console.print("Hello! I'm a: ")
-        console.println(self)
-        self.funny = false
-        console.println(self.funny)
+        const boolean: spool.core.Boolean = false
+        const console: spool.core.Console = new spool.core.Console()
+        console.println(self.greeting)
     }
 }

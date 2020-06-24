@@ -23,6 +23,7 @@ class AstPrinter: AstVisitor<JsonElement> {
         json["name"] = clazz.name.json()
         json["superclass"] = clazz.superType.canonicalName.json()
         json["fields"] = clazz.fields.map { it.visit(this) }.json()
+        json["constructors"] = clazz.constructors.map { it.visit(this) }.json()
         json["functions"] = clazz.functions.map { it.visit(this) }.json()
 
         return json
@@ -51,6 +52,16 @@ class AstPrinter: AstVisitor<JsonElement> {
         }
         json["params"] = paramsArray
         json["body"] = function.body.visit(this)
+
+        return json
+    }
+
+    override fun visitConstructor(constructor: AstNode.ConstructorNode): JsonElement {
+        val json = JsonObject()
+
+        json["node"] = "constructor".json()
+        json["parameters"] = constructor.params.map { "${it.first}:${it.second.canonicalName}".json() }.json()
+        json["body"] = constructor.body.visit(this)
 
         return json
     }

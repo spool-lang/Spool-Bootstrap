@@ -11,12 +11,12 @@
 				"statements": [ 
 					{ 
 						"node": "variable",
-						"name": "hello",
+						"name": "boolean",
 						"const": true,
-						"type": "spool.core.String",
+						"type": "spool.core.Boolean",
 						"initializer": { 
 							"node": "literal",
-							"literal": "\"Hello!\""
+							"literal": false
 						}
 					},
 					{ 
@@ -53,6 +53,40 @@
 			"superclass": "spool.core.Object",
 			"fields": [ 
 				],
+			"constructors": [ 
+				{ 
+					"node": "constructor",
+					"parameters": [ 
+						],
+					"body": { 
+						"node": "block",
+						"statements": [ 
+							{ 
+								"node": "variable",
+								"name": "boolean",
+								"const": true,
+								"type": "spool.core.Boolean",
+								"initializer": { 
+									"node": "literal",
+									"literal": false
+								}
+							},
+							{ 
+								"node": "set",
+								"name": "greeting",
+								"source": { 
+									"node": "id",
+									"id": "self"
+								},
+								"value": { 
+									"node": "literal",
+									"literal": "\"Hello, world!\""
+								}
+							}
+						]
+					}
+				}
+			],
 			"functions": [ 
 				{ 
 					"node": "function",
@@ -63,6 +97,16 @@
 					"body": { 
 						"node": "block",
 						"statements": [ 
+							{ 
+								"node": "variable",
+								"name": "boolean",
+								"const": true,
+								"type": "spool.core.Boolean",
+								"initializer": { 
+									"node": "literal",
+									"literal": false
+								}
+							},
 							{ 
 								"node": "variable",
 								"name": "console",
@@ -79,54 +123,8 @@
 								"node": "function call",
 								"args": [ 
 									{ 
-										"node": "literal",
-										"literal": "\"Hello! I'm a: \""
-									}
-								],
-								"source": { 
-									"node": "get",
-									"name": "print",
-									"source": { 
-										"node": "id",
-										"id": "console"
-									}
-								}
-							},
-							{ 
-								"node": "function call",
-								"args": [ 
-									{ 
-										"node": "id",
-										"id": "self"
-									}
-								],
-								"source": { 
-									"node": "get",
-									"name": "println",
-									"source": { 
-										"node": "id",
-										"id": "console"
-									}
-								}
-							},
-							{ 
-								"node": "set",
-								"name": "funny",
-								"source": { 
-									"node": "id",
-									"id": "self"
-								},
-								"value": { 
-									"node": "literal",
-									"literal": false
-								}
-							},
-							{ 
-								"node": "function call",
-								"args": [ 
-									{ 
 										"node": "get",
-										"name": "funny",
+										"name": "greeting",
 										"source": { 
 											"node": "id",
 											"id": "self"
