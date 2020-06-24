@@ -73,6 +73,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
         }
 
         function.body.forEach { it.visit(this) }
+        currentChunk.addInstruction(Instruction(InstructionType.EXIT_BLOCK, currentScope.size().toUShort()))
         if (!inClazz) bytecodeList.add(currentChunk)
         currentScope = scopeStack.pop()
     }
@@ -91,6 +92,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
         }
 
         constructor.body.forEach { it.visit(this) }
+        currentChunk.addInstruction(Instruction(InstructionType.EXIT_BLOCK, currentScope.size().toUShort()))
         currentScope = scopeStack.pop()
     }
 
@@ -102,11 +104,38 @@ class BytecodeGenerator: AstVisitor<Unit> {
         block.statements.forEach { it.visit(this) }
 
         currentChunk.addInstruction(Instruction(InstructionType.EXIT_BLOCK, currentScope.size().toUShort()))
-       currentScope = scopeStack.pop()
+        currentScope = scopeStack.pop()
     }
 
     override fun visitIfStatement(ifStatement: AstNode.IfNode) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val thenJumpPoint = JumpPoint()
+        currentChunk.addJump(thenJumpPoint)
+
+        // Visit the condition
+        ifStatement.condition.visit(this)
+        currentChunk.addInstruction(Instruction(InstructionType.LOGIC_NEGATE))
+        currentChunk.addInstruction(Instruction(InstructionType.JUMP, currentChunk.jumps.indexOf(thenJumpPoint).toUShort(), true))
+
+        // Visit the body.
+        val newScope = Scope(currentScope)
+        scopeStack.push(currentScope)
+        currentScope = newScope
+        ifStatement.statements.forEach { it.visit(this) }
+        currentChunk.addInstruction(Instruction(InstructionType.EXIT_BLOCK, currentScope.size().toUShort()))
+        currentScope = scopeStack.pop()
+        thenJumpPoint.index = currentChunk.instructions.size.toUShort()
+
+        // Visit then.
+        if (ifStatement.then != null) {
+            var index = thenJumpPoint.index!!
+            thenJumpPoint.index = ++index
+
+            currentScope.createEndJumpPoint()
+            currentChunk.addJump(currentScope.getEndJumpPoint())
+            currentChunk.addInstruction(Instruction(InstructionType.JUMP, currentChunk.jumps.indexOf(currentScope.getEndJumpPoint()).toUShort(), false))
+            ifStatement.then.visit(this)
+            currentScope.getEndJumpPoint().index = currentChunk.instructions.size.toUShort()
+        }
     }
 
     override fun visitConstructorCall(constructorCall: AstNode.ConstructorCallNode) {

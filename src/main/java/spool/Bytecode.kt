@@ -14,6 +14,7 @@ sealed class Bytecode {
         var name = ""
         val params = mutableListOf<String>()
         val names = mutableListOf<String>()
+        val jumps = mutableListOf<JumpPoint>()
         val constants = mutableListOf<Any>()
         val instructions = mutableListOf<Instruction>()
 
@@ -27,6 +28,10 @@ sealed class Bytecode {
 
         fun addName(name: String) {
             if (!names.contains(name)) names.add(name)
+        }
+
+        fun addJump(point: JumpPoint) {
+            jumps.add(point)
         }
 
         override fun addBytes(bytes: MutableList<UByte>) {
@@ -47,6 +52,13 @@ sealed class Bytecode {
             if (name != "main") string = "$string;"
             for (name in names) {
                 string = if (!started) {"$string$name"} else {"$string,$name"}
+                started = true
+            }
+
+            started = false
+            string = "$string;"
+            for (jump in jumps) {
+                string = if (!started) { "$string${jump.index}" } else  { "$string,${jump.index}" }
                 started = true
             }
 
@@ -74,8 +86,12 @@ sealed class Bytecode {
             constants.forEach { println(it) }
             println("names:")
             names.forEach { println(it) }
+            println("jump points:")
+            jumps.forEach { println(it) }
             println("instructions:")
-            instructions.forEach { println(it) }
+            instructions.withIndex().forEach {
+                println("${it.index}: ${it.value}")
+            }
         }
     }
     class Clazz(val name: String, val superClass: String, val fields: List<AstNode.VariableNode>, val constructors: List<spool.Chunk>, val functions: List<spool.Chunk>): Bytecode() {
@@ -129,10 +145,15 @@ data class Instruction(private val type: InstructionType, private val data1: Any
         if (data is Boolean) {
             if (data == true) byteList.add(1u)
             else byteList.add(0u)
-        }
-        else if (data is UShort) {
+        } else if (data is UShort) {
             val first = data.toUByte()
             val second = (data.toShort().toInt() shr 8).toShort().toUByte()
+            byteList.add(first)
+            byteList.add(second)
+        } else if (data is JumpPoint) {
+            val index = data.index ?: throw Exception()
+            val first = index.toUByte()
+            val second = (index.toShort().toInt() shr 8).toShort().toUByte()
             byteList.add(first)
             byteList.add(second)
         }

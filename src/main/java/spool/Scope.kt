@@ -1,7 +1,9 @@
 package spool
 
+@ExperimentalUnsignedTypes
 class Scope(private val parent: Scope? = null) {
     private val internal = mutableListOf<String>()
+    private var endJumpPoint: JumpPoint? = null
 
     fun declare(name: String) {
         if (internal.contains(name)) throw Exception("Variable $name is already declared!")
@@ -28,5 +30,14 @@ class Scope(private val parent: Scope? = null) {
 
     fun size(): Int {
         return internal.size
+    }
+
+    fun getEndJumpPoint(): JumpPoint {
+        return if (endJumpPoint != null) endJumpPoint!! else parent!!.getEndJumpPoint()
+    }
+
+    fun createEndJumpPoint(): JumpPoint {
+        if (this.endJumpPoint == null) this.endJumpPoint = JumpPoint()
+        return getEndJumpPoint()
     }
 }

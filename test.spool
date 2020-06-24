@@ -2,12 +2,13 @@ main {
     const random: spool.core.Random = new spool.core.Random()
     const number: spool.core.number.Int16 = random.nextInt16(0, 7)
     const console: spool.core.Console = new spool.core.Console()
+    console.println(number)
 
-    if (number < 3) {
-        console.println("Less than three!")
-    } else if (number > 3) {
-        console.println("Greater than three!")
+    if (number < 2) {
+        console.println("Less than two!")
+    } else if (number > 5) {
+        console.println("Greater than five!")
     } else {
-        console.println("Right on the three!")
+        console.println("Somewhere between 2 and five!")
     }
 }

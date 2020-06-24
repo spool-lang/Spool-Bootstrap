@@ -59,6 +59,23 @@
 					}
 				},
 				{ 
+					"node": "function call",
+					"args": [ 
+						{ 
+							"node": "id",
+							"id": "number"
+						}
+					],
+					"source": { 
+						"node": "get",
+						"name": "println",
+						"source": { 
+							"node": "id",
+							"id": "console"
+						}
+					}
+				},
+				{ 
 					"node": "if",
 					"condition": { 
 						"node": "binary",
@@ -69,7 +86,7 @@
 						},
 						"right": { 
 							"node": "literal",
-							"literal": 3
+							"literal": 2
 						}
 					},
 					"body": [ 
@@ -78,7 +95,7 @@
 							"args": [ 
 								{ 
 									"node": "literal",
-									"literal": "\"Less than three!\""
+									"literal": "\"Less than two!\""
 								}
 							],
 							"source": { 
@@ -102,7 +119,7 @@
 							},
 							"right": { 
 								"node": "literal",
-								"literal": 3
+								"literal": 5
 							}
 						},
 						"body": [ 
@@ -111,7 +128,7 @@
 								"args": [ 
 									{ 
 										"node": "literal",
-										"literal": "\"Greater than three!\""
+										"literal": "\"Greater than five!\""
 									}
 								],
 								"source": { 
@@ -132,7 +149,7 @@
 									"args": [ 
 										{ 
 											"node": "literal",
-											"literal": "\"Right on the three!\""
+											"literal": "\"Somewhere between 2 and five!\""
 										}
 									],
 									"source": { 
