@@ -88,6 +88,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
         currentScope.declare("self")
         for (param in constructor.params) {
             currentScope.declare(param.first)
+            currentChunk.params.add(param.second.canonicalName)
         }
 
         constructor.body.visit(this)
@@ -112,7 +113,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
     override fun visitConstructorCall(constructorCall: AstNode.ConstructorCallNode) {
         currentChunk.instructions.add(Instruction(InstructionType.GET_TYPE, currentChunk.names.size.toUShort()))
         currentChunk.instructions.add(Instruction(InstructionType.NEW, 0.toUShort()))
-        currentChunk.names.add(constructorCall.typeName)
+        currentChunk.addName(constructorCall.typeName)
     }
 
     override fun visitFunctionCall(functionCall: AstNode.FunctionCallNode) {
@@ -123,7 +124,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
             val index = currentChunk.names.indexOf(functionCall.source.name)
             if (index == -1) {
                 currentChunk.instructions.add(Instruction(InstructionType.CALL_INSTANCE, currentChunk.names.size.toUShort()))
-                currentChunk.names.add(functionCall.source.name)
+                currentChunk.addName(functionCall.source.name)
             }
             else {
                 currentChunk.instructions.add(Instruction(InstructionType.CALL_INSTANCE, index.toUShort()))
@@ -134,6 +135,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
 
     override fun visitID(id: AstNode.IdNode) {
         currentChunk.instructions.add(Instruction(InstructionType.GET, currentScope.indexOf(id.name).toUShort(), false))
+        currentChunk.addName(id.name)
     }
 
     override fun visitAssignment(assignment: AstNode.AssignmentNode) {
@@ -143,7 +145,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
 
     override fun visitGet(get: AstNode.GetNode) {
         get.source.visit(this)
-        currentChunk.names.add(get.name)
+        currentChunk.addName(get.name)
         val index = currentChunk.names.indexOf(get.name)
         currentChunk.addInstruction(Instruction(InstructionType.INSTANCE_GET, index.toUShort()))
     }
@@ -151,7 +153,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
     override fun visitSet(set: AstNode.SetNode) {
         set.value.visit(this)
         set.source.visit(this)
-        currentChunk.names.add(set.name)
+        currentChunk.addName(set.name)
         val index = currentChunk.names.indexOf(set.name)
         currentChunk.addInstruction(Instruction(InstructionType.INSTANCE_SET, index.toUShort()))
     }

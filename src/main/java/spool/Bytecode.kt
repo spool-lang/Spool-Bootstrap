@@ -25,6 +25,10 @@ sealed class Bytecode {
             if (!constants.contains(any)) constants.add(any)
         }
 
+        fun addName(name: String) {
+            if (!names.contains(name)) names.add(name)
+        }
+
         override fun addBytes(bytes: MutableList<UByte>) {
             var string = when (name) {
                 "main" -> { "#main(" }

@@ -11,12 +11,12 @@
 				"statements": [ 
 					{ 
 						"node": "variable",
-						"name": "bar",
+						"name": "greeter",
 						"const": true,
-						"type": "Bar",
+						"type": "Greeter",
 						"initializer": { 
 							"node": "constructor call",
-							"type": "Bar",
+							"type": "Greeter",
 							"args": [ 
 								]
 						}
@@ -27,10 +27,10 @@
 							],
 						"source": { 
 							"node": "get",
-							"name": "speak",
+							"name": "greet",
 							"source": { 
 								"node": "id",
-								"id": "bar"
+								"id": "greeter"
 							}
 						}
 					}
@@ -39,7 +39,7 @@
 		},
 		{ 
 			"node": "class",
-			"name": "Bar",
+			"name": "Greeter",
 			"superclass": "spool.core.Object",
 			"fields": [ 
 				],
@@ -47,7 +47,8 @@
 				{ 
 					"node": "constructor",
 					"parameters": [ 
-						],
+						"greeting:spool.core.String"
+					],
 					"body": { 
 						"node": "block",
 						"statements": [ 
@@ -59,8 +60,8 @@
 									"id": "self"
 								},
 								"value": { 
-									"node": "literal",
-									"literal": "\"Hello, world!\""
+									"node": "id",
+									"id": "greeting"
 								}
 							}
 						]
@@ -70,9 +71,9 @@
 			"functions": [ 
 				{ 
 					"node": "function",
-					"name": "speak",
+					"name": "greet",
 					"params": [ 
-						"self:Bar"
+						"self:Greeter"
 					],
 					"body": { 
 						"node": "block",
