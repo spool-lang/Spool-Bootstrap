@@ -21,33 +21,6 @@
 				},
 				{ 
 					"node": "variable",
-					"name": "number",
-					"const": true,
-					"type": "spool.core.number.Int16",
-					"initializer": { 
-						"node": "function call",
-						"args": [ 
-							{ 
-								"node": "literal",
-								"literal": 0
-							},
-							{ 
-								"node": "literal",
-								"literal": 7
-							}
-						],
-						"source": { 
-							"node": "get",
-							"name": "nextInt16",
-							"source": { 
-								"node": "id",
-								"id": "random"
-							}
-						}
-					}
-				},
-				{ 
-					"node": "variable",
 					"name": "console",
 					"const": true,
 					"type": "spool.core.Console",
@@ -57,6 +30,46 @@
 						"args": [ 
 							]
 					}
+				},
+				{ 
+					"node": "variable",
+					"name": "number",
+					"const": false,
+					"type": "spool.core.Int16",
+					"initializer": { 
+						"node": "literal",
+						"literal": 0
+					}
+				},
+				{ 
+					"node": "block",
+					"statements": [ 
+						{ 
+							"node": "assignment",
+							"variable": "number",
+							"value": { 
+								"node": "function call",
+								"args": [ 
+									{ 
+										"node": "literal",
+										"literal": 0
+									},
+									{ 
+										"node": "literal",
+										"literal": 9
+									}
+								],
+								"source": { 
+									"node": "get",
+									"name": "nextInt16",
+									"source": { 
+										"node": "id",
+										"id": "random"
+									}
+								}
+							}
+						}
+					]
 				},
 				{ 
 					"node": "function call",
@@ -72,96 +85,6 @@
 						"source": { 
 							"node": "id",
 							"id": "console"
-						}
-					}
-				},
-				{ 
-					"node": "if",
-					"condition": { 
-						"node": "binary",
-						"operator": "<",
-						"left": { 
-							"node": "id",
-							"id": "number"
-						},
-						"right": { 
-							"node": "literal",
-							"literal": 2
-						}
-					},
-					"body": [ 
-						{ 
-							"node": "function call",
-							"args": [ 
-								{ 
-									"node": "literal",
-									"literal": "\"Less than two!\""
-								}
-							],
-							"source": { 
-								"node": "get",
-								"name": "println",
-								"source": { 
-									"node": "id",
-									"id": "console"
-								}
-							}
-						}
-					],
-					"else": { 
-						"node": "if",
-						"condition": { 
-							"node": "binary",
-							"operator": ">",
-							"left": { 
-								"node": "id",
-								"id": "number"
-							},
-							"right": { 
-								"node": "literal",
-								"literal": 5
-							}
-						},
-						"body": [ 
-							{ 
-								"node": "function call",
-								"args": [ 
-									{ 
-										"node": "literal",
-										"literal": "\"Greater than five!\""
-									}
-								],
-								"source": { 
-									"node": "get",
-									"name": "println",
-									"source": { 
-										"node": "id",
-										"id": "console"
-									}
-								}
-							}
-						],
-						"else": { 
-							"node": "block",
-							"statements": [ 
-								{ 
-									"node": "function call",
-									"args": [ 
-										{ 
-											"node": "literal",
-											"literal": "\"Somewhere between 2 and five!\""
-										}
-									],
-									"source": { 
-										"node": "get",
-										"name": "println",
-										"source": { 
-											"node": "id",
-											"id": "console"
-										}
-									}
-								}
-							]
 						}
 					}
 				}
