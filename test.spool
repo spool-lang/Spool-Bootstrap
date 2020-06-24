@@ -4,6 +4,8 @@ main {
 }
 
 class Greeter {
+    const greeting: spool.core.String
+
     constructor(greeting: spool.core.String) {
         self.greeting = greeting
     }

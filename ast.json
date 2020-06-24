@@ -45,8 +45,14 @@
 			"node": "class",
 			"name": "Greeter",
 			"superclass": "spool.core.Object",
-			"fields": [ 
-				],
+			"properties": [ 
+				{ 
+					"node": "variable",
+					"name": "greeting",
+					"const": true,
+					"type": "spool.core.String"
+				}
+			],
 			"constructors": [ 
 				{ 
 					"node": "constructor",

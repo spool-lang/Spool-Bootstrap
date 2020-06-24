@@ -102,7 +102,7 @@ class Parser(private val tokens: List<Token>) {
 
     private fun clazz(): AstNode.TypeNode? {
         val name = consume(TokenType.ID, "Expected class name.")
-        val fields = mutableListOf<AstNode.VariableNode>()
+        val properties = mutableListOf<AstNode.VariableNode>()
         val constructors = mutableListOf<AstNode.ConstructorNode>()
         val functions = mutableListOf<AstNode.FunctionNode>()
         val type = Type(name.lexeme!!)
@@ -110,8 +110,8 @@ class Parser(private val tokens: List<Token>) {
 
         while (!check(TokenType.BRACE_RIGHT)) {
             when {
-                match(TokenType.VAR) -> fields.add(variable(false))
-                match(TokenType.CONST) -> fields.add(variable(true))
+                match(TokenType.VAR) -> properties.add(variable(false))
+                match(TokenType.CONST) -> properties.add(variable(true))
                 match(TokenType.CONSTRUCTOR) -> constructors.add(constructor())
                 match(TokenType.FUNC) -> functions.add(function(type))
             }
@@ -119,7 +119,7 @@ class Parser(private val tokens: List<Token>) {
 
         consume(TokenType.BRACE_RIGHT, "Expected end of class body.")
 
-        return AstNode.TypeNode(name.lexeme, Type("spool.core.Object"), fields, constructors, functions)
+        return AstNode.TypeNode(name.lexeme, Type("spool.core.Object"), properties, constructors, functions)
     }
 
     private fun constructor(): AstNode.ConstructorNode {

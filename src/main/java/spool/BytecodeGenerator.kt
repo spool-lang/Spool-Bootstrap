@@ -25,6 +25,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
 
     override fun visitClass(clazz: AstNode.TypeNode) {
         inClazz = true
+        val properties: MutableList<Triple<Boolean, String, Type>> = mutableListOf()
         val constructors: MutableList<Chunk> = mutableListOf()
         val functions: MutableList<Chunk> = mutableListOf()
 
@@ -38,7 +39,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
             functions.add(currentChunk)
         }
 
-        currentClazz = Clazz(clazz.name, clazz.superType.canonicalName, listOf(), constructors, functions)
+        currentClazz = Clazz(clazz.name, clazz.superType.canonicalName, clazz.properties.toMutableList(), constructors, functions)
         bytecodeList.add(currentClazz)
         inClazz = false
     }
