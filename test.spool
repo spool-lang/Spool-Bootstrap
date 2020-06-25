@@ -1,11 +1,13 @@
 main {
-    const random: spool.core.Random = new spool.core.Random()
     const console: spool.core.Console = new spool.core.Console()
     var number: spool.core.Int16 = 0
 
-    {
-        number = random.nextInt16(0, 9)
-    }
+    loop {
+        if (number >= 10) {
+            break
+        }
 
-    console.println(number)
+        number = number + 1
+        console.println(number)
+    }
 }

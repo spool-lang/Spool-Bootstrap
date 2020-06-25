@@ -138,6 +138,9 @@ class Lexer(private val source: String) {
         keywords["native"] = TokenType.NATIVE
         keywords["if"] = TokenType.IF
         keywords["else"] = TokenType.ELSE
+        keywords["loop"] = TokenType.LOOP
+        keywords["next"] = TokenType.NEXT
+        keywords["break"] = TokenType.BREAK
         keywords["return"] = TokenType.RETURN
         keywords["main"] = TokenType.MAIN
         keywords["and"] = TokenType.AND

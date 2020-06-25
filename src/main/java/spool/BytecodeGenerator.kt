@@ -138,6 +138,30 @@ class BytecodeGenerator: AstVisitor<Unit> {
         }
     }
 
+    override fun visitLoop(loop: AstNode.LoopNode) {
+        if (loop.incremented != null) loop.incremented.visit(this)
+        currentChunk.addJump(currentScope.createStartJumpPoint())
+        currentChunk.addJump(currentScope.createEndJumpPoint())
+        currentScope.getStartJumpPoint().index = currentChunk.instructions.size.toUShort()
+        if (loop.condition != null) loop.condition.visit(this)
+
+        val newScope = Scope(currentScope)
+        scopeStack.push(currentScope)
+        currentScope = newScope
+        currentScope.inLoop = true
+        loop.body.forEach { it.visit(this) }
+        currentChunk.addInstruction(Instruction(InstructionType.EXIT_BLOCK, currentScope.size().toUShort()))
+        currentScope = scopeStack.pop()
+        currentChunk.addInstruction(Instruction(InstructionType.JUMP, currentChunk.jumps.indexOf(currentScope.getStartJumpPoint()).toUShort(), false))
+        currentScope.getEndJumpPoint().index = currentChunk.instructions.size.toUShort()
+    }
+
+    override fun visitJump(jump: AstNode.JumpNode) {
+        if (!currentScope.isInLoop()) throw Exception()
+        val index = currentChunk.jumps.indexOf(if (jump.next) { currentScope.getStartJumpPoint() } else { currentScope.getEndJumpPoint() })
+        currentChunk.instructions.add(Instruction(InstructionType.JUMP, index.toShort().toUShort(), false))
+    }
+
     override fun visitConstructorCall(constructorCall: AstNode.ConstructorCallNode) {
         constructorCall.arguments.forEach { it.visit(this) }
 

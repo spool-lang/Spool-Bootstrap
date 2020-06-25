@@ -59,6 +59,9 @@ enum class TokenType {
     MAIN,
     IF,
     ELSE,
+    LOOP,
+    NEXT,
+    BREAK,
     RETURN,
 
     EOF

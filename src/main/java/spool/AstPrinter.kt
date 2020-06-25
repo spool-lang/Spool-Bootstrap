@@ -86,6 +86,26 @@ class AstPrinter: AstVisitor<JsonElement> {
         return json
     }
 
+    override fun visitLoop(loop: AstNode.LoopNode): JsonElement {
+        val json = JsonObject()
+
+        json["node"] = "loop".json()
+        if (loop.condition != null) json["condition"] = loop.condition.visit(this)
+        if (loop.incremented != null) json["incremented"] = loop.incremented.visit(this)
+        if (loop.incrementer != null) json["incrementer"] = loop.incrementer.visit(this)
+        json["body"] = loop.body.map { it.visit(this) }.json()
+
+        return json
+    }
+
+    override fun visitJump(jump: AstNode.JumpNode): JsonElement {
+        val json = JsonObject()
+
+        json["node"] = (if (jump.next) "next" else "break").json()
+
+        return json
+    }
+
     override fun visitConstructorCall(constructorCall: AstNode.ConstructorCallNode): JsonElement {
         val json = JsonObject()
 

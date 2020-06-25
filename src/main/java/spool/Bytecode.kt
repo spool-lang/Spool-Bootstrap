@@ -70,10 +70,11 @@ sealed class Bytecode {
                 started = true
             }
 
-            var instructionBytes = mutableListOf<UByte>()
+            val instructionBytes = mutableListOf<UByte>()
             instructions.forEach { it.toBytes(instructionBytes) }
+            println(instructionBytes)
             string = "$string;${instructionBytes.size})"
-            var stringBytes = string.toByteArray().toUByteArray().toMutableList()
+            val stringBytes = string.toByteArray().toUByteArray().toMutableList()
             bytes.addAll(stringBytes)
             bytes.addAll(instructionBytes)
         }

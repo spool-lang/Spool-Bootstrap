@@ -15,6 +15,10 @@ interface AstVisitor<T> {
 
     fun visitIfStatement(ifStatement: AstNode.IfNode): T
 
+    fun visitLoop(loop: AstNode.LoopNode): T
+
+    fun visitJump(jump: AstNode.JumpNode): T
+
     fun visitConstructorCall(constructorCall: AstNode.ConstructorCallNode): T
 
     fun visitFunctionCall(functionCall: AstNode.FunctionCallNode): T
@@ -88,6 +92,19 @@ sealed class AstNode {
         }
     }
 
+    class LoopNode(val condition: AstNode?, val incremented: AstNode?, val incrementer: AstNode?, val body: List<AstNode>): AstNode() {
+        override fun <T> visit(visitor: AstVisitor<T>): T {
+            return visitor.visitLoop(this)
+        }
+    }
+
+    // Only for loops
+    class JumpNode(val next: Boolean): AstNode() {
+        override fun <T> visit(visitor: AstVisitor<T>): T {
+            return visitor.visitJump(this)
+        }
+    }
+
     class ConstructorCallNode(val typeName: String, val arguments: List<AstNode>): AstNode() {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitConstructorCall(this)
@@ -99,6 +116,7 @@ sealed class AstNode {
             return visitor.visitFunctionCall(this)
         }
     }
+
 
     class IdNode(val name: String): AstNode() {
         override fun <T> visit(visitor: AstVisitor<T>): T {

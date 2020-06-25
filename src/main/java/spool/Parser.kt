@@ -167,6 +167,9 @@ class Parser(private val tokens: List<Token>) {
     private fun expression(): AstNode {
         if (match(TokenType.BRACE_LEFT)) return AstNode.BlockNode(body())
         if (match(TokenType.IF)) return ifStatement()
+        if (match(TokenType.LOOP)) return loop()
+        if (match(TokenType.NEXT)) return AstNode.JumpNode(true)
+        if (match(TokenType.BREAK)) return AstNode.JumpNode(false)
         if (match(TokenType.NEW)) return new()
         return assignment()
     }
@@ -180,6 +183,13 @@ class Parser(private val tokens: List<Token>) {
         val then = if (match(TokenType.ELSE)) { expression() } else { null }
 
         return AstNode.IfNode(condition, body, then)
+    }
+
+    private fun loop(): AstNode {
+        consume(TokenType.BRACE_LEFT, "Expected '{' before loop body!")
+        val body = body()
+
+        return AstNode.LoopNode(null, null, null, body)
     }
 
     private fun new(): AstNode {
