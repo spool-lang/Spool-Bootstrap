@@ -1,13 +1,18 @@
 main {
-    const console: spool.core.Console = new spool.core.Console()
-    var number: spool.core.Int16 = 0
+    const bar: Bar = new Bar()
+    bar.doThing()
+}
 
-    loop {
-        if (number >= 10) {
-            break
-        }
+class Foo {
+    constructor() {}
 
-        number = number + 1
-        console.println(number)
+    func doThing() {
+        const console: spool.core.Console = new spool.core.Console()
+        console.println("Hello!")
     }
 }
+
+class Bar: Foo {
+    constructor() {}
+}
+

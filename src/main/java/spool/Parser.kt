@@ -106,6 +106,13 @@ class Parser(private val tokens: List<Token>) {
         val constructors = mutableListOf<AstNode.ConstructorNode>()
         val functions = mutableListOf<AstNode.FunctionNode>()
         val type = Type(name.lexeme!!)
+
+        val supertype = if (match(TokenType.COLIN)) {
+            Type(consume(TokenType.ID, "Expected superclass name!").lexeme!!)
+        } else {
+            Type("spool.core.Object")
+        }
+
         consume(TokenType.BRACE_LEFT, "Expected class body.")
 
         while (!check(TokenType.BRACE_RIGHT)) {
@@ -119,7 +126,7 @@ class Parser(private val tokens: List<Token>) {
 
         consume(TokenType.BRACE_RIGHT, "Expected end of class body.")
 
-        return AstNode.TypeNode(name.lexeme, Type("spool.core.Object"), properties, constructors, functions)
+        return AstNode.TypeNode(name.lexeme, supertype, properties, constructors, functions)
     }
 
     private fun constructor(): AstNode.ConstructorNode {

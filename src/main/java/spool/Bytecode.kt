@@ -93,6 +93,7 @@ sealed class Bytecode {
             instructions.withIndex().forEach {
                 println("${it.index}: ${it.value}")
             }
+            println()
         }
     }
     class Clazz(val name: String, val superClass: String, val fields: List<AstNode.VariableNode>, val constructors: List<spool.Chunk>, val functions: List<spool.Chunk>): Bytecode() {
@@ -118,8 +119,8 @@ sealed class Bytecode {
         }
 
         override fun print() {
-            println("class")
-            println("name: $name")
+            println("class: $name")
+            println("supertype: $superClass")
             println("Constructors:")
             for (constructor in constructors) {
                 constructor.print()

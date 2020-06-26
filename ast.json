@@ -9,71 +9,72 @@
 			"body": [ 
 				{ 
 					"node": "variable",
-					"name": "console",
+					"name": "bar",
 					"const": true,
-					"type": "spool.core.Console",
+					"type": "Bar",
 					"initializer": { 
 						"node": "constructor call",
-						"type": "spool.core.Console",
+						"type": "Bar",
 						"args": [ 
 							]
 					}
 				},
 				{ 
-					"node": "variable",
-					"name": "number",
-					"const": false,
-					"type": "spool.core.Int16",
-					"initializer": { 
-						"node": "literal",
-						"literal": 0
+					"node": "function call",
+					"args": [ 
+						],
+					"source": { 
+						"node": "get",
+						"name": "doThing",
+						"source": { 
+							"node": "id",
+							"id": "bar"
+						}
 					}
-				},
+				}
+			]
+		},
+		{ 
+			"node": "class",
+			"name": "Foo",
+			"superclass": "spool.core.Object",
+			"properties": [ 
+				],
+			"constructors": [ 
 				{ 
-					"node": "loop",
+					"node": "constructor",
+					"parameters": [ 
+						],
+					"body": [ 
+						]
+				}
+			],
+			"functions": [ 
+				{ 
+					"node": "function",
+					"name": "doThing",
+					"params": [ 
+						"self:Foo"
+					],
 					"body": [ 
 						{ 
-							"node": "if",
-							"condition": { 
-								"node": "binary",
-								"operator": ">=",
-								"left": { 
-									"node": "id",
-									"id": "number"
-								},
-								"right": { 
-									"node": "literal",
-									"literal": 10
-								}
-							},
-							"body": [ 
-								{ 
-									"node": "break"
-								}
-							]
-						},
-						{ 
-							"node": "assignment",
-							"variable": "number",
-							"value": { 
-								"node": "binary",
-								"operator": "+",
-								"left": { 
-									"node": "id",
-									"id": "number"
-								},
-								"right": { 
-									"node": "literal",
-									"literal": 1
-								}
+							"node": "variable",
+							"name": "console",
+							"const": true,
+							"type": "spool.core.Console",
+							"initializer": { 
+								"node": "constructor call",
+								"type": "spool.core.Console",
+								"args": [ 
+									]
 							}
 						},
 						{ 
 							"node": "function call",
 							"args": [ 
 								{ 
-									"node": "id",
-									"id": "number"
+									"node": "literal",
+									"literal": "\"Hello!\""
 								}
 							],
 							"source": { 
@@ -88,6 +89,24 @@
 					]
 				}
 			]
+		},
+		{ 
+			"node": "class",
+			"name": "Bar",
+			"superclass": "Foo",
+			"properties": [ 
+				],
+			"constructors": [ 
+				{ 
+					"node": "constructor",
+					"parameters": [ 
+						],
+					"body": [ 
+						]
+				}
+			],
+			"functions": [ 
+				]
 		}
 	]
 }
