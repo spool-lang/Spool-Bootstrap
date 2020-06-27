@@ -13,6 +13,10 @@ class Import(import: String) {
         return true
     }
 
+    fun getName(): String {
+        return split.joinToString(".")
+    }
+
     companion object {
         fun defaultImports(): List<Import> {
             val prefix = "spool.core."

@@ -38,7 +38,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
             functions.add(currentChunk)
         }
 
-        currentClazz = Clazz(clazz.name, clazz.superType?.canonicalName ?: "", clazz.properties.toMutableList(), constructors, functions)
+        currentClazz = Clazz(clazz.name, clazz.superType?.name ?: "", clazz.properties.toMutableList(), constructors, functions)
         bytecodeList.add(currentClazz)
         inClazz = false
     }
@@ -65,7 +65,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
         for (param in function.params) {
             currentScope.declare(param.first)
             if (skipFirstParam) {
-                currentChunk.params.add(param.second.canonicalName)
+                currentChunk.params.add(param.second.name)
             }
             else {
                 skipFirstParam = true
@@ -88,7 +88,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
         currentScope.declare("self")
         for (param in constructor.params) {
             currentScope.declare(param.first)
-            currentChunk.params.add(param.second.canonicalName)
+            currentChunk.params.add(param.second.name)
         }
 
         constructor.body.forEach { it.visit(this) }
@@ -167,7 +167,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
 
         currentChunk.instructions.add(Instruction(InstructionType.GET_TYPE, currentChunk.names.size.toUShort()))
         currentChunk.instructions.add(Instruction(InstructionType.NEW, 0.toUShort()))
-        currentChunk.addName(constructorCall.typeName)
+        currentChunk.addName(constructorCall.type.node!!.name)
     }
 
     override fun visitFunctionCall(functionCall: AstNode.FunctionCallNode) {

@@ -102,7 +102,7 @@ sealed class Bytecode {
             bytes.addAll(headerBytes)
 
             for (field in fields) {
-                val fieldString = "#prop(${if (field.const) 0 else 1};${field.name};${field.type.canonicalName})"
+                val fieldString = "#prop(${if (field.const) 0 else 1};${field.name};${field.type.name})"
                 bytes.addAll(fieldString.toByteArray().toUByteArray().toMutableList())
             }
 

@@ -38,13 +38,6 @@ interface AstVisitor<T> {
     fun visitLiteral(literal: AstNode.LiteralNode): T
 }
 
-data class Type(val canonicalName: String, var node: AstNode.TypeNode? = null) {
-    fun resolveType(node: AstNode.TypeNode) {
-        if (this.node != null) this.node = node
-        else throw Exception("Attempted to resolve node type has already been resolved!")
-    }
-}
-
 sealed class AstNode {
 
     abstract fun <T> visit(visitor: AstVisitor<T>): T
@@ -105,7 +98,7 @@ sealed class AstNode {
         }
     }
 
-    class ConstructorCallNode(val typeName: String, val arguments: List<AstNode>): AstNode() {
+    class ConstructorCallNode(var type: Type, val arguments: List<AstNode>): AstNode() {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitConstructorCall(this)
         }

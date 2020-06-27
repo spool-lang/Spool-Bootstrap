@@ -40,6 +40,8 @@ fun main(args: Array<String>) {
         exitProcess(-2)
     }
 
+    TypeResolver(fileDB).resolve(fileNode)
+
     val json = AstPrinter().printAst(fileNode)
     File("ast.json").writeText(json)
     val bytecode = BytecodeGenerator().run(fileNode)

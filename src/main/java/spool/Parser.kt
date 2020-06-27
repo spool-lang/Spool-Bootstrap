@@ -204,7 +204,7 @@ class Parser(private val tokens: List<Token>) {
         consume(TokenType.PAREN_LEFT, "Expected '('")
         val arguments = getArguments()
         consume(TokenType.PAREN_RIGHT, "Expected ')'")
-        return AstNode.ConstructorCallNode(typeName, arguments)
+        return AstNode.ConstructorCallNode(Type(typeName), arguments)
     }
 
     private fun assignment(): AstNode {

@@ -21,7 +21,7 @@ class AstPrinter: AstVisitor<JsonElement> {
 
         json["node"] = "class".json()
         json["name"] = clazz.name.json()
-        if (clazz.superType != null) json["superclass"] = clazz.superType.canonicalName.json()
+        if (clazz.superType != null) json["superclass"] = clazz.superType.name.json()
         json["properties"] = clazz.properties.map { it.visit(this) }.json()
         json["constructors"] = clazz.constructors.map { it.visit(this) }.json()
         json["functions"] = clazz.functions.map { it.visit(this) }.json()
@@ -35,7 +35,7 @@ class AstPrinter: AstVisitor<JsonElement> {
         json["node"] = "variable".json()
         json["name"] = variable.name.json()
         json["const"] = variable.const.json()
-        json["type"] = JsonPrimitive(variable.type.canonicalName)
+        json["type"] = JsonPrimitive(variable.type.name)
         variable.initializer?.let { json["initializer"] = it.visit(this) }
 
         return json
@@ -48,7 +48,7 @@ class AstPrinter: AstVisitor<JsonElement> {
         json["name"] = JsonPrimitive(function.name)
         val paramsArray = JsonArray()
         for (param in function.params) {
-            paramsArray.add(JsonPrimitive("${param.first}:${param.second.canonicalName}"))
+            paramsArray.add(JsonPrimitive("${param.first}:${param.second.name}"))
         }
         json["params"] = paramsArray
         json["body"] = function.body.map { it.visit(this) }.json()
@@ -60,7 +60,7 @@ class AstPrinter: AstVisitor<JsonElement> {
         val json = JsonObject()
 
         json["node"] = "constructor".json()
-        json["parameters"] = constructor.params.map { "${it.first}:${it.second.canonicalName}".json() }.json()
+        json["parameters"] = constructor.params.map { "${it.first}:${it.second.name}".json() }.json()
         json["body"] = constructor.body.map { it.visit(this) }.json()
 
         return json
@@ -110,7 +110,7 @@ class AstPrinter: AstVisitor<JsonElement> {
         val json = JsonObject()
 
         json["node"] = JsonPrimitive("constructor call")
-        json["type"] = JsonPrimitive(constructorCall.typeName)
+        json["type"] = JsonPrimitive(constructorCall.type.node!!.name)
         json["args"] = constructorCall.arguments.map { it.visit(this) }.json()
 
         return json
