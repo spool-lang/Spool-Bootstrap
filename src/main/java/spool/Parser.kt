@@ -126,7 +126,7 @@ class Parser(private val tokens: List<Token>) {
 
         consume(TokenType.BRACE_RIGHT, "Expected end of class body.")
 
-        return AstNode.TypeNode(name.lexeme, supertype, properties, constructors, functions)
+        return AstNode.TypeNode(name.lexeme, false, supertype, properties, constructors, functions)
     }
 
     private fun constructor(): AstNode.ConstructorNode {

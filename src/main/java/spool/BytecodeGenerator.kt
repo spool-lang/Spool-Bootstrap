@@ -38,7 +38,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
             functions.add(currentChunk)
         }
 
-        currentClazz = Clazz(clazz.name, clazz.superType.canonicalName, clazz.properties.toMutableList(), constructors, functions)
+        currentClazz = Clazz(clazz.name, clazz.superType?.canonicalName ?: "", clazz.properties.toMutableList(), constructors, functions)
         bytecodeList.add(currentClazz)
         inClazz = false
     }
