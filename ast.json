@@ -11,10 +11,10 @@
 					"node": "variable",
 					"name": "bar",
 					"const": true,
-					"type": "Bar",
+					"type": "spool.Bar",
 					"initializer": { 
 						"node": "constructor call",
-						"type": "Bar",
+						"type": "spool.Bar",
 						"args": [ 
 							]
 					}
@@ -36,7 +36,7 @@
 		},
 		{ 
 			"node": "class",
-			"name": "Foo",
+			"name": "spool.Foo",
 			"superclass": "spool.core.Object",
 			"properties": [ 
 				],
@@ -92,8 +92,8 @@
 		},
 		{ 
 			"node": "class",
-			"name": "Bar",
-			"superclass": "Foo",
+			"name": "spool.Bar",
+			"superclass": "spool.Foo",
 			"properties": [ 
 				],
 			"constructors": [ 

@@ -6,6 +6,8 @@ class Import(import: String) {
     fun endsWith(string: String): Boolean {
         val s = string.split(".").reversed()
 
+        if (s.size > split.size) return false
+
         for (pair in split.reversed().subList(0, s.size).withIndex().map { Pair(it.value, s[it.index]) }) {
             if (pair.first != pair.second) return false
         }
