@@ -8,8 +8,6 @@ main {
 }
 
 class Foo {
-    constructor() {}
-
     func doThing() {
         const console: Console = new Console()
         console.println("Hello!")
@@ -17,6 +15,5 @@ class Foo {
 }
 
 class Bar: Foo {
-    constructor() {}
 }
 

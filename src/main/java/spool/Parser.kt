@@ -134,6 +134,8 @@ class Parser(private val tokens: List<Token>) {
             }
         }
 
+        if (constructors.isEmpty()) constructors.add(AstNode.ConstructorNode(listOf(), listOf()))
+
         consume(TokenType.BRACE_RIGHT, "Expected end of class body.")
 
         imports.add(Import("$namespace.${name.lexeme}"))
