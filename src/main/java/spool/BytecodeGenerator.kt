@@ -24,7 +24,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
 
     override fun visitClass(clazz: AstNode.TypeNode) {
         inClazz = true
-        val properties: MutableList<Triple<Boolean, String, Type>> = mutableListOf()
+        val properties: MutableList<Triple<Boolean, String, TypeRef>> = mutableListOf()
         val constructors: MutableList<Chunk> = mutableListOf()
         val functions: MutableList<Chunk> = mutableListOf()
 
@@ -38,7 +38,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
             functions.add(currentChunk)
         }
 
-        currentClazz = Clazz(clazz.name, clazz.superType?.name ?: "", clazz.properties.toMutableList(), constructors, functions)
+        currentClazz = Clazz(clazz.name, clazz.superType?.node?.name ?: "", clazz.properties.toMutableList(), constructors, functions)
         bytecodeList.add(currentClazz)
         inClazz = false
     }
@@ -65,7 +65,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
         for (param in function.params) {
             currentScope.declare(param.first)
             if (skipFirstParam) {
-                currentChunk.params.add(param.second.name)
+                currentChunk.params.add(param.second.node!!.name)
             }
             else {
                 skipFirstParam = true
@@ -88,7 +88,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
         currentScope.declare("self")
         for (param in constructor.params) {
             currentScope.declare(param.first)
-            currentChunk.params.add(param.second.name)
+            currentChunk.params.add(param.second.node!!.name)
         }
 
         constructor.body.forEach { it.visit(this) }

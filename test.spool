@@ -1,3 +1,7 @@
+namespace spool
+
+use spool.core.Console
+
 main {
     const bar: Bar = new Bar()
     bar.doThing()
@@ -7,7 +11,7 @@ class Foo {
     constructor() {}
 
     func doThing() {
-        const console: spool.core.Console = new spool.core.Console()
+        const console: Console = new Console()
         console.println("Hello!")
     }
 }

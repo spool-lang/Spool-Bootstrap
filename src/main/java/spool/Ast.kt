@@ -48,25 +48,25 @@ sealed class AstNode {
         }
     }
 
-    class TypeNode(val name: String, val native: Boolean = false, val superType: Type? = null, val properties: List<VariableNode> = listOf(), val constructors: List<ConstructorNode> = listOf(), val functions: List<FunctionNode> = listOf()): AstNode() {
+    class TypeNode(val name: String, val native: Boolean = false, val superType: TypeRef? = null, val properties: List<VariableNode> = listOf(), val constructors: List<ConstructorNode> = listOf(), val functions: List<FunctionNode> = listOf()): AstNode() {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitClass(this)
         }
     }
 
-    class VariableNode(val name: String, val type: Type, val const: Boolean, val initializer: AstNode?): AstNode() {
+    class VariableNode(val name: String, val type: TypeRef, val const: Boolean, val initializer: AstNode?): AstNode() {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitVariable(this)
         }
     }
 
-    class FunctionNode(val name: String, val body: List<AstNode>, val params: List<Pair<String, Type>>, val instance: Boolean = false): AstNode() {
+    class FunctionNode(val name: String, val body: List<AstNode>, val params: List<Pair<String, TypeRef>>, val instance: Boolean = false): AstNode() {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitFunction(this)
         }
     }
 
-    class ConstructorNode(val body: List<AstNode>, val params: List<Pair<String, Type>>): AstNode() {
+    class ConstructorNode(val body: List<AstNode>, val params: List<Pair<String, TypeRef>>): AstNode() {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitConstructor(this)
         }
@@ -98,7 +98,7 @@ sealed class AstNode {
         }
     }
 
-    class ConstructorCallNode(var type: Type, val arguments: List<AstNode>): AstNode() {
+    class ConstructorCallNode(var type: TypeRef, val arguments: List<AstNode>): AstNode() {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitConstructorCall(this)
         }

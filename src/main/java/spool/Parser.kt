@@ -29,18 +29,28 @@ class Parser(private val tokens: List<Token>) {
             }
         }
 
-        return AstNode.FileNode(statements, namespace, mutableListOf())
+        return AstNode.FileNode(statements, namespace, imports)
     }
 
     private fun resolveNamespaceImports() {
-        if (match(TokenType.NAMESPACE)) {
-            namespace = ""
+        consume(TokenType.NAMESPACE, "Expected namespace declaration.")
+        namespace = ""
 
+        while (match(TokenType.ID)) {
+            namespace = "$namespace${previous().lexeme}"
+            if (match(TokenType.DOT)) namespace = "$namespace."
+            else break
+        }
+
+        var importName = ""
+        while (match(TokenType.USE)) {
             while (match(TokenType.ID)) {
-                namespace = "$namespace${previous().lexeme}"
-                if (match(TokenType.DOT)) namespace = "$namespace."
+                importName = "$importName${previous().lexeme}"
+                if (match(TokenType.DOT)) importName = "$importName."
                 else break
             }
+            imports.add(Import(importName))
+            importName = ""
         }
     }
 
@@ -75,9 +85,9 @@ class Parser(private val tokens: List<Token>) {
         return AstNode.FunctionNode("main", body, listOf())
     }
 
-    private fun function(instanceType: Type? = null): AstNode.FunctionNode {
+    private fun function(instanceType: TypeRef? = null): AstNode.FunctionNode {
         val name = consume(TokenType.ID, "Expected function name.").lexeme!!
-        val params = mutableListOf<Pair<String, Type>>()
+        val params = mutableListOf<Pair<String, TypeRef>>()
 
         if (instanceType != null) {
             params.add(Pair("self", instanceType))
@@ -91,7 +101,7 @@ class Parser(private val tokens: List<Token>) {
             consume(TokenType.COLIN, "Expected colin after parameter name.")
             val typeName = typeName()
 
-            params.add(Pair(paramName, Type(typeName, null)))
+            params.add(Pair(paramName, TypeRef(typeName, null)))
         }
 
         consume(TokenType.PAREN_RIGHT, "Expected parens before and after function params.")
@@ -105,12 +115,12 @@ class Parser(private val tokens: List<Token>) {
         val properties = mutableListOf<AstNode.VariableNode>()
         val constructors = mutableListOf<AstNode.ConstructorNode>()
         val functions = mutableListOf<AstNode.FunctionNode>()
-        val type = Type(name.lexeme!!)
+        val type = TypeRef(name.lexeme!!)
 
         val supertype = if (match(TokenType.COLIN)) {
-            Type(consume(TokenType.ID, "Expected superclass name!").lexeme!!)
+            TypeRef(consume(TokenType.ID, "Expected superclass name!").lexeme!!)
         } else {
-            Type("spool.core.Object")
+            TypeRef("spool.core.Object")
         }
 
         consume(TokenType.BRACE_LEFT, "Expected class body.")
@@ -130,7 +140,7 @@ class Parser(private val tokens: List<Token>) {
     }
 
     private fun constructor(): AstNode.ConstructorNode {
-        val params = mutableListOf<Pair<String, Type>>()
+        val params = mutableListOf<Pair<String, TypeRef>>()
 
         consume(TokenType.PAREN_LEFT, "Expected parens before and after function params.")
 
@@ -140,7 +150,7 @@ class Parser(private val tokens: List<Token>) {
             consume(TokenType.COLIN, "Expected colin after parameter name.")
             val typeName = typeName()
 
-            params.add(Pair(paramName, Type(typeName, null)))
+            params.add(Pair(paramName, TypeRef(typeName, null)))
         }
 
         consume(TokenType.PAREN_RIGHT, "Expected parens before and after function params.")
@@ -157,7 +167,7 @@ class Parser(private val tokens: List<Token>) {
 
         val initializer = if (match(TokenType.ASSIGN)) { expression() } else { null }
 
-        return AstNode.VariableNode(name, Type(typeName, null), constant, initializer)
+        return AstNode.VariableNode(name, TypeRef(typeName, null), constant, initializer)
     }
 
     private fun body(): List<AstNode> {
@@ -204,7 +214,7 @@ class Parser(private val tokens: List<Token>) {
         consume(TokenType.PAREN_LEFT, "Expected '('")
         val arguments = getArguments()
         consume(TokenType.PAREN_RIGHT, "Expected ')'")
-        return AstNode.ConstructorCallNode(Type(typeName), arguments)
+        return AstNode.ConstructorCallNode(TypeRef(typeName), arguments)
     }
 
     private fun assignment(): AstNode {

@@ -35,7 +35,7 @@ class AstPrinter: AstVisitor<JsonElement> {
         json["node"] = "variable".json()
         json["name"] = variable.name.json()
         json["const"] = variable.const.json()
-        json["type"] = JsonPrimitive(variable.type.name)
+        json["type"] = JsonPrimitive(variable.type.node!!.name)
         variable.initializer?.let { json["initializer"] = it.visit(this) }
 
         return json
