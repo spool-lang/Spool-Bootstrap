@@ -49,7 +49,7 @@ sealed class AstNode {
 
     abstract fun <T> visit(visitor: AstVisitor<T>): T
 
-    class FileNode(val statements: Map<String, AstNode>, val namespace: String, val imports: Map<String, String>): AstNode() {
+    class FileNode(val statements: Map<String, AstNode>, val namespace: String, val imports: List<Import>): AstNode() {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitFile(this)
         }

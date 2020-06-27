@@ -1,9 +1,9 @@
 package spool
 
 class Parser(private val tokens: List<Token>) {
-
+    private val imports: MutableList<Import> = mutableListOf()
     private var current: Int = 0
-    private var namespace: String? = null
+    private var namespace: String = ""
 
     fun parse(fileDB: FileDB): AstNode.FileNode {
         resolveNamespaceImports()
@@ -29,7 +29,7 @@ class Parser(private val tokens: List<Token>) {
             }
         }
 
-        return AstNode.FileNode(statements, "", mapOf())
+        return AstNode.FileNode(statements, namespace, mutableListOf())
     }
 
     private fun resolveNamespaceImports() {
