@@ -1,66 +1,93 @@
 package spool
 
+import blue.endless.jankson.Jankson
+import blue.endless.jankson.JsonArray
+import blue.endless.jankson.JsonPrimitive
 import java.io.File
+import java.io.FileOutputStream
+import java.nio.charset.Charset
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
 import kotlin.Exception
 import kotlin.system.exitProcess
 
-val test = ""
-
 @ExperimentalUnsignedTypes
 fun main(args: Array<String>) {
-
     if (args.size != 1) {
         println("Please specify the project file.")
         exitProcess(-1)
     }
 
-    val test = File(args[0]).readText()
-    println(test)
+    val projectDirectory = File(args[0])
+    val projectFile = projectDirectory.resolve("project.json5")
+    val loadedProject = loadProject(projectFile)
 
-    val lexer = Lexer(test)
-    val tokens: List<Token>
+    val db = FileDB()
 
-    try {
-        tokens = lexer.lex()
-    } catch (e: Exception) {
-        e.printStackTrace()
-        exitProcess(-2)
+    val parsedCode = loadedProject.sources.map { lexAndParse(it, db) }
+    val resolver = TypeResolver(db)
+    parsedCode.forEach { resolver.resolve(it.ast) }
+
+    val printer = AstPrinter()
+    parsedCode.forEach {
+        val json = printer.printAst(it.ast)
+        projectDirectory.resolve("ast/${it.path}.json5").apply { parentFile.mkdirs() }.writeText(json)
     }
 
-    tokens.forEach { println(it) }
-
-    val parser = Parser(tokens)
-    val fileDB: FileDB = FileDB()
-    val fileNode: AstNode.FileNode
-
-    try {
-        fileNode = parser.parse(fileDB)
-    } catch (e: Exception) {
-        e.printStackTrace()
-        exitProcess(-2)
-    }
-
-    TypeResolver(fileDB).resolve(fileNode)
-
-    val json = AstPrinter().printAst(fileNode)
-    File("ast.json").writeText(json)
-    val bytecode = BytecodeGenerator().run(fileNode)
-    bytecode.forEach(Bytecode::print)
-    val bytes = mutableListOf<UByte>()
-    bytecode.forEach { it.addBytes(bytes) }
-    File("test.sbc").writeBytes(bytes.toTypedArray().toUByteArray().toByteArray())
-
-    /*
-    fileDB.map["main"]?.let {
-        val json = AstPrinter().printAst(it)
-        File("ast.json").writeText(json)
-        val chunk = BytecodeGenerator().run(it)
-        chunk.forEach(Bytecode::print)
+    val bytecodeGen = BytecodeGenerator()
+    val compiledFiles = parsedCode.map { loadedAst ->
         val bytes = mutableListOf<UByte>()
-        chunk.forEach { it.addBytes(bytes) }
-
-        File("test.sbc").writeBytes(bytes.toTypedArray().toUByteArray().toByteArray())
+        val bytecode = bytecodeGen.run(loadedAst.ast)
+        bytecode.forEach(Bytecode::print)
+        bytecode.forEach { it.addBytes(bytes) }
+        CompiledFile(bytes, loadedAst.path)
     }
 
-     */
+    val output = projectDirectory.resolve("out\\${loadedProject.name}.zip").apply { parentFile.mkdirs() }
+    val outputStream = ZipOutputStream(FileOutputStream(output))
+
+    compiledFiles.forEach { compiled ->
+        val e = ZipEntry("${compiled.path}.txt")
+        outputStream.putNextEntry(e)
+        val data = compiled.bytes.map(UByte::toByte).toByteArray()
+        outputStream.write(data, 0, data.size)
+        outputStream.closeEntry()
+        output.parentFile.resolve("test.sbc").writeBytes(data)
+    }
+
+    outputStream.close()
 }
+
+fun loadProject(projectFile: File): LoadedProject {
+    val projectConfig = Jankson.builder().build().load(projectFile)
+
+    val projectNameJson = projectConfig["name"]
+    val sourcesJson = projectConfig["sources"]
+
+    if (projectNameJson !is JsonPrimitive || sourcesJson !is JsonArray) throw Exception()
+
+
+    val name = projectNameJson.asString()
+    val sources = sourcesJson.filterIsInstance<JsonPrimitive>().map { it.asString() }.map {
+        val file = projectFile.parentFile.resolve("src/${it}.spool")
+        return@map SourceFile(file.readText(), it)
+    }
+
+    return LoadedProject(name, sources)
+}
+
+data class LoadedProject(val name: String, val sources: List<SourceFile>)
+
+data class SourceFile(val contents: String, val path: String)
+
+fun lexAndParse(source: SourceFile, db: FileDB): LoadedAst {
+    val lexer = Lexer(source.contents)
+    val tokens = lexer.lex()
+    val parser = Parser(tokens)
+    return LoadedAst(parser.parse(db), source.path)
+}
+
+data class LoadedAst(val ast: AstNode, val path: String)
+
+@ExperimentalUnsignedTypes
+data class CompiledFile(val bytes: List<UByte>, val path: String)
