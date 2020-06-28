@@ -52,7 +52,6 @@ fun main(args: Array<String>) {
         val data = compiled.bytes.map(UByte::toByte).toByteArray()
         outputStream.write(data, 0, data.size)
         outputStream.closeEntry()
-        output.parentFile.resolve("test.sbc").writeBytes(data)
     }
 
     outputStream.close()
