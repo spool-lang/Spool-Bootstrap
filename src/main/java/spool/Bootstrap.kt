@@ -47,7 +47,7 @@ fun main(args: Array<String>) {
     val outputStream = ZipOutputStream(FileOutputStream(output))
 
     compiledFiles.forEach { compiled ->
-        val e = ZipEntry("${compiled.path}.txt")
+        val e = ZipEntry("${compiled.path}.sbc")
         outputStream.putNextEntry(e)
         val data = compiled.bytes.map(UByte::toByte).toByteArray()
         outputStream.write(data, 0, data.size)
