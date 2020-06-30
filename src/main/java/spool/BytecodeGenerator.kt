@@ -7,8 +7,8 @@ class BytecodeGenerator: AstVisitor<Unit> {
     private var currentChunk: Chunk = Chunk()
     private var currentClazz: Clazz = Clazz("", "", listOf(), listOf(), listOf())
     private var inClazz: Boolean = false
-    private val scopeStack = Stack<Scope>()
-    private var currentScope = Scope()
+    private val scopeStack = Stack<BytecodeScope>()
+    private var currentScope = BytecodeScope()
     private var bytecodeList: MutableList<Bytecode> = mutableListOf()
 
     fun run(node: AstNode): List<Bytecode> {
@@ -54,7 +54,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
     }
 
     override fun visitFunction(function: AstNode.FunctionNode) {
-        val newScope = Scope(currentScope)
+        val newScope = BytecodeScope(currentScope)
         scopeStack.push(currentScope)
         currentScope = newScope
         currentChunk = Chunk()
@@ -79,7 +79,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
     }
 
     override fun visitConstructor(constructor: AstNode.ConstructorNode) {
-        val newScope = Scope(currentScope)
+        val newScope = BytecodeScope(currentScope)
         scopeStack.push(currentScope)
         currentScope = newScope
         currentChunk = Chunk()
@@ -97,7 +97,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
     }
 
     override fun visitBlock(block: AstNode.BlockNode) {
-        val newScope = Scope(currentScope)
+        val newScope = BytecodeScope(currentScope)
         scopeStack.push(currentScope)
         currentScope = newScope
 
@@ -117,7 +117,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
         currentChunk.addInstruction(Instruction(InstructionType.JUMP, currentChunk.jumps.indexOf(thenJumpPoint).toUShort(), true))
 
         // Visit the body.
-        val newScope = Scope(currentScope)
+        val newScope = BytecodeScope(currentScope)
         scopeStack.push(currentScope)
         currentScope = newScope
         ifStatement.statements.forEach { it.visit(this) }
@@ -145,7 +145,7 @@ class BytecodeGenerator: AstVisitor<Unit> {
         currentScope.getStartJumpPoint().index = currentChunk.instructions.size.toUShort()
         if (loop.condition != null) loop.condition.visit(this)
 
-        val newScope = Scope(currentScope)
+        val newScope = BytecodeScope(currentScope)
         scopeStack.push(currentScope)
         currentScope = newScope
         currentScope.inLoop = true

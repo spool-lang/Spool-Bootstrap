@@ -1,7 +1,7 @@
 package spool
 
 @ExperimentalUnsignedTypes
-class Scope(private val parent: Scope? = null) {
+class BytecodeScope(private val parent: BytecodeScope? = null) {
     private val internal = mutableListOf<String>()
     private var endJumpPoint: JumpPoint? = null
     private var startJumpPoint: JumpPoint? = null
