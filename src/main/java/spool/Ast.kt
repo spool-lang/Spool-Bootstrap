@@ -52,6 +52,16 @@ sealed class AstNode {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitClass(this)
         }
+
+        fun isOrSubtypeOf(other: TypeNode): Boolean {
+            if (name == other.name) return true
+
+            if (other.superType?.node != null) {
+                return isOrSubtypeOf(other.superType.node!!)
+            }
+
+            return false
+        }
     }
 
     class VariableNode(val name: String, val type: TypeRef, val const: Boolean, val initializer: AstNode?): AstNode() {

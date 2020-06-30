@@ -25,8 +25,12 @@ fun main(args: Array<String>) {
     val db = FileDB()
 
     val parsedCode = loadedProject.sources.map { lexAndParse(it, db) }
+
     val resolver = TypeResolver(db)
     parsedCode.forEach { resolver.resolve(it.ast) }
+
+    val analyzer = SemanticAnalyzer(db)
+    parsedCode.forEach { analyzer.analyze(it.ast) }
 
     val printer = AstPrinter()
     parsedCode.forEach {

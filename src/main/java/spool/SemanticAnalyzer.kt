@@ -4,8 +4,12 @@ import java.util.*
 
 class SemanticAnalyzer(private val db: FileDB): AstVisitor<AstNode.TypeNode?> {
     private val imports: MutableList<Import> = mutableListOf()
-    var currentScope = Scope(null)
-    val scopeStack: Stack<Scope> = Stack()
+    private var currentScope = Scope(null)
+    private val scopeStack: Stack<Scope> = Stack()
+
+    fun analyze(node: AstNode) {
+        node.visit(this)
+    }
 
     override fun visitFile(file: AstNode.FileNode): AstNode.TypeNode? {
         imports.addAll(file.imports)
@@ -30,10 +34,13 @@ class SemanticAnalyzer(private val db: FileDB): AstVisitor<AstNode.TypeNode?> {
     }
 
     override fun visitVariable(variable: AstNode.VariableNode): AstNode.TypeNode? {
+        val typeNode = variable.type.node ?: throw Exception()
+
         if (variable.initializer != null) {
-            val typeNode = variable.type.node
-            if (typeNode == null || typeNode != variable.initializer.visit(this)) throw Exception()
+            if (typeNode != variable.initializer.visit(this)) throw Exception()
         }
+
+        currentScope[variable.name] = typeNode
         return null
     }
 
@@ -109,7 +116,7 @@ class SemanticAnalyzer(private val db: FileDB): AstVisitor<AstNode.TypeNode?> {
                 for (pair in pairedList(constructor.params, constructorCall.arguments)) {
                     val argumentType = pair.second.visit(this) ?: throw Exception()
 
-                    if (argumentType != pair.first.second.node) {
+                    if (!argumentType.isOrSubtypeOf(argumentType)) {
                         resolved = false
                         break
                     }
@@ -123,26 +130,34 @@ class SemanticAnalyzer(private val db: FileDB): AstVisitor<AstNode.TypeNode?> {
     }
 
     override fun visitFunctionCall(functionCall: AstNode.FunctionCallNode): AstNode.TypeNode? {
-        val node = functionCall.source.visit(this)
-        var resolved = false
+        if (functionCall.source is AstNode.GetNode) {
+            val node = functionCall.source.source.visit(this)
+            var resolved = false
 
-        for (function in node!!.functions) {
-            if (function.params.size == functionCall.arguments.size) {
-                resolved = true
-                for (pair in pairedList(function.params, functionCall.arguments)) {
-                    val argumentType = pair.second.visit(this) ?: throw Exception()
+            for (function in node!!.functions) {
+                var params = function.params
+                if (params.isNotEmpty() && params[0].first == "self") params = params.subList(1, params.size)
 
-                    if (argumentType != pair.first.second.node) {
-                        resolved = false
-                        break
+                if (params.size == functionCall.arguments.size) {
+                    resolved = true
+
+                    for (pair in pairedList(params, functionCall.arguments)) {
+                        val argumentType = pair.second.visit(this) ?: throw Exception()
+
+                        if (!argumentType.isOrSubtypeOf(argumentType)) {
+                            resolved = false
+                            break
+                        }
                     }
                 }
             }
+
+            if (!resolved) throw Exception()
+
+            return node
         }
 
-        if (!resolved) throw Exception()
-
-        return node
+        TODO("Account for global functions.")
     }
 
     override fun visitID(id: AstNode.IdNode): AstNode.TypeNode? {

@@ -12,7 +12,7 @@ class FileDB {
         map["spool.core.Array"] = AstNode.TypeNode("spool.core.Array", true, TypeRef("spool.core.object"))
         map["spool.core.Func"] = AstNode.TypeNode("spool.core.Func", true, TypeRef("spool.core.object"))
         map["spool.core.Void"] = AstNode.TypeNode("spool.core.Void", true, TypeRef("spool.core.object"))
-        map["spool.core.Console"] = AstNode.TypeNode("spool.core.Console", true, TypeRef("spool.core.object"))
+        map["spool.core.Console"] = consoleType()
         map["spool.core.Random"] = AstNode.TypeNode("spool.core.Random", true, TypeRef("spool.core.object"))
 
         map["spool.core.number.Number"] = AstNode.TypeNode("spool.core.number.Number", true, TypeRef("spool.core.object"))
@@ -45,4 +45,20 @@ class FileDB {
     fun allFunctions(): List<AstNode.FunctionNode> = map.values.filterIsInstance<AstNode.FunctionNode>()
 
     fun allClasses(): List<AstNode.TypeNode> = map.values.filterIsInstance<AstNode.TypeNode>()
+
+    private fun consoleType(): AstNode.TypeNode {
+        val printlnFunction = AstNode.FunctionNode(
+            "println",
+            listOf(),
+            listOf(
+                "self" to TypeRef("spool.core.Console"),
+                "toPrint" to TypeRef("spool.core.Object")
+            ),
+            true
+        )
+
+        val constructor = AstNode.ConstructorNode(listOf(), listOf())
+
+        return AstNode.TypeNode("spool.core.Console", true, TypeRef("spool.core.Object"), listOf(), listOf(constructor), listOf(printlnFunction))
+    }
 }
