@@ -9,6 +9,8 @@ interface AstVisitor<T> {
 
     fun visitFunction(function: AstNode.FunctionNode): T
 
+    fun visitGenericFunction(genericFunction: AstNode.GenericFunctionNode): T
+
     fun visitConstructor(constructor: AstNode.ConstructorNode): T
 
     fun visitBlock(block: AstNode.BlockNode): T
@@ -73,6 +75,16 @@ sealed class AstNode {
     class FunctionNode(val name: String, val body: List<AstNode>, val params: List<Pair<String, TypeRef>>, val instance: Boolean = false): AstNode() {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitFunction(this)
+        }
+    }
+
+    class GenericFunctionNode(val name: String, val body: List<AstNode>, val typeParams: List<String>, val params: List<Pair<String, TypeRef>>, val instance: Boolean = false): AstNode() {
+        override fun <T> visit(visitor: AstVisitor<T>): T {
+            return visitor.visitGenericFunction(this)
+        }
+
+        fun reify() {
+
         }
     }
 

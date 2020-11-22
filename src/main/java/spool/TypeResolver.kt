@@ -1,5 +1,7 @@
 package spool
 
+import blue.endless.jankson.JsonElement
+
 class TypeResolver(val db: FileDB) : AstVisitor<Unit> {
     var imports: List<Import> = listOf()
 
@@ -37,6 +39,10 @@ class TypeResolver(val db: FileDB) : AstVisitor<Unit> {
         }
 
         function.body.forEach { it.visit(this) }
+    }
+
+    override fun visitGenericFunction(genericFunction: AstNode.GenericFunctionNode) {
+        TODO("Not yet implemented")
     }
 
     override fun visitConstructor(constructor: AstNode.ConstructorNode) {

@@ -1,5 +1,6 @@
 package spool
 
+import blue.endless.jankson.JsonElement
 import java.util.*
 
 @ExperimentalUnsignedTypes
@@ -76,6 +77,10 @@ class BytecodeGenerator: AstVisitor<Unit> {
         currentChunk.addInstruction(Instruction(InstructionType.EXIT_BLOCK, currentScope.size().toUShort()))
         if (!inClazz) bytecodeList.add(currentChunk)
         currentScope = scopeStack.pop()
+    }
+
+    override fun visitGenericFunction(genericFunction: AstNode.GenericFunctionNode) {
+        return
     }
 
     override fun visitConstructor(constructor: AstNode.ConstructorNode) {

@@ -56,6 +56,10 @@ class AstPrinter: AstVisitor<JsonElement> {
         return json
     }
 
+    override fun visitGenericFunction(genericFunction: AstNode.GenericFunctionNode): JsonElement {
+        TODO("Not yet implemented")
+    }
+
     override fun visitConstructor(constructor: AstNode.ConstructorNode): JsonElement {
         val json = JsonObject()
 

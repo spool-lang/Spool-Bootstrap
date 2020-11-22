@@ -1,5 +1,6 @@
 package spool
 
+import blue.endless.jankson.JsonElement
 import java.util.*
 
 class SemanticAnalyzer(private val db: FileDB): AstVisitor<AstNode.TypeNode?> {
@@ -51,6 +52,10 @@ class SemanticAnalyzer(private val db: FileDB): AstVisitor<AstNode.TypeNode?> {
         function.body.forEach { it.visit(this) }
         currentScope = scopeStack.pop()
         return null
+    }
+
+    override fun visitGenericFunction(genericFunction: AstNode.GenericFunctionNode): AstNode.TypeNode? {
+        TODO("Not yet implemented")
     }
 
     override fun visitConstructor(constructor: AstNode.ConstructorNode): AstNode.TypeNode? {
