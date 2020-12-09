@@ -51,6 +51,16 @@ class Reifier: AstVisitor<AstNode?> {
     }
 
     override fun visitGenericFunctionCall(genericFunctionCall: AstNode.GenericFunctionCallNode): AstNode? {
+        val source = genericFunctionCall.source
+
+        if (source is AstNode.GenericFunctionNode) {
+            if (source.typeParams.size == genericFunctionCall.genericArguments.size) {
+                for (i in 0..source.typeParams.size) {
+                    
+                }
+            }
+        }
+
         TODO("Not yet implemented")
     }
 
