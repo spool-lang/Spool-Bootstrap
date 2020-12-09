@@ -81,6 +81,8 @@ sealed class AstNode {
     }
 
     class GenericFunctionNode(val name: String, val body: List<AstNode>, val typeParams: List<String>, val params: List<Pair<String, TypeRef>>, val instance: Boolean = false): AstNode() {
+        val reified: MutableList<FunctionNode> = mutableListOf()
+
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitGenericFunction(this)
         }

@@ -42,7 +42,7 @@ class TypeResolver(val db: FileDB) : AstVisitor<Unit> {
     }
 
     override fun visitGenericFunction(genericFunction: AstNode.GenericFunctionNode) {
-        TODO("Not yet implemented")
+        genericFunction.reified.forEach { it.visit(this) }
     }
 
     override fun visitConstructor(constructor: AstNode.ConstructorNode) {

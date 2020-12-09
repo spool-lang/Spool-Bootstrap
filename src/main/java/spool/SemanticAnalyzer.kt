@@ -55,7 +55,10 @@ class SemanticAnalyzer(private val db: FileDB): AstVisitor<AstNode.TypeNode?> {
     }
 
     override fun visitGenericFunction(genericFunction: AstNode.GenericFunctionNode): AstNode.TypeNode? {
-        TODO("Not yet implemented")
+        //TODO: Account for parameter restraints
+        genericFunction.reified.forEach { it.visit(this) }
+
+        return null
     }
 
     override fun visitConstructor(constructor: AstNode.ConstructorNode): AstNode.TypeNode? {
