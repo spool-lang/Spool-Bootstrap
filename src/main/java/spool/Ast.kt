@@ -82,10 +82,6 @@ sealed class AstNode {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitGenericFunction(this)
         }
-
-        fun reify() {
-
-        }
     }
 
     class ConstructorNode(val body: List<AstNode>, val params: List<Pair<String, TypeRef>>): AstNode() {
