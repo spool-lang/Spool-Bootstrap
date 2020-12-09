@@ -25,6 +25,8 @@ interface AstVisitor<T> {
 
     fun visitFunctionCall(functionCall: AstNode.FunctionCallNode): T
 
+    fun visitGenericFunctionCall(genericFunctionCall: AstNode.GenericFunctionCallNode): T
+
     fun visitID(id: AstNode.IdNode): T
 
     fun visitAssignment(assignment: AstNode.AssignmentNode): T
@@ -128,6 +130,11 @@ sealed class AstNode {
         }
     }
 
+    class GenericFunctionCallNode(val source: AstNode, val genericArguments: List<TypeRef>, val arguments: List<AstNode>): AstNode() {
+        override fun <T> visit(visitor: AstVisitor<T>): T {
+            TODO("Not yet implemented")
+        }
+    }
 
     class IdNode(val name: String): AstNode() {
         override fun <T> visit(visitor: AstVisitor<T>): T {

@@ -165,6 +165,10 @@ class SemanticAnalyzer(private val db: FileDB): AstVisitor<AstNode.TypeNode?> {
         TODO("Account for global functions.")
     }
 
+    override fun visitGenericFunctionCall(genericFunctionCall: AstNode.GenericFunctionCallNode): AstNode.TypeNode? {
+        TODO("Not yet implemented")
+    }
+
     override fun visitID(id: AstNode.IdNode): AstNode.TypeNode? {
         return currentScope[id.name]
     }

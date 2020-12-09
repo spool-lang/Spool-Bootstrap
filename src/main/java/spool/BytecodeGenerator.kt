@@ -192,6 +192,10 @@ class BytecodeGenerator: AstVisitor<Unit> {
         else TODO()
     }
 
+    override fun visitGenericFunctionCall(genericFunctionCall: AstNode.GenericFunctionCallNode) {
+
+    }
+
     override fun visitID(id: AstNode.IdNode) {
         currentChunk.instructions.add(Instruction(InstructionType.GET, currentScope.indexOf(id.name).toUShort(), false))
         currentChunk.addName(id.name)
