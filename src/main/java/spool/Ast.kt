@@ -43,7 +43,6 @@ interface AstVisitor<T> {
 }
 
 sealed class AstNode {
-
     abstract fun <T> visit(visitor: AstVisitor<T>): T
 
     class FileNode(val statements: Map<String, AstNode>, val namespace: String, val imports: List<Import>): AstNode() {
@@ -74,7 +73,7 @@ sealed class AstNode {
         }
     }
 
-    class FunctionNode(val name: String, val body: List<AstNode>, val params: List<Pair<String, TypeRef>>, val instance: Boolean = false): AstNode() {
+    class FunctionNode(val name: String, val params: List<Pair<String, TypeRef>>, val body: List<AstNode>, val instance: Boolean = false): AstNode() {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitFunction(this)
         }
@@ -133,8 +132,10 @@ sealed class AstNode {
     }
 
     class GenericFunctionCallNode(val source: AstNode, val genericArguments: List<TypeRef>, val arguments: List<AstNode>): AstNode() {
+        lateinit var reifiedSource: AstNode
+
         override fun <T> visit(visitor: AstVisitor<T>): T {
-            TODO("Not yet implemented")
+            return visitor.visitGenericFunctionCall(this)
         }
     }
 

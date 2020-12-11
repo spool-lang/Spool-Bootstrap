@@ -49,11 +49,11 @@ class FileDB {
     private fun consoleType(): AstNode.TypeNode {
         val printlnFunction = AstNode.FunctionNode(
             "println",
-            listOf(),
             listOf(
                 "self" to TypeRef("spool.core.Console"),
                 "toPrint" to TypeRef("spool.core.Object")
             ),
+            listOf(),
             true
         )
 

@@ -1,6 +1,5 @@
 package spool
 
-import blue.endless.jankson.JsonElement
 import java.util.*
 
 class SemanticAnalyzer(private val db: FileDB): AstVisitor<AstNode.TypeNode?> {
