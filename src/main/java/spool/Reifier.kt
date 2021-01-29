@@ -91,7 +91,26 @@ class Reifier: AstVisitor<AstNode> {
     }
 
     override fun visitConstructorCall(constructorCall: AstNode.ConstructorCallNode): AstNode {
-        TODO("Not yet implemented")
+        val newScope = Scope()
+
+        if (currentScope.isEmpty()) {
+            constructorCall.arguments.forEach { it.visit(this) }
+
+            scopeStack.push(currentScope)
+            currentScope = newScope
+
+            return constructorCall
+        }
+
+        val typeName = constructorCall.type.name
+
+        if (currentScope.contains(typeName)) {
+            TODO("Still have to create the Constructable<> trait.")
+        }
+
+        val reifiedArguments = constructorCall.arguments.map { it.visit(this) }
+
+        return AstNode.ConstructorCallNode(constructorCall.type, reifiedArguments)
     }
 
     override fun visitFunctionCall(functionCall: AstNode.FunctionCallNode): AstNode {
