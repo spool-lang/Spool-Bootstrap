@@ -96,15 +96,28 @@ class Reifier: AstVisitor<AstNode> {
 
     override fun visitFunctionCall(functionCall: AstNode.FunctionCallNode): AstNode {
         val newScope = Scope()
+
+        if (currentScope.isEmpty()) {
+            functionCall.arguments.forEach { it.visit(this) }
+
+            scopeStack.push(currentScope)
+            currentScope = newScope
+
+            functionCall.source.visit(this)
+
+            currentScope = scopeStack.pop()
+
+            return functionCall
+        }
+
+        val reifiedArguments = functionCall.arguments.map { it.visit(this) }
+
         scopeStack.push(currentScope)
         currentScope = newScope
 
-        functionCall.arguments.forEach { it.visit(this) }
         functionCall.source.visit(this)
 
-        currentScope = scopeStack.pop()
-
-        return functionCall
+        return AstNode.FunctionCallNode(functionCall.source, reifiedArguments)
     }
 
     override fun visitGenericFunctionCall(genericFunctionCall: AstNode.GenericFunctionCallNode): AstNode {
