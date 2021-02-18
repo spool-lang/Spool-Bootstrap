@@ -67,6 +67,22 @@ sealed class AstNode {
         }
     }
 
+    class GenericTypeNode(val name: String, val typeParams: List<String>, val native: Boolean = false, val superType: TypeRef? = null, val properties: List<VariableNode> = listOf(), val constructors: List<ConstructorNode> = listOf(), val functions: List<FunctionNode> = listOf()): AstNode() {
+        override fun <T> visit(visitor: AstVisitor<T>): T {
+            TODO()
+        }
+
+        fun isOrSubtypeOf(other: TypeNode): Boolean {
+            if (name == other.name) return true
+
+            if (other.superType?.node != null) {
+                return isOrSubtypeOf(other.superType.node!!)
+            }
+
+            return false
+        }
+    }
+
     class VariableNode(val name: String, val type: TypeRef, val const: Boolean, val initializer: AstNode?): AstNode() {
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitVariable(this)
