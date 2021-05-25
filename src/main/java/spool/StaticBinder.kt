@@ -113,8 +113,8 @@ class StaticBinder: AstVisitor<Unit> {
             }
         }
 
-        get.targetField = type.properties.first { it.name == get.name }
-        get.targetFunction = type.functions.first { it.name == get.name }
+        if (type.properties.isNotEmpty()) get.targetField = type.properties.first { it.name == get.name }
+        if (type.functions.isNotEmpty()) get.targetFunction = type.functions.first { it.name == get.name }
     }
 
     override fun visitSet(set: AstNode.SetNode) {
