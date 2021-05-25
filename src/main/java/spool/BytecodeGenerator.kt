@@ -1,7 +1,6 @@
 package spool
 
-import blue.endless.jankson.JsonElement
-import java.util.*
+import java.util.Stack
 
 @ExperimentalUnsignedTypes
 class BytecodeGenerator: AstVisitor<Unit> {

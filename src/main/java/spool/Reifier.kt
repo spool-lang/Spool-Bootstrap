@@ -1,6 +1,6 @@
 package spool
 
-import java.util.*
+import java.util.Stack
 
 class Reifier: AstVisitor<AstNode> {
     private var currentScope = Scope()

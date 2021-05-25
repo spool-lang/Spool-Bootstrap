@@ -1,6 +1,9 @@
 package spool
 
-import blue.endless.jankson.*
+import blue.endless.jankson.JsonArray
+import blue.endless.jankson.JsonElement
+import blue.endless.jankson.JsonObject
+import blue.endless.jankson.JsonPrimitive
 
 class AstPrinter: AstVisitor<JsonElement> {
     fun printAst(node: AstNode): String {

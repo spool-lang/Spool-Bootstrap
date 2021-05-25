@@ -1,7 +1,5 @@
 package spool
 
-import java.lang.Exception
-
 class Lexer(private val source: String) {
     private var tokens: MutableList<Token> = mutableListOf()
     private var index: Int = 0

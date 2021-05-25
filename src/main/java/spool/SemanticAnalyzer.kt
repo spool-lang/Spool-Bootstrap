@@ -1,6 +1,6 @@
 package spool
 
-import java.util.*
+import java.util.Stack
 
 class SemanticAnalyzer(private val db: FileDB): AstVisitor<AstNode.TypeNode?> {
     private val imports: MutableList<Import> = mutableListOf()

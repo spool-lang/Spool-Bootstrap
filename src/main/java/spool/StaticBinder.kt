@@ -1,6 +1,6 @@
 package spool
 
-import java.util.*
+import java.util.Stack
 
 class StaticBinder: AstVisitor<Unit> {
     private var currentScope: Scope = Scope(null)

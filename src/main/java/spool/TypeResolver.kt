@@ -1,7 +1,5 @@
 package spool
 
-import blue.endless.jankson.JsonElement
-
 class TypeResolver(val db: FileDB) : AstVisitor<Unit> {
     var imports: List<Import> = listOf()
 
