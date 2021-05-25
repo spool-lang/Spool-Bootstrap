@@ -9,7 +9,7 @@ class TypeResolver(val db: FileDB) : AstVisitor<Unit> {
 
     override fun visitFile(file: AstNode.FileNode) {
         imports = file.imports
-        file.statements.forEach { t, u -> u.visit(this) }
+        file.statements.values.forEach { it.visit(this) }
     }
 
     override fun visitClass(clazz: AstNode.TypeNode) {
