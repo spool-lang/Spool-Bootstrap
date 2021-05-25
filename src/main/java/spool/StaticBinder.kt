@@ -11,7 +11,9 @@ class StaticBinder: AstVisitor<Unit> {
     }
 
     override fun visitClass(clazz: AstNode.TypeNode) {
-        TODO("Not yet implemented")
+        clazz.properties.forEach { it.visit(this) }
+        clazz.constructors.forEach { it.visit(this) }
+        clazz.functions.forEach { it.visit(this) }
     }
 
     override fun visitVariable(variable: AstNode.VariableNode) {
@@ -20,7 +22,15 @@ class StaticBinder: AstVisitor<Unit> {
     }
 
     override fun visitFunction(function: AstNode.FunctionNode) {
-        TODO("Not yet implemented")
+        val newScope = Scope(currentScope)
+
+        scopeStack.add(currentScope)
+        currentScope = newScope
+
+        function.params.forEach { currentScope.addVariable(it.first, it.second) }
+        function.body.forEach { it.visit(this) }
+
+        currentScope = scopeStack.pop()
     }
 
     override fun visitGenericFunction(genericFunction: AstNode.GenericFunctionNode) {
@@ -28,7 +38,15 @@ class StaticBinder: AstVisitor<Unit> {
     }
 
     override fun visitConstructor(constructor: AstNode.ConstructorNode) {
-        TODO("Not yet implemented")
+        val newScope = Scope(currentScope)
+
+        scopeStack.add(currentScope)
+        currentScope = newScope
+
+        constructor.params.forEach { currentScope.addVariable(it.first, it.second) }
+        constructor.body.forEach { it.visit(this) }
+
+        currentScope = scopeStack.pop()
     }
 
     override fun visitBlock(block: AstNode.BlockNode) {
@@ -83,7 +101,7 @@ class StaticBinder: AstVisitor<Unit> {
             }
             is AstNode.IdNode -> {
                 val variable = currentScope.getVariable(source.name)
-                variable.type.node!!
+                variable.node!!
             }
             else -> {
                 throw Exception()
@@ -113,9 +131,9 @@ class StaticBinder: AstVisitor<Unit> {
     }
 
     private class Scope(private val parent: Scope?) {
-        val variables: MutableMap<String, AstNode.VariableNode> = mutableMapOf()
+        val variables: MutableMap<String, TypeRef> = mutableMapOf()
 
-        fun getVariable(name: String): AstNode.VariableNode {
+        fun getVariable(name: String): TypeRef {
             var variable = variables[name]
 
             if (variable == null && parent != null) variable = parent.getVariable(name)
@@ -125,7 +143,11 @@ class StaticBinder: AstVisitor<Unit> {
         }
 
         fun addVariable(variable: AstNode.VariableNode) {
-            variables[variable.name] = variable
+            variables[variable.name] = variable.type
+        }
+
+        fun addVariable(name: String, type: TypeRef) {
+            variables[name] = type
         }
     }
 }
