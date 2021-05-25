@@ -162,6 +162,9 @@ sealed class AstNode {
     }
 
     class GetNode(val name: String, val source: AstNode): AstNode() {
+        var targetField: VariableNode? = null
+        var targetFunction: FunctionNode? = null
+
         override fun <T> visit(visitor: AstVisitor<T>): T {
             return visitor.visitGet(this)
         }
