@@ -85,7 +85,9 @@ class TypeResolver(val db: FileDB) : AstVisitor<Unit> {
     }
 
     override fun visitGenericFunctionCall(genericFunctionCall: AstNode.GenericFunctionCallNode) {
-        TODO("Not yet implemented")
+        genericFunctionCall.genericArguments.forEach { it.resolveType(getType(it.name)) }
+        genericFunctionCall.source.visit(this)
+        genericFunctionCall.arguments.forEach { it.visit(this) }
     }
 
     override fun visitID(id: AstNode.IdNode) {
