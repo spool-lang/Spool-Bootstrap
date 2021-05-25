@@ -15,7 +15,8 @@ class StaticBinder: AstVisitor<Unit> {
     }
 
     override fun visitVariable(variable: AstNode.VariableNode) {
-        TODO("Not yet implemented")
+        variable.initializer?.visit(this)
+        currentScope.addVariable(variable)
     }
 
     override fun visitFunction(function: AstNode.FunctionNode) {
@@ -59,7 +60,7 @@ class StaticBinder: AstVisitor<Unit> {
     }
 
     override fun visitID(id: AstNode.IdNode) {
-        TODO("Not yet implemented")
+        return
     }
 
     override fun visitAssignment(assignment: AstNode.AssignmentNode) {
@@ -70,12 +71,22 @@ class StaticBinder: AstVisitor<Unit> {
         val source = get.source
         source.visit(this)
 
-        if (source is AstNode.GetNode) {
-            val targetField = source.targetField!!
-            val type = targetField.type.node!!
-            get.targetField = type.properties.first { it.name == get.name }
-            get.targetFunction = type.functions.first { it.name == get.name }
+        val type = when (source) {
+            is AstNode.GetNode -> {
+                val targetField = source.targetField!!
+                targetField.type.node!!
+            }
+            is AstNode.IdNode -> {
+                val variable = currentScope.getVariable(source.name)
+                variable.type.node!!
+            }
+            else -> {
+                throw Exception()
+            }
         }
+
+        get.targetField = type.properties.first { it.name == get.name }
+        get.targetFunction = type.functions.first { it.name == get.name }
     }
 
     override fun visitSet(set: AstNode.SetNode) {
