@@ -6,6 +6,10 @@ class StaticBinder: AstVisitor<Unit> {
     private var currentScope: Scope = Scope(null)
     private val scopeStack: Stack<Scope> = Stack()
 
+    fun bind(node: AstNode) {
+        node.visit(this)
+    }
+
     override fun visitFile(file: AstNode.FileNode) {
         file.statements.values.forEach { it.visit(this) }
     }
@@ -71,11 +75,12 @@ class StaticBinder: AstVisitor<Unit> {
     }
 
     override fun visitConstructorCall(constructorCall: AstNode.ConstructorCallNode) {
-        TODO("Not yet implemented")
+        constructorCall.arguments.forEach { it.visit(this) }
     }
 
     override fun visitFunctionCall(functionCall: AstNode.FunctionCallNode) {
-        TODO("Not yet implemented")
+        functionCall.source.visit(this)
+        functionCall.arguments.forEach { it.visit(this) }
     }
 
     override fun visitGenericFunctionCall(genericFunctionCall: AstNode.GenericFunctionCallNode) {

@@ -27,6 +27,9 @@ fun main(args: Array<String>) {
     val resolver = TypeResolver(db)
     parsedCode.forEach { resolver.resolve(it.ast) }
 
+    val binder = StaticBinder()
+    parsedCode.forEach { binder.bind(it.ast) }
+
     val analyzer = SemanticAnalyzer(db)
     parsedCode.forEach { analyzer.analyze(it.ast) }
 
