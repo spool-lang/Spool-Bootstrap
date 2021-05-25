@@ -7,7 +7,7 @@ class StaticBinder: AstVisitor<Unit> {
     private val scopeStack: Stack<Scope> = Stack()
 
     override fun visitFile(file: AstNode.FileNode) {
-        TODO("Not yet implemented")
+        file.statements.values.forEach { it.visit(this) }
     }
 
     override fun visitClass(clazz: AstNode.TypeNode) {
@@ -32,19 +32,24 @@ class StaticBinder: AstVisitor<Unit> {
     }
 
     override fun visitBlock(block: AstNode.BlockNode) {
-        TODO("Not yet implemented")
+        block.statements.forEach { it.visit(this) }
     }
 
     override fun visitIfStatement(ifStatement: AstNode.IfNode) {
-        TODO("Not yet implemented")
+        ifStatement.condition.visit(this)
+        ifStatement.statements.forEach { it.visit(this) }
+        ifStatement.then?.visit(this)
     }
 
     override fun visitLoop(loop: AstNode.LoopNode) {
-        TODO("Not yet implemented")
+        loop.condition?.visit(this)
+        loop.incremented?.visit(this)
+        loop.incrementer?.visit(this)
+        loop.body.forEach { it.visit(this) }
     }
 
     override fun visitJump(jump: AstNode.JumpNode) {
-        TODO("Not yet implemented")
+        return
     }
 
     override fun visitConstructorCall(constructorCall: AstNode.ConstructorCallNode) {
@@ -64,7 +69,7 @@ class StaticBinder: AstVisitor<Unit> {
     }
 
     override fun visitAssignment(assignment: AstNode.AssignmentNode) {
-        TODO("Not yet implemented")
+        assignment.value.visit(this)
     }
 
     override fun visitGet(get: AstNode.GetNode) {
@@ -90,19 +95,21 @@ class StaticBinder: AstVisitor<Unit> {
     }
 
     override fun visitSet(set: AstNode.SetNode) {
-        TODO("Not yet implemented")
+        set.source.visit(this)
+        set.value.visit(this)
     }
 
     override fun visitBinary(binary: AstNode.BinaryNode) {
-        TODO("Not yet implemented")
+        binary.left.visit(this)
+        binary.right.visit(this)
     }
 
     override fun visitUnary(unary: AstNode.UnaryNode) {
-        TODO("Not yet implemented")
+        unary.source.visit(this)
     }
 
     override fun visitLiteral(literal: AstNode.LiteralNode) {
-        TODO("Not yet implemented")
+        return
     }
 
     private class Scope(private val parent: Scope?) {
